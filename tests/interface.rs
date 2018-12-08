@@ -29,21 +29,20 @@ fn can_create() {
     destroy(sensor);
 }
 
+macro_rules! write_test {
+    ($name:ident, $method:ident, $reg:ident, $value:expr) => {
 #[test]
-fn can_enable() {
-    let trans = [I2cTrans::write(DEV_ADDR, vec![Register::ENABLE, BitFlags::PON])];
+        fn $name() {
+            let trans = [I2cTrans::write(DEV_ADDR, vec![Register::$reg, $value])];
     let mut sensor = new(&trans);
-    sensor.enable().unwrap();
+            sensor.$method().unwrap();
     destroy(sensor);
+}
+    };
 }
 
-#[test]
-fn can_disable() {
-    let trans = [I2cTrans::write(DEV_ADDR, vec![Register::ENABLE, 0])];
-    let mut sensor = new(&trans);
-    sensor.disable().unwrap();
-    destroy(sensor);
-}
+write_test!(can_enable, enable, ENABLE, BitFlags::PON);
+write_test!(can_disable, disable, ENABLE, 0);
 
 #[test]
 fn can_read_device_id() {
