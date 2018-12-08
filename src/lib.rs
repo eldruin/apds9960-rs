@@ -4,7 +4,15 @@
 //! [`embedded-hal`]: https://github.com/rust-embedded/embedded-hal
 //!
 //! This driver allows you to:
-//! - TODO
+//! - Enable/disable the sensor. See: [`enable()`].
+//! - Enable/disable the proximity sensor. See: [`enable_proximity()`].
+//! - Read the proximity data. See: [`read_proximity()`].
+//! - Read the device ID. See: [`read_device_id()`].
+//!
+//! [`enable()`]: struct.Apds9960.html#method.enable
+//! [`enable_proximity()`]: struct.Apds9960.html#method.enable_proximity
+//! [`read_proximity()`]: struct.Apds9960.html#method.read_proximity
+//! [`read_device_id()`]: struct.Apds9960.html#method.read_device_id
 //!
 //! ## The device
 //!
