@@ -50,6 +50,7 @@ impl Register {
     // const CONFIG2    : u8 = 0x90;
     const ID         : u8 = 0x92;
     // const STATUS     : u8 = 0x93;
+    const PDATA      : u8 = 0x9C;
 }
 
 trait Configurable<T=Self> {

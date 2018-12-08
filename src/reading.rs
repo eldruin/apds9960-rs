@@ -5,6 +5,11 @@ impl<I2C, E> Apds9960<I2C>
 where
     I2C: i2c::WriteRead<Error = E>,
 {
+    /// Read the proximity sensor data
+    pub fn read_proximity(&mut self) -> Result<u8, Error<E>> {
+        self.read_register(Register::PDATA)
+    }
+
     /// Read the device ID.
     ///
     /// This is per default `0xAB`.

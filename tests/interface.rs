@@ -9,6 +9,7 @@ struct Register;
 impl Register {
     const ENABLE     : u8 = 0x80;
     const ID         : u8 = 0x92;
+    const PDATA      : u8 = 0x9C;
 }
 pub struct BitFlags;
 impl BitFlags {
@@ -49,15 +50,16 @@ write_test!(can_disable_proximity, disable_proximity, ENABLE, 0);
 
 macro_rules! read_test {
     ($name:ident, $method:ident, $reg:ident, $value:expr) => {
-#[test]
+        #[test]
         fn $name() {
             let trans = [I2cTrans::write_read(DEV_ADDR, vec![Register::$reg], vec![$value])];
-    let mut sensor = new(&trans);
+            let mut sensor = new(&trans);
             let value = sensor.$method().unwrap();
             assert_eq!($value, value);
-    destroy(sensor);
-}
+            destroy(sensor);
+        }
     };
 }
 
 read_test!(can_read_id, read_device_id, ID, 0xAB);
+read_test!(can_read_prox, read_proximity, PDATA, 0x12);
