@@ -16,6 +16,11 @@
 //! Datasheet:
 //! - [APDS9960](https://docs.broadcom.com/docs/AV02-4191EN)
 //!
+//! ## Usage example
+//! Please find additional examples in this repository: [apds9960-examples]
+//!
+//! [apds9960-examples]: https://github.com/eldruin/apds9960-examples
+
 #![deny(missing_docs, unsafe_code)]
 //TODO #![deny(warnings)]
 #![no_std]

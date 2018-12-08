@@ -26,6 +26,10 @@ Datasheet:
 
 ## Usage example
 
+Please find additional examples in this repository: [apds9960-examples]
+
+[apds9960-examples]: https://github.com/eldruin/apds9960-examples
+
 ```rust
 // TODO. See documentation.
 ```
