@@ -13,6 +13,7 @@ impl Register {
 pub struct BitFlags;
 impl BitFlags {
     const PON: u8 = 0b0000_0001;
+    const PEN: u8 = 0b0000_0100;
 }
 
 fn new(transactions: &[I2cTrans]) -> Apds9960<I2cMock> {
@@ -31,18 +32,21 @@ fn can_create() {
 
 macro_rules! write_test {
     ($name:ident, $method:ident, $reg:ident, $value:expr) => {
-#[test]
+        #[test]
         fn $name() {
             let trans = [I2cTrans::write(DEV_ADDR, vec![Register::$reg, $value])];
-    let mut sensor = new(&trans);
+            let mut sensor = new(&trans);
             sensor.$method().unwrap();
-    destroy(sensor);
-}
+            destroy(sensor);
+        }
     };
 }
 
 write_test!(can_enable, enable, ENABLE, BitFlags::PON);
 write_test!(can_disable, disable, ENABLE, 0);
+write_test!(can_enable_proximity, enable_proximity, ENABLE, BitFlags::PEN);
+write_test!(can_disable_proximity, disable_proximity, ENABLE, 0);
+
 
 #[test]
 fn can_read_device_id() {

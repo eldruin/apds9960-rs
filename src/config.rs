@@ -32,6 +32,22 @@ where
         self.write_register(Register::ENABLE, 0)
     }
 
+    /// Enable proximity detection
+    pub fn enable_proximity(&mut self) -> Result<(), Error<E>> {
+        let new = self.enable.with(register::Enable::PEN, true);
+        self.config_register(new)?;
+        self.enable = new;
+        Ok(())
+    }
+
+    /// Disable proximity detection
+    pub fn disable_proximity(&mut self) -> Result<(), Error<E>> {
+        let new = self.enable.with(register::Enable::PEN, false);
+        self.config_register(new)?;
+        self.enable = new;
+        Ok(())
+    }
+
     fn config_register<T: Configurable>(&mut self, reg: T) -> Result<(), Error<E>> {
         self.write_register(T::ADDRESS, reg.value())
     }

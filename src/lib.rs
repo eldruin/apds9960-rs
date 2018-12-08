@@ -78,6 +78,7 @@ mod register {
     pub struct Enable(u8);
     impl Enable {
         pub const PON: u8 = 0b0000_0001;
+        pub const PEN: u8 = 0b0000_0100;
     }
     impl Configurable for Enable {
         const ADDRESS: u8 = 0x80;
