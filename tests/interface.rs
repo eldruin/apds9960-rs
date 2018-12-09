@@ -9,12 +9,14 @@ struct Register;
 impl Register {
     const ENABLE     : u8 = 0x80;
     const ID         : u8 = 0x92;
+    const STATUS     : u8 = 0x93;
     const PDATA      : u8 = 0x9C;
 }
 pub struct BitFlags;
 impl BitFlags {
     const PON: u8 = 0b0000_0001;
     const PEN: u8 = 0b0000_0100;
+    const PVALID: u8 = 0b0000_0010;
 }
 
 fn new(transactions: &[I2cTrans]) -> Apds9960<I2cMock> {
@@ -63,3 +65,5 @@ macro_rules! read_test {
 
 read_test!(can_read_id, read_device_id, ID, 0xAB, 0xAB);
 read_test!(can_read_prox, read_proximity, PDATA, 0x12, 0x12);
+read_test!(can_read_pvalid_true,  is_proximity_data_valid, STATUS, BitFlags::PVALID, true);
+read_test!(can_read_pvalid_false, is_proximity_data_valid, STATUS, 0, false);

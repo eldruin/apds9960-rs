@@ -1,13 +1,17 @@
 use hal::blocking::i2c;
-use {Apds9960, DEV_ADDR, Error, Register};
+use {Apds9960, Configurable, DEV_ADDR, Error, Register, register::Status};
 
 impl<I2C, E> Apds9960<I2C>
 where
     I2C: i2c::WriteRead<Error = E>,
 {
     /// Read the proximity sensor data
-    pub fn read_proximity(&mut self) -> Result<u8, Error<E>> {
-        self.read_register(Register::PDATA)
+
+    /// Read whether the proximity sensor data is valid
+    #[allow(clippy::wrong_self_convention)]
+    pub fn is_proximity_data_valid(&mut self) -> Result<bool, Error<E>> {
+        let status = self.read_register(Register::STATUS)?;
+        Ok(Status::new(status).is(Status::PVALID, true))
     }
 
     /// Read the device ID.

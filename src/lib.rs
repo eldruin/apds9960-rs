@@ -105,6 +105,23 @@ mod register {
             self.0
         }
     }
+
+    #[derive(Debug, Default, Clone, Copy)]
+    pub struct Status(u8);
+    impl Status {
+        pub const PVALID: u8 = 0b0000_0010;
+    }
+    impl Configurable for Status {
+        const ADDRESS: u8 = 0x93;
+        fn new(value: u8) -> Self {
+            Self {
+                0: value
+            }
+        }
+        fn value(&self) -> u8{
+            self.0
+        }
+    }
 }
 
 /// APDS9960 device driver.
