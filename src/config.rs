@@ -28,7 +28,10 @@ where
 
     /// Deactivate everything and put the device to sleep.
     pub fn disable(&mut self) -> Result<(), Error<E>> {
-        self.write_register(Register::ENABLE, 0)
+        let new = self.enable.with(Enable::ALL, false);
+        self.config_register(&new)?;
+        self.enable = new;
+        Ok(())
     }
 
     /// Enable proximity detection
