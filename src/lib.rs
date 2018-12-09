@@ -62,11 +62,11 @@ impl Register {
     // const CONTROL    : u8 = 0x8F;
     // const CONFIG2    : u8 = 0x90;
     const ID         : u8 = 0x92;
-    // const STATUS     : u8 = 0x93;
+    const STATUS     : u8 = 0x93;
     const PDATA      : u8 = 0x9C;
 }
 
-trait Configurable<T=Self> {
+trait BitFlags<T=Self> {
     const ADDRESS: u8;
     fn new(value: u8) -> T;
     fn with(&self, mask: u8, value: bool) -> T {
@@ -86,7 +86,7 @@ trait Configurable<T=Self> {
 }
 
 mod register {
-    use super::Configurable;
+    use super::BitFlags;
 
     #[derive(Debug, Default, Clone, Copy)]
     pub struct Enable(u8);
@@ -94,7 +94,7 @@ mod register {
         pub const PON: u8 = 0b0000_0001;
         pub const PEN: u8 = 0b0000_0100;
     }
-    impl Configurable for Enable {
+    impl BitFlags for Enable {
         const ADDRESS: u8 = 0x80;
         fn new(value: u8) -> Self {
             Self {
@@ -111,7 +111,7 @@ mod register {
     impl Status {
         pub const PVALID: u8 = 0b0000_0010;
     }
-    impl Configurable for Status {
+    impl BitFlags for Status {
         const ADDRESS: u8 = 0x93;
         fn new(value: u8) -> Self {
             Self {

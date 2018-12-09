@@ -1,5 +1,5 @@
 use hal::blocking::i2c;
-use {Apds9960, Configurable, DEV_ADDR, Error, Register, register::Status};
+use {Apds9960, BitFlags, DEV_ADDR, Error, Register, register::Status};
 
 impl<I2C, E> Apds9960<I2C>
 where

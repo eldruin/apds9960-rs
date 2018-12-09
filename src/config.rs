@@ -1,5 +1,5 @@
 use hal::blocking::i2c;
-use {Apds9960, Configurable, register, Error, Register, DEV_ADDR};
+use {Apds9960, BitFlags, register, Error, Register, DEV_ADDR};
 
 
 impl<I2C, E> Apds9960<I2C>
@@ -48,7 +48,7 @@ where
         Ok(())
     }
 
-    fn config_register<T: Configurable>(&mut self, reg: T) -> Result<(), Error<E>> {
+    fn config_register<T: BitFlags>(&mut self, reg: T) -> Result<(), Error<E>> {
         self.write_register(T::ADDRESS, reg.value())
     }
 
