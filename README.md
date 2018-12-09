@@ -12,10 +12,11 @@ and gesture sensor, based on the [`embedded-hal`] traits.
 [`embedded-hal`]: https://github.com/rust-embedded/embedded-hal
 
 This driver allows you to:
-- Enable/disable the sensor. See: [`enable()`].
-- Enable/disable the proximity sensor. See: [`enable_proximity()`].
-- Read the proximity data. See: [`read_proximity()`].
-- Read the device ID. See: [`read_device_id()`].
+- Enable/disable the sensor. See: `enable()`.
+- Enable/disable the proximity sensor. See: `enable_proximity()`.
+- Read the proximity data. See: `read_proximity()`.
+- Check whether the proximity data is valid. See: `is_proximity_data_valid()`.
+- Read the device ID. See: `read_device_id()`.
 
 ## The device
 

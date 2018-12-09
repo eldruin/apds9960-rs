@@ -7,11 +7,13 @@
 //! - Enable/disable the sensor. See: [`enable()`].
 //! - Enable/disable the proximity sensor. See: [`enable_proximity()`].
 //! - Read the proximity data. See: [`read_proximity()`].
+//! - Check whether the proximity data is valid. See: [`is_proximity_data_valid()`].
 //! - Read the device ID. See: [`read_device_id()`].
 //!
 //! [`enable()`]: struct.Apds9960.html#method.enable
 //! [`enable_proximity()`]: struct.Apds9960.html#method.enable_proximity
 //! [`read_proximity()`]: struct.Apds9960.html#method.read_proximity
+//! [`is_proximity_data_valid()`]: struct.Apds9960.html#method.is_proximity_data_valid
 //! [`read_device_id()`]: struct.Apds9960.html#method.read_device_id
 //!
 //! ## The device
