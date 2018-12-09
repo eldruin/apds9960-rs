@@ -11,6 +11,7 @@ impl Register {
     const ID         : u8 = 0x92;
     const STATUS     : u8 = 0x93;
     const PDATA      : u8 = 0x9C;
+    const GCONFIG4   : u8 = 0xAB;
 }
 pub struct BitFlags;
 impl BitFlags {
@@ -18,6 +19,7 @@ impl BitFlags {
     const PEN: u8 = 0b0000_0100;
     const GEN: u8 = 0b0100_0000;
     const PVALID: u8 = 0b0000_0010;
+    const GMODE: u8 = 0b0000_0001;
 }
 
 fn new(transactions: &[I2cTrans]) -> Apds9960<I2cMock> {
@@ -52,7 +54,8 @@ write_test!(can_enable_proximity, enable_proximity, ENABLE, BitFlags::PEN);
 write_test!(can_disable_proximity, disable_proximity, ENABLE, 0);
 write_test!(can_enable_gesture, enable_gesture, ENABLE, BitFlags::GEN);
 write_test!(can_disable_gesture, disable_gesture, ENABLE, 0);
-
+write_test!(can_enable_gesture_mode, enable_gesture_mode, GCONFIG4, BitFlags::GMODE);
+write_test!(can_disable_gesture_mode, disable_gesture_mode, GCONFIG4, 0);
 
 macro_rules! read_test {
     ($name:ident, $method:ident, $expected:expr, $($reg:ident, $value:expr),*) => {

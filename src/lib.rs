@@ -11,12 +11,15 @@
 //!     - Check whether the proximity data is valid. See: [`is_proximity_data_valid()`].
 //! - Gesture recognition:
 //!     - Enable/disable gesture recognition. See: [`enable_gesture()`].
+//!     - Enable/disable gesture mode. See: [`enable_gesture_mode()`].
 //! - Read the device ID. See: [`read_device_id()`].
 //!
 //! [`enable()`]: struct.Apds9960.html#method.enable
 //! [`enable_proximity()`]: struct.Apds9960.html#method.enable_proximity
 //! [`read_proximity()`]: struct.Apds9960.html#method.read_proximity
 //! [`is_proximity_data_valid()`]: struct.Apds9960.html#method.is_proximity_data_valid
+//! [`enable_gesture()`]: struct.Apds9960.html#method.enable_gesture
+//! [`enable_gesture_mode()`]: struct.Apds9960.html#method.enable_gesture_mode
 //! [`read_device_id()`]: struct.Apds9960.html#method.read_device_id
 //!
 //! ## The device
@@ -70,6 +73,7 @@ impl Register {
     const ID         : u8 = 0x92;
     const STATUS     : u8 = 0x93;
     const PDATA      : u8 = 0x9C;
+    const GCONFIG4   : u8 = 0xAB;
 }
 
 trait BitFlags<T=Self> {
@@ -112,6 +116,7 @@ mod register {
     #[derive(Debug, Default, Clone, Copy)]
     pub struct Enable(u8);
     impl Enable {
+        pub const ALL: u8 = 0b1111_1111;
         pub const PON: u8 = 0b0000_0001;
         pub const PEN: u8 = 0b0000_0100;
         pub const GEN: u8 = 0b0100_0000;
@@ -124,6 +129,13 @@ mod register {
         pub const PVALID: u8 = 0b0000_0010;
     }
     impl_bitflags!(Status, STATUS);
+
+    #[derive(Debug, Default, Clone, Copy)]
+    pub struct GConfig4(u8);
+    impl GConfig4 {
+        pub const GMODE: u8 = 0b0000_0001;
+    }
+    impl_bitflags!(GConfig4, GCONFIG4);
 }
 
 /// APDS9960 device driver.
@@ -132,6 +144,7 @@ pub struct Apds9960<I2C> {
     /// The concrete I²C device implementation.
     i2c: I2C,
     enable: register::Enable,
+    gconfig4: register::GConfig4,
 }
 
 mod config;

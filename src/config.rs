@@ -1,5 +1,5 @@
 use hal::blocking::i2c;
-use {Apds9960, BitFlags, register::Enable, Error, Register, DEV_ADDR};
+use {Apds9960, BitFlags, register::{Enable, GConfig4}, Error, DEV_ADDR};
 
 impl<I2C, E> Apds9960<I2C>
 where
@@ -10,6 +10,7 @@ where
         Apds9960 {
             i2c,
             enable: Enable::default(),
+            gconfig4: GConfig4::default(),
         }
     }
 
@@ -63,6 +64,28 @@ where
         let new = self.enable.with(Enable::GEN, false);
         self.config_register(&new)?;
         self.enable = new;
+        Ok(())
+    }
+
+    /// Enable gesture mode.
+    ///
+    /// This can be automatically enabled (depending on proximity thresholds)
+    /// and disabled (see GMODE on datasheet).
+    pub fn enable_gesture_mode(&mut self) -> Result<(), Error<E>> {
+        let new = self.gconfig4.with(GConfig4::GMODE, true);
+        self.config_register(&new)?;
+        self.gconfig4 = new;
+        Ok(())
+    }
+
+    /// Disable gesture mode.
+    ///
+    /// This can be automatically enabled (depending on proximity thresholds)
+    /// and disabled (see GMODE on datasheet).
+    pub fn disable_gesture_mode(&mut self) -> Result<(), Error<E>> {
+        let new = self.gconfig4.with(GConfig4::GMODE, false);
+        self.config_register(&new)?;
+        self.gconfig4 = new;
         Ok(())
     }
 
