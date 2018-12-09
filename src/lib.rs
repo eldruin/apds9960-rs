@@ -86,7 +86,7 @@ trait BitFlags<T=Self> {
 }
 
 mod register {
-    use super::BitFlags;
+    use super::{BitFlags, Register};
 
     #[derive(Debug, Default, Clone, Copy)]
     pub struct Enable(u8);
@@ -95,7 +95,7 @@ mod register {
         pub const PEN: u8 = 0b0000_0100;
     }
     impl BitFlags for Enable {
-        const ADDRESS: u8 = 0x80;
+        const ADDRESS: u8 = Register::ENABLE;
         fn new(value: u8) -> Self {
             Self {
                 0: value
@@ -112,7 +112,7 @@ mod register {
         pub const PVALID: u8 = 0b0000_0010;
     }
     impl BitFlags for Status {
-        const ADDRESS: u8 = 0x93;
+        const ADDRESS: u8 = Register::STATUS;
         fn new(value: u8) -> Self {
             Self {
                 0: value
