@@ -1,6 +1,17 @@
 use hal::blocking::i2c;
 use {Apds9960, BitFlags, register::{Enable, GConfig4}, Error, DEV_ADDR};
 
+macro_rules! config_reg {
+    ($method:ident, $reg:ident) => {
+        fn $method(&mut self, flag: u8, value: bool) -> Result<(), Error<E>> {
+            let new = self.$reg.with(flag, value);
+            self.config_register(&new)?;
+            self.$reg = new;
+            Ok(())
+        }
+    };
+}
+
 impl<I2C, E> Apds9960<I2C>
 where
     I2C: i2c::Write<Error = E>,
@@ -21,50 +32,32 @@ where
 
     /// Turn power on.
     pub fn enable(&mut self) -> Result<(), Error<E>> {
-        let new = self.enable.with(Enable::PON, true);
-        self.config_register(&new)?;
-        self.enable = new;
-        Ok(())
+        self.config_enable(Enable::PON, true)
     }
 
     /// Deactivate everything and put the device to sleep.
     pub fn disable(&mut self) -> Result<(), Error<E>> {
-        let new = self.enable.with(Enable::ALL, false);
-        self.config_register(&new)?;
-        self.enable = new;
-        Ok(())
+        self.config_enable(Enable::ALL, false)
     }
 
     /// Enable proximity detection
     pub fn enable_proximity(&mut self) -> Result<(), Error<E>> {
-        let new = self.enable.with(Enable::PEN, true);
-        self.config_register(&new)?;
-        self.enable = new;
-        Ok(())
+        self.config_enable(Enable::PEN, true)
     }
 
     /// Disable proximity detection
     pub fn disable_proximity(&mut self) -> Result<(), Error<E>> {
-        let new = self.enable.with(Enable::PEN, false);
-        self.config_register(&new)?;
-        self.enable = new;
-        Ok(())
+        self.config_enable(Enable::PEN, false)
     }
 
     /// Enable gesture detection
     pub fn enable_gesture(&mut self) -> Result<(), Error<E>> {
-        let new = self.enable.with(Enable::GEN, true);
-        self.config_register(&new)?;
-        self.enable = new;
-        Ok(())
+        self.config_enable(Enable::GEN, true)
     }
 
     /// Disable gesture detection
     pub fn disable_gesture(&mut self) -> Result<(), Error<E>> {
-        let new = self.enable.with(Enable::GEN, false);
-        self.config_register(&new)?;
-        self.enable = new;
-        Ok(())
+        self.config_enable(Enable::GEN, false)
     }
 
     /// Enable gesture mode.
@@ -72,10 +65,7 @@ where
     /// This can be automatically enabled (depending on proximity thresholds)
     /// and disabled (see GMODE on datasheet).
     pub fn enable_gesture_mode(&mut self) -> Result<(), Error<E>> {
-        let new = self.gconfig4.with(GConfig4::GMODE, true);
-        self.config_register(&new)?;
-        self.gconfig4 = new;
-        Ok(())
+        self.config_gconfig4(GConfig4::GMODE, true)
     }
 
     /// Disable gesture mode.
@@ -83,11 +73,11 @@ where
     /// This can be automatically enabled (depending on proximity thresholds)
     /// and disabled (see GMODE on datasheet).
     pub fn disable_gesture_mode(&mut self) -> Result<(), Error<E>> {
-        let new = self.gconfig4.with(GConfig4::GMODE, false);
-        self.config_register(&new)?;
-        self.gconfig4 = new;
-        Ok(())
+        self.config_gconfig4(GConfig4::GMODE, false)
     }
+
+    config_reg!(config_enable, enable);
+    config_reg!(config_gconfig4, gconfig4);
 
     fn config_register<T: BitFlags>(&mut self, reg: &T) -> Result<(), Error<E>> {
         self.write_register(T::ADDRESS, reg.value())
