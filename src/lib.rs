@@ -36,7 +36,6 @@
 #![no_std]
 
 extern crate embedded_hal as hal;
-#[macro_use]
 extern crate nb;
 
 /// All possible errors in this crate
@@ -75,10 +74,10 @@ trait BitFlags<T=Self> {
     fn new(value: u8) -> T;
     fn with(&self, mask: u8, value: bool) -> T {
         if value {
-            return Self::new(self.value() | mask);
+            Self::new(self.value() | mask)
         }
         else {
-            return Self::new(self.value() & !mask);
+            Self::new(self.value() & !mask)
         }
     }
 

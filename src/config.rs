@@ -1,6 +1,5 @@
 use hal::blocking::i2c;
-use {Apds9960, BitFlags, register, Error, Register, DEV_ADDR};
-
+use {Apds9960, BitFlags, register::Enable, Error, Register, DEV_ADDR};
 
 impl<I2C, E> Apds9960<I2C>
 where
@@ -10,7 +9,7 @@ where
     pub fn new(i2c: I2C) -> Self {
         Apds9960 {
             i2c,
-            enable: register::Enable::default(),
+            enable: Enable::default(),
         }
     }
 
@@ -21,8 +20,8 @@ where
 
     /// Turn power on.
     pub fn enable(&mut self) -> Result<(), Error<E>> {
-        let new = self.enable.with(register::Enable::PON, true);
-        self.config_register(new)?;
+        let new = self.enable.with(Enable::PON, true);
+        self.config_register(&new)?;
         self.enable = new;
         Ok(())
     }
@@ -34,21 +33,21 @@ where
 
     /// Enable proximity detection
     pub fn enable_proximity(&mut self) -> Result<(), Error<E>> {
-        let new = self.enable.with(register::Enable::PEN, true);
-        self.config_register(new)?;
+        let new = self.enable.with(Enable::PEN, true);
+        self.config_register(&new)?;
         self.enable = new;
         Ok(())
     }
 
     /// Disable proximity detection
     pub fn disable_proximity(&mut self) -> Result<(), Error<E>> {
-        let new = self.enable.with(register::Enable::PEN, false);
-        self.config_register(new)?;
+        let new = self.enable.with(Enable::PEN, false);
+        self.config_register(&new)?;
         self.enable = new;
         Ok(())
     }
 
-    fn config_register<T: BitFlags>(&mut self, reg: T) -> Result<(), Error<E>> {
+    fn config_register<T: BitFlags>(&mut self, reg: &T) -> Result<(), Error<E>> {
         self.write_register(T::ADDRESS, reg.value())
     }
 
