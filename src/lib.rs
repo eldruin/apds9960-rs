@@ -5,9 +5,12 @@
 //!
 //! This driver allows you to:
 //! - Enable/disable the sensor. See: [`enable()`].
-//! - Enable/disable the proximity sensor. See: [`enable_proximity()`].
-//! - Read the proximity data. See: [`read_proximity()`].
-//! - Check whether the proximity data is valid. See: [`is_proximity_data_valid()`].
+//! - Proximity:
+//!     - Enable/disable the proximity sensor. See: [`enable_proximity()`].
+//!     - Read the proximity data. See: [`read_proximity()`].
+//!     - Check whether the proximity data is valid. See: [`is_proximity_data_valid()`].
+//! - Gesture recognition:
+//!     - Enable/disable gesture recognition. See: [`enable_gesture()`].
 //! - Read the device ID. See: [`read_device_id()`].
 //!
 //! [`enable()`]: struct.Apds9960.html#method.enable
@@ -94,15 +97,15 @@ mod register {
         ($name:ident, $reg:ident) => {
             impl BitFlags for $name {
                 const ADDRESS: u8 = Register::$reg;
-        fn new(value: u8) -> Self {
-            Self {
-                0: value
+                fn new(value: u8) -> Self {
+                    Self {
+                        0: value
+                    }
+                }
+                fn value(&self) -> u8{
+                    self.0
+                }
             }
-        }
-        fn value(&self) -> u8{
-            self.0
-        }
-    }
         };
     }
 
@@ -111,6 +114,7 @@ mod register {
     impl Enable {
         pub const PON: u8 = 0b0000_0001;
         pub const PEN: u8 = 0b0000_0100;
+        pub const GEN: u8 = 0b0100_0000;
     }
     impl_bitflags!(Enable, ENABLE);
 

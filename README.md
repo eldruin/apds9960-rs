@@ -13,9 +13,12 @@ and gesture sensor, based on the [`embedded-hal`] traits.
 
 This driver allows you to:
 - Enable/disable the sensor. See: `enable()`.
-- Enable/disable the proximity sensor. See: `enable_proximity()`.
-- Read the proximity data. See: `read_proximity()`.
-- Check whether the proximity data is valid. See: `is_proximity_data_valid()`.
+- Proximity:
+    - Enable/disable the proximity sensor. See: `enable_proximity()`.
+    - Read the proximity data. See: `read_proximity()`.
+    - Check whether the proximity data is valid. See: `is_proximity_data_valid()`.
+- Gesture recognition:
+    - Enable/disable gesture recognition. See: `enable_gesture()`.
 - Read the device ID. See: `read_device_id()`.
 
 ## The device

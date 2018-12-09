@@ -47,6 +47,22 @@ where
         Ok(())
     }
 
+    /// Enable gesture detection
+    pub fn enable_gesture(&mut self) -> Result<(), Error<E>> {
+        let new = self.enable.with(Enable::GEN, true);
+        self.config_register(&new)?;
+        self.enable = new;
+        Ok(())
+    }
+
+    /// Disable gesture detection
+    pub fn disable_gesture(&mut self) -> Result<(), Error<E>> {
+        let new = self.enable.with(Enable::GEN, false);
+        self.config_register(&new)?;
+        self.enable = new;
+        Ok(())
+    }
+
     fn config_register<T: BitFlags>(&mut self, reg: &T) -> Result<(), Error<E>> {
         self.write_register(T::ADDRESS, reg.value())
     }
