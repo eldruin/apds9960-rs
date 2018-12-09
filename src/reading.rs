@@ -25,7 +25,7 @@ where
     }
 
     /// Read the amount of available data in the gesture FIFO registers.
-    pub fn read_gesture_fifo_level(&mut self) -> Result<u8, Error<E>> {
+    pub fn read_gesture_data_level(&mut self) -> Result<u8, Error<E>> {
         self.read_register(Register::GFLVL)
     }
 

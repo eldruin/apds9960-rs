@@ -82,7 +82,7 @@ read_test!(can_read_pvalid_true,  is_proximity_data_valid, true, STATUS, BitFlag
 read_test!(can_read_pvalid_false, is_proximity_data_valid, false, STATUS, 0);
 read_test!(can_read_gvalid_true,  is_gesture_data_valid, true, GSTATUS, BitFlags::GVALID);
 read_test!(can_read_gvalid_false, is_gesture_data_valid, false, GSTATUS, 0);
-read_test!(can_read_gflvl, read_gesture_fifo_level, 15, GFLVL, 15);
+read_test!(can_read_gflvl, read_gesture_data_level, 15, GFLVL, 15);
 
 read_test!(can_read_prox, read_proximity, 0x12, STATUS, BitFlags::PVALID, PDATA, 0x12);
 
