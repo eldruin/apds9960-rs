@@ -90,6 +90,21 @@ trait BitFlags<T=Self> {
 
 mod register {
     use super::{BitFlags, Register};
+    macro_rules! impl_bitflags {
+        ($name:ident, $reg:ident) => {
+            impl BitFlags for $name {
+                const ADDRESS: u8 = Register::$reg;
+        fn new(value: u8) -> Self {
+            Self {
+                0: value
+            }
+        }
+        fn value(&self) -> u8{
+            self.0
+        }
+    }
+        };
+    }
 
     #[derive(Debug, Default, Clone, Copy)]
     pub struct Enable(u8);
@@ -97,34 +112,14 @@ mod register {
         pub const PON: u8 = 0b0000_0001;
         pub const PEN: u8 = 0b0000_0100;
     }
-    impl BitFlags for Enable {
-        const ADDRESS: u8 = Register::ENABLE;
-        fn new(value: u8) -> Self {
-            Self {
-                0: value
-            }
-        }
-        fn value(&self) -> u8{
-            self.0
-        }
-    }
+    impl_bitflags!(Enable, ENABLE);
 
     #[derive(Debug, Default, Clone, Copy)]
     pub struct Status(u8);
     impl Status {
         pub const PVALID: u8 = 0b0000_0010;
     }
-    impl BitFlags for Status {
-        const ADDRESS: u8 = Register::STATUS;
-        fn new(value: u8) -> Self {
-            Self {
-                0: value
-            }
-        }
-        fn value(&self) -> u8{
-            self.0
-        }
-    }
+    impl_bitflags!(Status, STATUS);
 }
 
 /// APDS9960 device driver.
