@@ -24,7 +24,12 @@ where
         Ok(Status::new(status).is(Status::PVALID, true))
     }
 
-    /// Read whether the gesture data is valid.
+    /// Read the amount of available data in the gesture FIFO registers.
+    pub fn read_gesture_fifo_level(&mut self) -> Result<u8, Error<E>> {
+        self.read_register(Register::GFLVL)
+    }
+
+    /// Read whether there is valid gesture data available.
     #[allow(clippy::wrong_self_convention)]
     pub fn is_gesture_data_valid(&mut self) -> Result<bool, Error<E>> {
         let status = self.read_register(Register::GSTATUS)?;

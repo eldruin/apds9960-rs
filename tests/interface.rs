@@ -12,6 +12,7 @@ impl Register {
     const STATUS     : u8 = 0x93;
     const PDATA      : u8 = 0x9C;
     const GCONFIG4   : u8 = 0xAB;
+    const GFLVL      : u8 = 0xAE;
     const GSTATUS    : u8 = 0xAF;
 }
 pub struct BitFlags;
@@ -81,7 +82,7 @@ read_test!(can_read_pvalid_true,  is_proximity_data_valid, true, STATUS, BitFlag
 read_test!(can_read_pvalid_false, is_proximity_data_valid, false, STATUS, 0);
 read_test!(can_read_gvalid_true,  is_gesture_data_valid, true, GSTATUS, BitFlags::GVALID);
 read_test!(can_read_gvalid_false, is_gesture_data_valid, false, GSTATUS, 0);
-
+read_test!(can_read_gflvl, read_gesture_fifo_level, 15, GFLVL, 15);
 
 read_test!(can_read_prox, read_proximity, 0x12, STATUS, BitFlags::PVALID, PDATA, 0x12);
 

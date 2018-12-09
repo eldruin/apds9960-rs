@@ -12,6 +12,7 @@
 //! - Gesture recognition:
 //!     - Enable/disable gesture recognition. See: [`enable_gesture()`].
 //!     - Enable/disable gesture mode. See: [`enable_gesture_mode()`].
+//!     - Read the amount of gesture data available. See: [`read_gesture_data_level()`].
 //! - Read the device ID. See: [`read_device_id()`].
 //!
 //! [`enable()`]: struct.Apds9960.html#method.enable
@@ -20,6 +21,7 @@
 //! [`is_proximity_data_valid()`]: struct.Apds9960.html#method.is_proximity_data_valid
 //! [`enable_gesture()`]: struct.Apds9960.html#method.enable_gesture
 //! [`enable_gesture_mode()`]: struct.Apds9960.html#method.enable_gesture_mode
+//! [`read_gesture_data_level()`]: struct.Apds9960.html#method.read_gesture_data_level
 //! [`read_device_id()`]: struct.Apds9960.html#method.read_device_id
 //!
 //! ## The device
@@ -74,6 +76,7 @@ impl Register {
     const STATUS     : u8 = 0x93;
     const PDATA      : u8 = 0x9C;
     const GCONFIG4   : u8 = 0xAB;
+    const GFLVL      : u8 = 0xAE;
     const GSTATUS    : u8 = 0xAF;
 }
 
