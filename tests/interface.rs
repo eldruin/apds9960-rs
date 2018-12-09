@@ -12,14 +12,16 @@ impl Register {
     const STATUS     : u8 = 0x93;
     const PDATA      : u8 = 0x9C;
     const GCONFIG4   : u8 = 0xAB;
+    const GSTATUS    : u8 = 0xAF;
 }
 pub struct BitFlags;
 impl BitFlags {
-    const PON: u8 = 0b0000_0001;
-    const PEN: u8 = 0b0000_0100;
-    const GEN: u8 = 0b0100_0000;
-    const PVALID: u8 = 0b0000_0010;
-    const GMODE: u8 = 0b0000_0001;
+    const PON: u8 = 1;
+    const PEN: u8 = 1<<2;
+    const GEN: u8 = 1<<6;
+    const PVALID: u8 = 1<<1;
+    const GMODE: u8 = 1;
+    const GVALID: u8 = 1;
 }
 
 fn new(transactions: &[I2cTrans]) -> Apds9960<I2cMock> {
@@ -77,6 +79,9 @@ macro_rules! read_test {
 read_test!(can_read_id, read_device_id, 0xAB, ID, 0xAB);
 read_test!(can_read_pvalid_true,  is_proximity_data_valid, true, STATUS, BitFlags::PVALID);
 read_test!(can_read_pvalid_false, is_proximity_data_valid, false, STATUS, 0);
+read_test!(can_read_gvalid_true,  is_gesture_data_valid, true, GSTATUS, BitFlags::GVALID);
+read_test!(can_read_gvalid_false, is_gesture_data_valid, false, GSTATUS, 0);
+
 
 read_test!(can_read_prox, read_proximity, 0x12, STATUS, BitFlags::PVALID, PDATA, 0x12);
 

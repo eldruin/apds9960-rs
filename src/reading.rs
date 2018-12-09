@@ -1,5 +1,5 @@
 use hal::blocking::i2c;
-use {Apds9960, BitFlags, DEV_ADDR, Error, Register, register::Status};
+use {Apds9960, BitFlags, DEV_ADDR, Error, Register, register::{GStatus, Status}};
 
 impl<I2C, E> Apds9960<I2C>
 where
@@ -22,6 +22,13 @@ where
     pub fn is_proximity_data_valid(&mut self) -> Result<bool, Error<E>> {
         let status = self.read_register(Register::STATUS)?;
         Ok(Status::new(status).is(Status::PVALID, true))
+    }
+
+    /// Read whether the gesture data is valid.
+    #[allow(clippy::wrong_self_convention)]
+    pub fn is_gesture_data_valid(&mut self) -> Result<bool, Error<E>> {
+        let status = self.read_register(Register::GSTATUS)?;
+        Ok(GStatus::new(status).is(GStatus::GVALID, true))
     }
 
     /// Read the device ID.

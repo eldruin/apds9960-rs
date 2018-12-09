@@ -74,6 +74,7 @@ impl Register {
     const STATUS     : u8 = 0x93;
     const PDATA      : u8 = 0x9C;
     const GCONFIG4   : u8 = 0xAB;
+    const GSTATUS    : u8 = 0xAF;
 }
 
 trait BitFlags<T=Self> {
@@ -136,6 +137,13 @@ mod register {
         pub const GMODE: u8 = 0b0000_0001;
     }
     impl_bitflags!(GConfig4, GCONFIG4);
+
+    #[derive(Debug, Default)]
+    pub struct GStatus(u8);
+    impl GStatus {
+        pub const GVALID: u8 = 0b0000_0001;
+    }
+    impl_bitflags!(GStatus, GSTATUS);
 }
 
 /// APDS9960 device driver.
