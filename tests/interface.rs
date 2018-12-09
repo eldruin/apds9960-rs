@@ -49,17 +49,17 @@ write_test!(can_enable_proximity, enable_proximity, ENABLE, BitFlags::PEN);
 write_test!(can_disable_proximity, disable_proximity, ENABLE, 0);
 
 macro_rules! read_test {
-    ($name:ident, $method:ident, $reg:ident, $value:expr) => {
+    ($name:ident, $method:ident, $reg:ident, $value:expr, $expected:expr) => {
         #[test]
         fn $name() {
             let trans = [I2cTrans::write_read(DEV_ADDR, vec![Register::$reg], vec![$value])];
             let mut sensor = new(&trans);
             let value = sensor.$method().unwrap();
-            assert_eq!($value, value);
+            assert_eq!($expected, value);
             destroy(sensor);
         }
     };
 }
 
-read_test!(can_read_id, read_device_id, ID, 0xAB);
-read_test!(can_read_prox, read_proximity, PDATA, 0x12);
+read_test!(can_read_id, read_device_id, ID, 0xAB, 0xAB);
+read_test!(can_read_prox, read_proximity, PDATA, 0x12, 0x12);
