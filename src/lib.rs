@@ -113,7 +113,7 @@ mod register {
         };
     }
 
-    #[derive(Debug, Default, Clone, Copy)]
+    #[derive(Debug, Default)]
     pub struct Enable(u8);
     impl Enable {
         pub const ALL: u8 = 0b1111_1111;
@@ -123,14 +123,14 @@ mod register {
     }
     impl_bitflags!(Enable, ENABLE);
 
-    #[derive(Debug, Default, Clone, Copy)]
+    #[derive(Debug, Default)]
     pub struct Status(u8);
     impl Status {
         pub const PVALID: u8 = 0b0000_0010;
     }
     impl_bitflags!(Status, STATUS);
 
-    #[derive(Debug, Default, Clone, Copy)]
+    #[derive(Debug, Default)]
     pub struct GConfig4(u8);
     impl GConfig4 {
         pub const GMODE: u8 = 0b0000_0001;
