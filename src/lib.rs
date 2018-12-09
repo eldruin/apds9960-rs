@@ -34,6 +34,8 @@
 #![no_std]
 
 extern crate embedded_hal as hal;
+#[macro_use]
+extern crate nb;
 
 /// All possible errors in this crate
 #[derive(Debug)]

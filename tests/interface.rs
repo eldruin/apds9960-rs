@@ -51,10 +51,14 @@ write_test!(can_enable_proximity, enable_proximity, ENABLE, BitFlags::PEN);
 write_test!(can_disable_proximity, disable_proximity, ENABLE, 0);
 
 macro_rules! read_test {
-    ($name:ident, $method:ident, $reg:ident, $value:expr, $expected:expr) => {
+    ($name:ident, $method:ident, $expected:expr, $($reg:ident, $value:expr),*) => {
         #[test]
         fn $name() {
-            let trans = [I2cTrans::write_read(DEV_ADDR, vec![Register::$reg], vec![$value])];
+            let trans = [
+                $(
+                    I2cTrans::write_read(DEV_ADDR, vec![Register::$reg], vec![$value]),
+                )*
+            ];
             let mut sensor = new(&trans);
             let value = sensor.$method().unwrap();
             assert_eq!($expected, value);
@@ -63,7 +67,25 @@ macro_rules! read_test {
     };
 }
 
-read_test!(can_read_id, read_device_id, ID, 0xAB, 0xAB);
-read_test!(can_read_prox, read_proximity, PDATA, 0x12, 0x12);
-read_test!(can_read_pvalid_true,  is_proximity_data_valid, STATUS, BitFlags::PVALID, true);
-read_test!(can_read_pvalid_false, is_proximity_data_valid, STATUS, 0, false);
+read_test!(can_read_id, read_device_id, 0xAB, ID, 0xAB);
+read_test!(can_read_pvalid_true,  is_proximity_data_valid, true, STATUS, BitFlags::PVALID);
+read_test!(can_read_pvalid_false, is_proximity_data_valid, false, STATUS, 0);
+
+read_test!(can_read_prox, read_proximity, 0x12, STATUS, BitFlags::PVALID, PDATA, 0x12);
+
+macro_rules! assert_would_block {
+    ($result: expr) => {
+        match $result {
+            Err(nb::Error::WouldBlock) => (),
+            _ => panic!("Would not block."),
+        }
+    };
+}
+
+#[test]
+fn cannot_read_prox_if_not_valid() {
+    let trans = [I2cTrans::write_read(DEV_ADDR, vec![Register::STATUS], vec![0])];
+    let mut sensor = new(&trans);
+    assert_would_block!(sensor.read_proximity());
+    destroy(sensor);
+}

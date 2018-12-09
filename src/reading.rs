@@ -6,6 +6,12 @@ where
     I2C: i2c::WriteRead<Error = E>,
 {
     /// Read the proximity sensor data
+    pub fn read_proximity(&mut self) -> nb::Result<u8, Error<E>> {
+        if !self.is_proximity_data_valid().map_err(nb::Error::Other)? {
+            return Err(nb::Error::WouldBlock);
+        }
+        self.read_register(Register::PDATA).map_err(nb::Error::Other)
+    }
 
     /// Read whether the proximity sensor data is valid
     #[allow(clippy::wrong_self_convention)]
