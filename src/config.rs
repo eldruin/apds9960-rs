@@ -1,7 +1,7 @@
 use hal::blocking::i2c;
 use {Apds9960, BitFlags, register::{Enable, GConfig4}, Error, DEV_ADDR};
 
-macro_rules! config_reg {
+macro_rules! impl_set_flag_reg {
     ($method:ident, $reg:ident) => {
         fn $method(&mut self, flag: u8, value: bool) -> Result<(), Error<E>> {
             let new = self.$reg.with(flag, value);
@@ -32,32 +32,32 @@ where
 
     /// Turn power on.
     pub fn enable(&mut self) -> Result<(), Error<E>> {
-        self.config_enable(Enable::PON, true)
+        self.set_flag_enable(Enable::PON, true)
     }
 
     /// Deactivate everything and put the device to sleep.
     pub fn disable(&mut self) -> Result<(), Error<E>> {
-        self.config_enable(Enable::ALL, false)
+        self.set_flag_enable(Enable::ALL, false)
     }
 
     /// Enable proximity detection
     pub fn enable_proximity(&mut self) -> Result<(), Error<E>> {
-        self.config_enable(Enable::PEN, true)
+        self.set_flag_enable(Enable::PEN, true)
     }
 
     /// Disable proximity detection
     pub fn disable_proximity(&mut self) -> Result<(), Error<E>> {
-        self.config_enable(Enable::PEN, false)
+        self.set_flag_enable(Enable::PEN, false)
     }
 
     /// Enable gesture detection
     pub fn enable_gesture(&mut self) -> Result<(), Error<E>> {
-        self.config_enable(Enable::GEN, true)
+        self.set_flag_enable(Enable::GEN, true)
     }
 
     /// Disable gesture detection
     pub fn disable_gesture(&mut self) -> Result<(), Error<E>> {
-        self.config_enable(Enable::GEN, false)
+        self.set_flag_enable(Enable::GEN, false)
     }
 
     /// Enable gesture mode.
@@ -65,7 +65,7 @@ where
     /// This can be automatically enabled (depending on proximity thresholds)
     /// and disabled (see GMODE on datasheet).
     pub fn enable_gesture_mode(&mut self) -> Result<(), Error<E>> {
-        self.config_gconfig4(GConfig4::GMODE, true)
+        self.set_flag_config4(GConfig4::GMODE, true)
     }
 
     /// Disable gesture mode.
@@ -73,11 +73,13 @@ where
     /// This can be automatically enabled (depending on proximity thresholds)
     /// and disabled (see GMODE on datasheet).
     pub fn disable_gesture_mode(&mut self) -> Result<(), Error<E>> {
-        self.config_gconfig4(GConfig4::GMODE, false)
+        self.set_flag_config4(GConfig4::GMODE, false)
+    }
     }
 
-    config_reg!(config_enable, enable);
-    config_reg!(config_gconfig4, gconfig4);
+    impl_set_flag_reg!(set_flag_enable, enable);
+    impl_set_flag_reg!(set_flag_config4, gconfig4);
+
 
     fn config_register<T: BitFlags>(&mut self, reg: &T) -> Result<(), Error<E>> {
         self.write_register(T::ADDRESS, reg.value())
