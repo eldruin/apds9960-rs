@@ -19,9 +19,9 @@ impl Register {
 pub struct BitFlags;
 impl BitFlags {
     const PON: u8 = 1;
-    const PEN: u8 = 1<<2;
-    const GEN: u8 = 1<<6;
-    const PVALID: u8 = 1<<1;
+    const PEN: u8 = 1 << 2;
+    const GEN: u8 = 1 << 6;
+    const PVALID: u8 = 1 << 1;
     const GMODE: u8 = 1;
     const GVALID: u8 = 1;
     const GFIFOTH1: u8 = 0b1000_0000;

@@ -98,14 +98,13 @@ impl Register {
     const GSTATUS    : u8 = 0xAF;
 }
 
-trait BitFlags<T=Self> {
+trait BitFlags<T = Self> {
     const ADDRESS: u8;
     fn new(value: u8) -> T;
     fn with(&self, mask: u8, value: bool) -> T {
         if value {
             Self::new(self.value() | mask)
-        }
-        else {
+        } else {
             Self::new(self.value() & !mask)
         }
     }
@@ -124,11 +123,9 @@ mod register {
             impl BitFlags for $name {
                 const ADDRESS: u8 = Register::$reg;
                 fn new(value: u8) -> Self {
-                    Self {
-                        0: value
-                    }
+                    Self { 0: value }
                 }
-                fn value(&self) -> u8{
+                fn value(&self) -> u8 {
                     self.0
                 }
             }

@@ -1,7 +1,7 @@
 use hal::blocking::i2c;
 use {
-    Apds9960, BitFlags, GestureDataThreshold, register::{Enable, GConfig1, GConfig4},
-    Error, DEV_ADDR
+    register::{Enable, GConfig1, GConfig4},
+    Apds9960, BitFlags, Error, GestureDataThreshold, DEV_ADDR,
 };
 
 macro_rules! impl_set_flag_reg {
@@ -81,7 +81,10 @@ where
     }
 
     /// Set the threshold of amount of available data in the gesture FIFO registers.
-    pub fn set_gesture_data_level_threshold(&mut self, threshold: GestureDataThreshold) -> Result<(), Error<E>> {
+    pub fn set_gesture_data_level_threshold(
+        &mut self,
+        threshold: GestureDataThreshold,
+    ) -> Result<(), Error<E>> {
         use GestureDataThreshold as GDTH;
         let flags;
         match threshold {
@@ -90,7 +93,10 @@ where
             GDTH::Th8 => flags = (true, false),
             GDTH::Th16 => flags = (true, true),
         }
-        let new = self.gconfig1.with(GConfig1::GFIFOTH1, flags.0).with(GConfig1::GFIFOTH0, flags.1);
+        let new = self
+            .gconfig1
+            .with(GConfig1::GFIFOTH1, flags.0)
+            .with(GConfig1::GFIFOTH0, flags.1);
         self.config_register(&new)?;
         self.gconfig1 = new;
         Ok(())

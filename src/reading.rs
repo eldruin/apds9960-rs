@@ -1,5 +1,8 @@
 use hal::blocking::i2c;
-use {Apds9960, BitFlags, DEV_ADDR, Error, Register, register::{GStatus, Status}};
+use {
+    register::{GStatus, Status},
+    Apds9960, BitFlags, Error, Register, DEV_ADDR,
+};
 
 impl<I2C, E> Apds9960<I2C>
 where
@@ -12,7 +15,8 @@ where
         if !self.is_proximity_data_valid().map_err(nb::Error::Other)? {
             return Err(nb::Error::WouldBlock);
         }
-        self.read_register(Register::PDATA).map_err(nb::Error::Other)
+        self.read_register(Register::PDATA)
+            .map_err(nb::Error::Other)
     }
 
     /// Read whether the proximity sensor data is valid.
