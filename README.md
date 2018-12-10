@@ -20,6 +20,7 @@ This driver allows you to:
 - Gesture recognition:
     - Enable/disable gesture recognition. See: `enable_gesture()`.
     - Enable/disable gesture mode. See: `enable_gesture_mode()`.
+    - Enable/disable gesture interrupts. See: `enable_gesture_interrupts()`.
     - Read whether there is valid gesture data available. See: `is_gesture_data_valid()`.
     - Read the amount of gesture data available. See: `read_gesture_data_level()`.
     - Set the threshold of amount of available gesture data. See: `set_gesture_data_level_threshold()`.

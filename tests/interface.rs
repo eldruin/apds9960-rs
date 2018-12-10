@@ -23,6 +23,7 @@ impl BitFlags {
     const GEN: u8 = 1 << 6;
     const PVALID: u8 = 1 << 1;
     const GMODE: u8 = 1;
+    const GIEN: u8 = 1 << 1;
     const GVALID: u8 = 1;
     const GFOV: u8 = 1 << 1;
     const GFIFOTH1: u8 = 0b1000_0000;
@@ -63,6 +64,9 @@ write_test!(can_enable_gesture, enable_gesture, ENABLE, BitFlags::GEN);
 write_test!(can_disable_gesture, disable_gesture, ENABLE, 0);
 write_test!(can_enable_gesture_mode, enable_gesture_mode, GCONFIG4, BitFlags::GMODE);
 write_test!(can_disable_gesture_mode, disable_gesture_mode, GCONFIG4, 0);
+write_test!(can_enable_gesture_int, enable_gesture_interrupts, GCONFIG4, BitFlags::GIEN);
+write_test!(can_disable_gesture_int, disable_gesture_interrupts, GCONFIG4, 0);
+
 
 macro_rules! read_test {
     ($name:ident, $method:ident, $expected:expr, $($reg:ident, $value:expr),*) => {

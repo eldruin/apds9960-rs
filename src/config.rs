@@ -80,6 +80,16 @@ where
         self.set_flag_config4(GConfig4::GMODE, false)
     }
 
+    /// Enable gesture interrupt generation
+    pub fn enable_gesture_interrupts(&mut self) -> Result<(), Error<E>> {
+        self.set_flag_config4(GConfig4::GIEN, true)
+    }
+
+    /// Disable gesture interrupt generation
+    pub fn disable_gesture_interrupts(&mut self) -> Result<(), Error<E>> {
+        self.set_flag_config4(GConfig4::GIEN, false)
+    }
+
     /// Set the threshold of amount of available data in the gesture FIFO registers.
     pub fn set_gesture_data_level_threshold(
         &mut self,

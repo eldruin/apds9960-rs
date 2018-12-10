@@ -12,6 +12,7 @@
 //! - Gesture recognition:
 //!     - Enable/disable gesture recognition. See: [`enable_gesture()`].
 //!     - Enable/disable gesture mode. See: [`enable_gesture_mode()`].
+//!     - Enable/disable gesture interrupts. See: [`enable_gesture_interrupts()`].
 //!     - Read whether there is valid gesture data available. See: [`is_gesture_data_valid()`].
 //!     - Read the amount of gesture data available. See: [`read_gesture_data_level()`].
 //!     - Set the threshold of amount of available gesture data. See: [`set_gesture_data_level_threshold()`].
@@ -25,6 +26,7 @@
 //! [`is_proximity_data_valid()`]: struct.Apds9960.html#method.is_proximity_data_valid
 //! [`enable_gesture()`]: struct.Apds9960.html#method.enable_gesture
 //! [`enable_gesture_mode()`]: struct.Apds9960.html#method.enable_gesture_mode
+//! [`enable_gesture_interrupts()`]: struct.Apds9960.html#method.enable_gesture_interrupts
 //! [`read_gesture_data_level()`]: struct.Apds9960.html#method.read_gesture_data_level
 //! [`set_gesture_data_level_threshold()`]: struct.Apds9960.html#method.set_gesture_data_level_threshold
 //! [`read_gesture_data()`]: struct.Apds9960.html#method.read_gesture_data
@@ -168,6 +170,7 @@ mod register {
     pub struct GConfig4(u8);
     impl GConfig4 {
         pub const GMODE: u8 = 0b0000_0001;
+        pub const GIEN: u8 = 0b0000_0010;
     }
     impl_bitflags!(GConfig4, GCONFIG4);
 
