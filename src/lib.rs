@@ -13,7 +13,8 @@
 //!     - Enable/disable gesture recognition. See: [`enable_gesture()`].
 //!     - Enable/disable gesture mode. See: [`enable_gesture_mode()`].
 //!     - Read the amount of gesture data available. See: [`read_gesture_data_level()`].
-//!     - Set the threshold of amount of available gesture data. See [`set_gesture_data_level_threshold()`].
+//!     - Set the threshold of amount of available gesture data. See: [`set_gesture_data_level_threshold()`].
+//!     - Read the gesture data. See: [`read_gesture_data()`].
 //! - Read the device ID. See: [`read_device_id()`].
 //!
 //! [`enable()`]: struct.Apds9960.html#method.enable
@@ -24,6 +25,7 @@
 //! [`enable_gesture_mode()`]: struct.Apds9960.html#method.enable_gesture_mode
 //! [`read_gesture_data_level()`]: struct.Apds9960.html#method.read_gesture_data_level
 //! [`set_gesture_data_level_threshold()`]: struct.Apds9960.html#method.set_gesture_data_level_threshold
+//! [`read_gesture_data()`]: struct.Apds9960.html#method.read_gesture_data
 //! [`read_device_id()`]: struct.Apds9960.html#method.read_device_id
 //!
 //! ## The device
@@ -96,6 +98,7 @@ impl Register {
     const GCONFIG4   : u8 = 0xAB;
     const GFLVL      : u8 = 0xAE;
     const GSTATUS    : u8 = 0xAF;
+    const GFIFO_U    : u8 = 0xFC;
 }
 
 trait BitFlags<T = Self> {
