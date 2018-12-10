@@ -11,6 +11,8 @@ impl Register {
     const ID         : u8 = 0x92;
     const STATUS     : u8 = 0x93;
     const PDATA      : u8 = 0x9C;
+    const GPENTH     : u8 = 0xA0;
+    const GPEXTH     : u8 = 0xA1;
     const GCONFIG1   : u8 = 0xA2;
     const GCONFIG4   : u8 = 0xAB;
     const GFLVL      : u8 = 0xAE;
@@ -66,7 +68,8 @@ write_test!(can_enable_gesture_mode, enable_gesture_mode, GCONFIG4, BitFlags::GM
 write_test!(can_disable_gesture_mode, disable_gesture_mode, GCONFIG4, 0);
 write_test!(can_enable_gesture_int, enable_gesture_interrupts, GCONFIG4, BitFlags::GIEN);
 write_test!(can_disable_gesture_int, disable_gesture_interrupts, GCONFIG4, 0);
-
+write_test!(can_set_gprox_entry_th, set_gesture_proximity_entry_threshold, GPENTH, 0xAB, 0xAB);
+write_test!(can_set_gprox_exit_th, set_gesture_proximity_exit_threshold, GPEXTH, 0xAB, 0xAB);
 
 macro_rules! read_test {
     ($name:ident, $method:ident, $expected:expr, $($reg:ident, $value:expr),*) => {

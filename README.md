@@ -26,6 +26,7 @@ This driver allows you to:
     - Set the threshold of amount of available gesture data. See: `set_gesture_data_level_threshold()`.
     - Read whether the gesture data has overflown. See: `has_gesture_data_overflown()`.
     - Read the gesture data. See: `read_gesture_data()`.
+    - Set the gesture proximity entry/exit thresholds. See: `set_gesture_proximity_entry_threshold()`.
 - Read the device ID. See: `read_device_id()`.
 
 ## The device

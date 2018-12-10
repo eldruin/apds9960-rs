@@ -1,7 +1,7 @@
 use hal::blocking::i2c;
 use {
     register::{Enable, GConfig1, GConfig4},
-    Apds9960, BitFlags, Error, GestureDataThreshold, DEV_ADDR,
+    Apds9960, BitFlags, Error, GestureDataThreshold, Register, DEV_ADDR,
 };
 
 macro_rules! impl_set_flag_reg {
@@ -110,6 +110,16 @@ where
         self.config_register(&new)?;
         self.gconfig1 = new;
         Ok(())
+    }
+
+    /// Set the gesture proximity entry threshold.
+    pub fn set_gesture_proximity_entry_threshold(&mut self, threshold: u8) -> Result<(), Error<E>> {
+        self.write_register(Register::GPENTH, threshold)
+    }
+
+    /// Set the gesture proximity exit threshold.
+    pub fn set_gesture_proximity_exit_threshold(&mut self, threshold: u8) -> Result<(), Error<E>> {
+        self.write_register(Register::GPEXTH, threshold)
     }
 
     impl_set_flag_reg!(set_flag_enable, enable);
