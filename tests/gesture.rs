@@ -95,6 +95,6 @@ macro_rules! assert_would_block {
 fn cannot_read_gesture_if_not_valid() {
     let trans = [I2cTrans::write_read(DEV_ADDR, vec![Register::GSTATUS], vec![0])];
     let mut sensor = new(&trans);
-    assert_would_block!(sensor.read_gesture_data(&mut []));
+    assert_would_block!(sensor.read_gesture_data(&mut [0; 4]));
     destroy(sensor);
 }
