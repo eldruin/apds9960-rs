@@ -24,6 +24,7 @@ impl BitFlags {
     const PVALID: u8 = 1 << 1;
     const GMODE: u8 = 1;
     const GVALID: u8 = 1;
+    const GFOV: u8 = 1 << 1;
     const GFIFOTH1: u8 = 0b1000_0000;
     const GFIFOTH0: u8 = 0b0100_0000;
 }
@@ -86,6 +87,9 @@ read_test!(can_read_pvalid_false, is_proximity_data_valid, false, STATUS, 0);
 read_test!(can_read_gvalid_true,  is_gesture_data_valid, true, GSTATUS, BitFlags::GVALID);
 read_test!(can_read_gvalid_false, is_gesture_data_valid, false, GSTATUS, 0);
 read_test!(can_read_gfifolvl, read_gesture_data_level, 15, GFLVL, 15);
+read_test!(can_read_g_overfl,  has_gesture_data_overflown, true, GSTATUS, BitFlags::GFOV);
+read_test!(can_read_g_not_overfl, has_gesture_data_overflown, false, GSTATUS, 0);
+
 
 read_test!(can_read_prox, read_proximity, 0x12, STATUS, BitFlags::PVALID, PDATA, 0x12);
 

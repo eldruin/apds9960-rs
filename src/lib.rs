@@ -12,8 +12,10 @@
 //! - Gesture recognition:
 //!     - Enable/disable gesture recognition. See: [`enable_gesture()`].
 //!     - Enable/disable gesture mode. See: [`enable_gesture_mode()`].
+//!     - Read whether there is valid gesture data available. See: [`is_gesture_data_valid()`].
 //!     - Read the amount of gesture data available. See: [`read_gesture_data_level()`].
 //!     - Set the threshold of amount of available gesture data. See: [`set_gesture_data_level_threshold()`].
+//!     - Read whether the gesture data has overflown. See: [`has_gesture_data_overflown()`].
 //!     - Read the gesture data. See: [`read_gesture_data()`].
 //! - Read the device ID. See: [`read_device_id()`].
 //!
@@ -26,6 +28,8 @@
 //! [`read_gesture_data_level()`]: struct.Apds9960.html#method.read_gesture_data_level
 //! [`set_gesture_data_level_threshold()`]: struct.Apds9960.html#method.set_gesture_data_level_threshold
 //! [`read_gesture_data()`]: struct.Apds9960.html#method.read_gesture_data
+//! [`is_gesture_data_valid()`]: struct.Apds9960.html#method.is_gesture_data_valid
+//! [`has_gesture_data_overflown()`]: struct.Apds9960.html#method.has_gesture_data_overflown
 //! [`read_device_id()`]: struct.Apds9960.html#method.read_device_id
 //!
 //! ## The device
@@ -171,6 +175,7 @@ mod register {
     pub struct GStatus(u8);
     impl GStatus {
         pub const GVALID: u8 = 0b0000_0001;
+        pub const GFOV: u8 = 0b0000_0010;
     }
     impl_bitflags!(GStatus, GSTATUS);
 }

@@ -40,6 +40,13 @@ where
         Ok(GStatus::new(status).is(GStatus::GVALID, true))
     }
 
+    /// Read whether the gesture data has overflown.
+    #[allow(clippy::wrong_self_convention)]
+    pub fn has_gesture_data_overflown(&mut self) -> Result<bool, Error<E>> {
+        let status = self.read_register(Register::GSTATUS)?;
+        Ok(GStatus::new(status).is(GStatus::GFOV, true))
+    }
+
     /// Read gesture data.
     ///
     /// Will read the gesture data up to the minimum of: gesture data level, array size.
