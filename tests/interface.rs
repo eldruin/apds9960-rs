@@ -1,5 +1,5 @@
 extern crate apds9960;
-use apds9960::Apds9960;
+use apds9960::{Apds9960, GestureDataThreshold};
 extern crate embedded_hal_mock as hal;
 use hal::i2c::{Mock as I2cMock, Transaction as I2cTrans};
 
@@ -11,6 +11,7 @@ impl Register {
     const ID         : u8 = 0x92;
     const STATUS     : u8 = 0x93;
     const PDATA      : u8 = 0x9C;
+    const GCONFIG1   : u8 = 0xA2;
     const GCONFIG4   : u8 = 0xAB;
     const GFLVL      : u8 = 0xAE;
     const GSTATUS    : u8 = 0xAF;
@@ -23,6 +24,8 @@ impl BitFlags {
     const PVALID: u8 = 1<<1;
     const GMODE: u8 = 1;
     const GVALID: u8 = 1;
+    const GFIFOTH1: u8 = 0b1000_0000;
+    const GFIFOTH0: u8 = 0b0100_0000;
 }
 
 fn new(transactions: &[I2cTrans]) -> Apds9960<I2cMock> {
@@ -40,12 +43,12 @@ fn can_create() {
 }
 
 macro_rules! write_test {
-    ($name:ident, $method:ident, $reg:ident, $value:expr) => {
+    ($name:ident, $method:ident, $reg:ident, $value:expr $(,$arg:expr)*) => {
         #[test]
         fn $name() {
             let trans = [I2cTrans::write(DEV_ADDR, vec![Register::$reg, $value])];
             let mut sensor = new(&trans);
-            sensor.$method().unwrap();
+            sensor.$method($( $arg ),*).unwrap();
             destroy(sensor);
         }
     };
@@ -82,7 +85,7 @@ read_test!(can_read_pvalid_true,  is_proximity_data_valid, true, STATUS, BitFlag
 read_test!(can_read_pvalid_false, is_proximity_data_valid, false, STATUS, 0);
 read_test!(can_read_gvalid_true,  is_gesture_data_valid, true, GSTATUS, BitFlags::GVALID);
 read_test!(can_read_gvalid_false, is_gesture_data_valid, false, GSTATUS, 0);
-read_test!(can_read_gflvl, read_gesture_data_level, 15, GFLVL, 15);
+read_test!(can_read_gfifolvl, read_gesture_data_level, 15, GFLVL, 15);
 
 read_test!(can_read_prox, read_proximity, 0x12, STATUS, BitFlags::PVALID, PDATA, 0x12);
 
@@ -102,3 +105,19 @@ fn cannot_read_prox_if_not_valid() {
     assert_would_block!(sensor.read_proximity());
     destroy(sensor);
 }
+
+macro_rules! set_gdata_level_th_test {
+    ($name:ident, $variant:ident, $value:expr) => {
+        write_test!(
+            $name,
+            set_gesture_data_level_threshold,
+            GCONFIG1,
+            $value,
+            GestureDataThreshold::$variant
+        );
+    };
+}
+set_gdata_level_th_test!(set_gdata_level_th1, Th1, 0);
+set_gdata_level_th_test!(set_gdata_level_th4, Th4, BitFlags::GFIFOTH0);
+set_gdata_level_th_test!(set_gdata_level_th8, Th8, BitFlags::GFIFOTH1);
+set_gdata_level_th_test!(set_gdata_level_th16, Th16, BitFlags::GFIFOTH1 | BitFlags::GFIFOTH0);

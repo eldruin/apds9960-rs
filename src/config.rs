@@ -1,5 +1,8 @@
 use hal::blocking::i2c;
-use {Apds9960, BitFlags, register::{Enable, GConfig4}, Error, DEV_ADDR};
+use {
+    Apds9960, BitFlags, GestureDataThreshold, register::{Enable, GConfig1, GConfig4},
+    Error, DEV_ADDR
+};
 
 macro_rules! impl_set_flag_reg {
     ($method:ident, $reg:ident) => {
@@ -21,6 +24,7 @@ where
         Apds9960 {
             i2c,
             enable: Enable::default(),
+            gconfig1: GConfig1::default(),
             gconfig4: GConfig4::default(),
         }
     }
@@ -75,11 +79,25 @@ where
     pub fn disable_gesture_mode(&mut self) -> Result<(), Error<E>> {
         self.set_flag_config4(GConfig4::GMODE, false)
     }
+
+    /// Set the threshold of amount of available data in the gesture FIFO registers.
+    pub fn set_gesture_data_level_threshold(&mut self, threshold: GestureDataThreshold) -> Result<(), Error<E>> {
+        use GestureDataThreshold as GDTH;
+        let flags;
+        match threshold {
+            GDTH::Th1 => flags = (false, false),
+            GDTH::Th4 => flags = (false, true),
+            GDTH::Th8 => flags = (true, false),
+            GDTH::Th16 => flags = (true, true),
+        }
+        let new = self.gconfig1.with(GConfig1::GFIFOTH1, flags.0).with(GConfig1::GFIFOTH0, flags.1);
+        self.config_register(&new)?;
+        self.gconfig1 = new;
+        Ok(())
     }
 
     impl_set_flag_reg!(set_flag_enable, enable);
     impl_set_flag_reg!(set_flag_config4, gconfig4);
-
 
     fn config_register<T: BitFlags>(&mut self, reg: &T) -> Result<(), Error<E>> {
         self.write_register(T::ADDRESS, reg.value())

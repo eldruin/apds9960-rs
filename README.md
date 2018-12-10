@@ -21,6 +21,7 @@ This driver allows you to:
     - Enable/disable gesture recognition. See: `enable_gesture()`.
     - Enable/disable gesture mode. See: `enable_gesture_mode()`.
     - Read the amount of gesture data available. See: `read_gesture_data_level()`.
+    - Set the threshold of amount of available gesture data. See `set_gesture_data_level_threshold()`.
 - Read the device ID. See: `read_device_id()`.
 
 ## The device

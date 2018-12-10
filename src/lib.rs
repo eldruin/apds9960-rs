@@ -13,6 +13,7 @@
 //!     - Enable/disable gesture recognition. See: [`enable_gesture()`].
 //!     - Enable/disable gesture mode. See: [`enable_gesture_mode()`].
 //!     - Read the amount of gesture data available. See: [`read_gesture_data_level()`].
+//!     - Set the threshold of amount of available gesture data. See [`set_gesture_data_level_threshold()`].
 //! - Read the device ID. See: [`read_device_id()`].
 //!
 //! [`enable()`]: struct.Apds9960.html#method.enable
@@ -22,6 +23,7 @@
 //! [`enable_gesture()`]: struct.Apds9960.html#method.enable_gesture
 //! [`enable_gesture_mode()`]: struct.Apds9960.html#method.enable_gesture_mode
 //! [`read_gesture_data_level()`]: struct.Apds9960.html#method.read_gesture_data_level
+//! [`set_gesture_data_level_threshold()`]: struct.Apds9960.html#method.set_gesture_data_level_threshold
 //! [`read_device_id()`]: struct.Apds9960.html#method.read_device_id
 //!
 //! ## The device
@@ -53,6 +55,21 @@ pub enum Error<E> {
     I2C(E),
 }
 
+/// Gesture FIFO data threshold.
+///
+/// This value is compared to the gesture data level to set data valid and generate an interruption.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum GestureDataThreshold {
+    /// Interrupt is generated and gesture data is set valid after 1 dataset is added to FIFO. (default)
+    Th1,
+    /// Interrupt is generated and gesture data is set valid after 4 datasets is added to FIFO.
+    Th4,
+    /// Interrupt is generated and gesture data is set valid after 8 datasets is added to FIFO.
+    Th8,
+    /// Interrupt is generated and gesture data is set valid after 16 datasets is added to FIFO.
+    Th16,
+}
+
 const DEV_ADDR: u8 = 0x39;
 
 struct Register;
@@ -75,6 +92,7 @@ impl Register {
     const ID         : u8 = 0x92;
     const STATUS     : u8 = 0x93;
     const PDATA      : u8 = 0x9C;
+    const GCONFIG1   : u8 = 0xA2;
     const GCONFIG4   : u8 = 0xAB;
     const GFLVL      : u8 = 0xAE;
     const GSTATUS    : u8 = 0xAF;
@@ -128,6 +146,14 @@ mod register {
     impl_bitflags!(Enable, ENABLE);
 
     #[derive(Debug, Default)]
+    pub struct GConfig1(u8);
+    impl GConfig1 {
+        pub const GFIFOTH1: u8 = 0b1000_0000;
+        pub const GFIFOTH0: u8 = 0b0100_0000;
+    }
+    impl_bitflags!(GConfig1, GCONFIG1);
+
+    #[derive(Debug, Default)]
     pub struct Status(u8);
     impl Status {
         pub const PVALID: u8 = 0b0000_0010;
@@ -155,6 +181,7 @@ pub struct Apds9960<I2C> {
     /// The concrete I²C device implementation.
     i2c: I2C,
     enable: register::Enable,
+    gconfig1: register::GConfig1,
     gconfig4: register::GConfig4,
 }
 
