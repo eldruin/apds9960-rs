@@ -49,9 +49,13 @@ where
 
     fn read_register(&mut self, register: u8) -> Result<u8, Error<E>> {
         let mut data = [0];
-        self.i2c
-            .write_read(DEV_ADDR, &[register], &mut data)
-            .map_err(Error::I2C)?;
+        self.read_data(register, &mut data)?;
         Ok(data[0])
+    }
+
+    fn read_data(&mut self, register: u8, data: &mut [u8]) -> Result<(), Error<E>> {
+        self.i2c
+            .write_read(DEV_ADDR, &[register], data)
+            .map_err(Error::I2C)
     }
 }
