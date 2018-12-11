@@ -30,6 +30,7 @@ pub struct BitFlags;
 impl BitFlags {
     const PON: u8 = 1;
     const PEN: u8 = 1 << 2;
+    const PIEN: u8 = 1 << 5;
     const GEN: u8 = 1 << 6;
     const PVALID: u8 = 1 << 1;
     const GMODE: u8 = 1;
@@ -70,6 +71,8 @@ write_test!(can_enable, enable, ENABLE, BitFlags::PON);
 write_test!(can_disable, disable, ENABLE, 0);
 write_test!(can_enable_proximity, enable_proximity, ENABLE, BitFlags::PEN);
 write_test!(can_disable_proximity, disable_proximity, ENABLE, 0);
+write_test!(en_prox_int, enable_proximity_interrupts, ENABLE, BitFlags::PIEN);
+write_test!(dis_prox_int, disable_proximity_interrupts, ENABLE, 0);
 write_test!(can_enable_gesture, enable_gesture, ENABLE, BitFlags::GEN);
 write_test!(can_disable_gesture, disable_gesture, ENABLE, 0);
 write_test!(can_enable_gesture_mode, enable_gesture_mode, GCONFIG4, BitFlags::GMODE);

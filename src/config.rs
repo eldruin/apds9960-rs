@@ -54,6 +54,16 @@ where
         self.set_flag_enable(Enable::PEN, false)
     }
 
+    /// Enable proximity interrupt generation
+    pub fn enable_proximity_interrupts(&mut self) -> Result<(), Error<E>> {
+        self.set_flag_enable(Enable::PIEN, true)
+    }
+
+    /// Disable proximity interrupt generation
+    pub fn disable_proximity_interrupts(&mut self) -> Result<(), Error<E>> {
+        self.set_flag_enable(Enable::PIEN, false)
+    }
+
     /// Set the proximity interrupt low threshold.
     pub fn set_proximity_low_threshold(&mut self, threshold: u8) -> Result<(), Error<E>> {
         self.write_register(Register::PILT, threshold)

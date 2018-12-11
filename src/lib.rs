@@ -7,6 +7,7 @@
 //! - Enable/disable the sensor. See: [`enable()`].
 //! - Proximity:
 //!     - Enable/disable the proximity sensor. See: [`enable_proximity()`].
+//!     - Enable/disable proximity interrupt generation. See: [`enable_proximity_interrupts()`].
 //!     - Read the proximity data. See: [`read_proximity()`].
 //!     - Check whether the proximity data is valid. See: [`is_proximity_data_valid()`].
 //!     - Set the proximity interrupt low/high thresholds. See: [`set_proximity_low_threshold()`].
@@ -26,6 +27,7 @@
 //!
 //! [`enable()`]: struct.Apds9960.html#method.enable
 //! [`enable_proximity()`]: struct.Apds9960.html#method.enable_proximity
+//! [`enable_proximity_interrupts()`]: struct.Apds9960.html#method.enable_proximity_interrupts
 //! [`read_proximity()`]: struct.Apds9960.html#method.read_proximity
 //! [`is_proximity_data_valid()`]: struct.Apds9960.html#method.is_proximity_data_valid
 //! [`set_proximity_low_threshold()`]: struct.Apds9960.html#method.set_proximity_low_threshold()
@@ -164,6 +166,7 @@ mod register {
         pub const ALL: u8 = 0b1111_1111;
         pub const PON: u8 = 0b0000_0001;
         pub const PEN: u8 = 0b0000_0100;
+        pub const PIEN: u8 = 0b0010_0000;
         pub const GEN: u8 = 0b0100_0000;
     }
     impl_bitflags!(Enable, ENABLE);
