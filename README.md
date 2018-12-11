@@ -27,6 +27,7 @@ This driver allows you to:
     - Read whether the gesture data has overflown. See: `has_gesture_data_overflown()`.
     - Read the gesture data. See: `read_gesture_data()`.
     - Set the gesture proximity entry/exit thresholds. See: `set_gesture_proximity_entry_threshold()`.
+    - Set the gesture offsets. See: `set_gesture_offsets()`.
 - Read the device ID. See: `read_device_id()`.
 
 ## The device

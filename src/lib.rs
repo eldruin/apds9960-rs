@@ -19,6 +19,7 @@
 //!     - Read whether the gesture data has overflown. See: [`has_gesture_data_overflown()`].
 //!     - Read the gesture data. See: [`read_gesture_data()`].
 //!     - Set the gesture proximity entry/exit thresholds. See: [`set_gesture_proximity_entry_threshold()`].
+//!     - Set the gesture offsets. See: [`set_gesture_offsets()`].
 //! - Read the device ID. See: [`read_device_id()`].
 //!
 //! [`enable()`]: struct.Apds9960.html#method.enable
@@ -34,6 +35,7 @@
 //! [`is_gesture_data_valid()`]: struct.Apds9960.html#method.is_gesture_data_valid
 //! [`has_gesture_data_overflown()`]: struct.Apds9960.html#method.has_gesture_data_overflown
 //! [`set_gesture_proximity_entry_threshold()`]: struct.Apds9960.html#method.set_gesture_proximity_entry_threshold
+//! [`set_gesture_offsets()`]: struct.Apds9960.html#method.set_gesture_offsets
 //! [`read_device_id()`]: struct.Apds9960.html#method.read_device_id
 //!
 //! ## The device
@@ -105,6 +107,10 @@ impl Register {
     const GPENTH     : u8 = 0xA0;
     const GPEXTH     : u8 = 0xA1;
     const GCONFIG1   : u8 = 0xA2;
+    const GOFFSET_U  : u8 = 0xA4;
+    const GOFFSET_D  : u8 = 0xA5;
+    const GOFFSET_L  : u8 = 0xA6;
+    const GOFFSET_R  : u8 = 0xA7;
     const GCONFIG4   : u8 = 0xAB;
     const GFLVL      : u8 = 0xAE;
     const GSTATUS    : u8 = 0xAF;

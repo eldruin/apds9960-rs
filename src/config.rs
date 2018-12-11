@@ -122,6 +122,48 @@ where
         self.write_register(Register::GPEXTH, threshold)
     }
 
+    /// Set the gesture up offset.
+    pub fn set_gesture_up_offset(&mut self, offset: i8) -> Result<(), Error<E>> {
+        self.write_register(Register::GOFFSET_U, offset as u8)
+    }
+
+    /// Set the gesture down offset.
+    pub fn set_gesture_down_offset(&mut self, offset: i8) -> Result<(), Error<E>> {
+        self.write_register(Register::GOFFSET_D, offset as u8)
+    }
+
+    /// Set the gesture left offset.
+    pub fn set_gesture_left_offset(&mut self, offset: i8) -> Result<(), Error<E>> {
+        self.write_register(Register::GOFFSET_L, offset as u8)
+    }
+
+    /// Set the gesture right offset.
+    pub fn set_gesture_right_offset(&mut self, offset: i8) -> Result<(), Error<E>> {
+        self.write_register(Register::GOFFSET_R, offset as u8)
+    }
+
+    /// Set the gesture up, down, left and right offsets.
+    pub fn set_gesture_offsets(
+        &mut self,
+        offset_up: i8,
+        offset_down: i8,
+        offset_left: i8,
+        offset_right: i8,
+    ) -> Result<(), Error<E>> {
+        self.i2c
+            .write(
+                DEV_ADDR,
+                &[
+                    Register::GOFFSET_U,
+                    offset_up as u8,
+                    offset_down as u8,
+                    offset_left as u8,
+                    offset_right as u8,
+                ],
+            )
+            .map_err(Error::I2C)
+    }
+
     impl_set_flag_reg!(set_flag_enable, enable);
     impl_set_flag_reg!(set_flag_config4, gconfig4);
 
