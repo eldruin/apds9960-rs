@@ -9,6 +9,7 @@
 //!     - Enable/disable the proximity sensor. See: [`enable_proximity()`].
 //!     - Read the proximity data. See: [`read_proximity()`].
 //!     - Check whether the proximity data is valid. See: [`is_proximity_data_valid()`].
+//!     - Set the proximity interrupt low/high thresholds. See: [`set_proximity_low_threshold()`].
 //! - Gesture recognition:
 //!     - Enable/disable gesture recognition. See: [`enable_gesture()`].
 //!     - Enable/disable gesture mode. See: [`enable_gesture_mode()`].
@@ -26,6 +27,7 @@
 //! [`enable_proximity()`]: struct.Apds9960.html#method.enable_proximity
 //! [`read_proximity()`]: struct.Apds9960.html#method.read_proximity
 //! [`is_proximity_data_valid()`]: struct.Apds9960.html#method.is_proximity_data_valid
+//! [`set_proximity_low_threshold()`]: struct.Apds9960.html#method.set_proximity_low_threshold()
 //! [`enable_gesture()`]: struct.Apds9960.html#method.enable_gesture
 //! [`enable_gesture_mode()`]: struct.Apds9960.html#method.enable_gesture_mode
 //! [`enable_gesture_interrupts()`]: struct.Apds9960.html#method.enable_gesture_interrupts
@@ -94,8 +96,8 @@ impl Register {
     // const AILTH      : u8 = 0x85;
     // const AIHTL      : u8 = 0x86;
     // const AIHTH      : u8 = 0x87;
-    // const PILT       : u8 = 0x89;
-    // const PIHT       : u8 = 0x8B;
+    const PILT       : u8 = 0x89;
+    const PIHT       : u8 = 0x8B;
     // const PERS       : u8 = 0x8C;
     // const CONFIG1    : u8 = 0x8D;
     // const PPULSE     : u8 = 0x8E;

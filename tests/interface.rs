@@ -8,6 +8,8 @@ const DEV_ADDR: u8 = 0x39;
 struct Register;
 impl Register {
     const ENABLE     : u8 = 0x80;
+    const PILT       : u8 = 0x89;
+    const PIHT       : u8 = 0x8B;
     const ID         : u8 = 0x92;
     const STATUS     : u8 = 0x93;
     const PDATA      : u8 = 0x9C;
@@ -74,6 +76,9 @@ write_test!(en_gesture_int, enable_gesture_interrupts, GCONFIG4, BitFlags::GIEN)
 write_test!(dis_gesture_int, disable_gesture_interrupts, GCONFIG4, 0);
 write_test!(can_set_gprox_entry_th, set_gesture_proximity_entry_threshold, GPENTH, 0xAB, 0xAB);
 write_test!(can_set_gprox_exit_th, set_gesture_proximity_exit_threshold, GPEXTH, 0xAB, 0xAB);
+
+write_test!(set_prox_low_th, set_proximity_low_threshold, PILT, 0xAB, 0xAB);
+write_test!(set_prox_high_th, set_proximity_high_threshold, PIHT, 0xAB, 0xAB);
 
 write_test!(set_goffset_u, set_gesture_up_offset, GOFFSET_U, 55, 55);
 write_test!(set_goffset_d, set_gesture_down_offset, GOFFSET_D, 55, 55);

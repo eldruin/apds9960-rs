@@ -54,6 +54,16 @@ where
         self.set_flag_enable(Enable::PEN, false)
     }
 
+    /// Set the proximity interrupt low threshold.
+    pub fn set_proximity_low_threshold(&mut self, threshold: u8) -> Result<(), Error<E>> {
+        self.write_register(Register::PILT, threshold)
+    }
+
+    /// Set the proximity interrupt high threshold.
+    pub fn set_proximity_high_threshold(&mut self, threshold: u8) -> Result<(), Error<E>> {
+        self.write_register(Register::PIHT, threshold)
+    }
+
     /// Enable gesture detection
     pub fn enable_gesture(&mut self) -> Result<(), Error<E>> {
         self.set_flag_enable(Enable::GEN, true)
