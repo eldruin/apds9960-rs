@@ -18,6 +18,7 @@ This driver allows you to:
     - Read the proximity data. See: `read_proximity()`.
     - Check whether the proximity data is valid. See: `is_proximity_data_valid()`.
     - Set the proximity interrupt low/high thresholds. See: `set_proximity_low_threshold()`.
+    - Set the proximity offsets. See `set_proximity_offsets()`.
 - Gesture recognition:
     - Enable/disable gesture recognition. See: `enable_gesture()`.
     - Enable/disable gesture mode. See: `enable_gesture_mode()`.

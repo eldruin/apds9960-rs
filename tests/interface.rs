@@ -13,6 +13,8 @@ impl Register {
     const ID         : u8 = 0x92;
     const STATUS     : u8 = 0x93;
     const PDATA      : u8 = 0x9C;
+    const POFFSET_UR : u8 = 0x9D;
+    const POFFSET_DL : u8 = 0x9E;
     const GPENTH     : u8 = 0xA0;
     const GPEXTH     : u8 = 0xA1;
     const GCONFIG1   : u8 = 0xA2;
@@ -80,13 +82,30 @@ write_test!(can_set_gprox_exit_th, set_gesture_proximity_exit_threshold, GPEXTH,
 write_test!(set_prox_low_th, set_proximity_low_threshold, PILT, 0xAB, 0xAB);
 write_test!(set_prox_high_th, set_proximity_high_threshold, PIHT, 0xAB, 0xAB);
 
+write_test!(set_prox_ur_off, set_proximity_up_right_offset, POFFSET_UR, 55, 55);
+write_test!(set_prox_fl_off, set_proximity_down_left_offset, POFFSET_DL, 55, 55);
+
+#[test]
+fn can_set_poffsets() {
+    let data = vec![
+        Register::POFFSET_UR,
+        55,
+        i8::from(-56) as u8,
+    ];
+    let trans = [I2cTrans::write(DEV_ADDR, data)];
+    let mut sensor = new(&trans);
+    sensor.set_proximity_offsets(55, -56).unwrap();
+    destroy(sensor);
+}
+
+
 write_test!(set_goffset_u, set_gesture_up_offset, GOFFSET_U, 55, 55);
 write_test!(set_goffset_d, set_gesture_down_offset, GOFFSET_D, 55, 55);
 write_test!(set_goffset_l, set_gesture_left_offset, GOFFSET_L, 55, 55);
 write_test!(set_goffset_r, set_gesture_right_offset, GOFFSET_R, 55, 55);
 
 #[test]
-fn can_set_goffset() {
+fn can_set_goffsets() {
     let data = vec![
         Register::GOFFSET_U,
         55,

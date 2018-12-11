@@ -64,6 +64,30 @@ where
         self.write_register(Register::PIHT, threshold)
     }
 
+    /// Set the proximity up/right photodiode offset.
+    pub fn set_proximity_up_right_offset(&mut self, offset: i8) -> Result<(), Error<E>> {
+        self.write_register(Register::POFFSET_UR, offset as u8)
+    }
+
+    /// Set the proximity down/left photodiode offset.
+    pub fn set_proximity_down_left_offset(&mut self, offset: i8) -> Result<(), Error<E>> {
+        self.write_register(Register::POFFSET_DL, offset as u8)
+    }
+
+    /// Set the proximity up/right and down/left photodiode offset.
+    pub fn set_proximity_offsets(&mut self, offset_up_right: i8, offset_down_left: i8) -> Result<(), Error<E>> {
+        self.i2c
+            .write(
+                DEV_ADDR,
+                &[
+                    Register::POFFSET_UR,
+                    offset_up_right as u8,
+                    offset_down_left as u8,
+                ],
+            )
+            .map_err(Error::I2C)
+    }
+
     /// Enable gesture detection
     pub fn enable_gesture(&mut self) -> Result<(), Error<E>> {
         self.set_flag_enable(Enable::GEN, true)

@@ -10,6 +10,7 @@
 //!     - Read the proximity data. See: [`read_proximity()`].
 //!     - Check whether the proximity data is valid. See: [`is_proximity_data_valid()`].
 //!     - Set the proximity interrupt low/high thresholds. See: [`set_proximity_low_threshold()`].
+//!     - Set the proximity offsets. See [`set_proximity_offsets()`].
 //! - Gesture recognition:
 //!     - Enable/disable gesture recognition. See: [`enable_gesture()`].
 //!     - Enable/disable gesture mode. See: [`enable_gesture_mode()`].
@@ -28,6 +29,8 @@
 //! [`read_proximity()`]: struct.Apds9960.html#method.read_proximity
 //! [`is_proximity_data_valid()`]: struct.Apds9960.html#method.is_proximity_data_valid
 //! [`set_proximity_low_threshold()`]: struct.Apds9960.html#method.set_proximity_low_threshold()
+//! [`set_proximity_offsets()`]: struct.Apds9960.html#method.set_proximity_offsets
+//!
 //! [`enable_gesture()`]: struct.Apds9960.html#method.enable_gesture
 //! [`enable_gesture_mode()`]: struct.Apds9960.html#method.enable_gesture_mode
 //! [`enable_gesture_interrupts()`]: struct.Apds9960.html#method.enable_gesture_interrupts
@@ -106,6 +109,8 @@ impl Register {
     const ID         : u8 = 0x92;
     const STATUS     : u8 = 0x93;
     const PDATA      : u8 = 0x9C;
+    const POFFSET_UR : u8 = 0x9D;
+    const POFFSET_DL : u8 = 0x9E;
     const GPENTH     : u8 = 0xA0;
     const GPEXTH     : u8 = 0xA1;
     const GCONFIG1   : u8 = 0xA2;
