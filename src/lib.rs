@@ -67,6 +67,7 @@
 #![no_std]
 
 extern crate embedded_hal as hal;
+use hal::blocking::i2c;
 extern crate nb;
 
 /// All possible errors in this crate
@@ -227,6 +228,27 @@ pub struct Apds9960<I2C> {
     config2: register::Config2,
     gconfig1: register::GConfig1,
     gconfig4: register::GConfig4,
+}
+
+impl<I2C, E> Apds9960<I2C>
+where
+    I2C: i2c::Write<Error = E>,
+{
+    /// Create new instance of the APDS9960 device.
+    pub fn new(i2c: I2C) -> Self {
+        Apds9960 {
+            i2c,
+            enable: register::Enable::default(),
+            config2: register::Config2::default(),
+            gconfig1: register::GConfig1::default(),
+            gconfig4: register::GConfig4::default(),
+        }
+    }
+
+    /// Destroy driver instance, return I²C bus instance.
+    pub fn destroy(self) -> I2C {
+        self.i2c
+    }
 }
 
 mod config;

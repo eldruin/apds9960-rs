@@ -19,22 +19,6 @@ impl<I2C, E> Apds9960<I2C>
 where
     I2C: i2c::Write<Error = E>,
 {
-    /// Create new instance of the APDS9960 device.
-    pub fn new(i2c: I2C) -> Self {
-        Apds9960 {
-            i2c,
-            enable: Enable::default(),
-            config2: Config2::default(),
-            gconfig1: GConfig1::default(),
-            gconfig4: GConfig4::default(),
-        }
-    }
-
-    /// Destroy driver instance, return I²C bus instance.
-    pub fn destroy(self) -> I2C {
-        self.i2c
-    }
-
     /// Turn power on.
     pub fn enable(&mut self) -> Result<(), Error<E>> {
         self.set_flag_enable(Enable::PON, true)
