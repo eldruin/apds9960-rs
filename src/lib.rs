@@ -8,6 +8,7 @@
 //! - Proximity:
 //!     - Enable/disable the proximity sensor. See: [`enable_proximity()`].
 //!     - Enable/disable proximity interrupt generation. See: [`enable_proximity_interrupts()`].
+//!     - Enable/disable proximity saturation interrupt generation. See: [`enable_proximity_saturation_interrupts()`].
 //!     - Read the proximity data. See: [`read_proximity()`].
 //!     - Check whether the proximity data is valid. See: [`is_proximity_data_valid()`].
 //!     - Set the proximity interrupt low/high thresholds. See: [`set_proximity_low_threshold()`].
@@ -28,6 +29,7 @@
 //! [`enable()`]: struct.Apds9960.html#method.enable
 //! [`enable_proximity()`]: struct.Apds9960.html#method.enable_proximity
 //! [`enable_proximity_interrupts()`]: struct.Apds9960.html#method.enable_proximity_interrupts
+//! [`enable_proximity_saturation_interrupts()`]: struct.Apds9960.html#method.enable_proximity_saturation_interrupts
 //! [`read_proximity()`]: struct.Apds9960.html#method.read_proximity
 //! [`is_proximity_data_valid()`]: struct.Apds9960.html#method.is_proximity_data_valid
 //! [`set_proximity_low_threshold()`]: struct.Apds9960.html#method.set_proximity_low_threshold()
@@ -107,7 +109,7 @@ impl Register {
     // const CONFIG1    : u8 = 0x8D;
     // const PPULSE     : u8 = 0x8E;
     // const CONTROL    : u8 = 0x8F;
-    // const CONFIG2    : u8 = 0x90;
+    const CONFIG2    : u8 = 0x90;
     const ID         : u8 = 0x92;
     const STATUS     : u8 = 0x93;
     const PDATA      : u8 = 0x9C;
@@ -171,6 +173,19 @@ mod register {
     }
     impl_bitflags!(Enable, ENABLE);
 
+    #[derive(Debug)]
+    pub struct Config2(u8);
+    impl Config2 {
+        pub const PSIEN: u8 = 0b1000_0000;
+    }
+    impl_bitflags!(Config2, CONFIG2);
+
+    impl Default for Config2 {
+        fn default() -> Self {
+            Self { 0: 1 }
+        }
+    }
+
     #[derive(Debug, Default)]
     pub struct GConfig1(u8);
     impl GConfig1 {
@@ -209,6 +224,7 @@ pub struct Apds9960<I2C> {
     /// The concrete I²C device implementation.
     i2c: I2C,
     enable: register::Enable,
+    config2: register::Config2,
     gconfig1: register::GConfig1,
     gconfig4: register::GConfig4,
 }

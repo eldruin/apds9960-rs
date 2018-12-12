@@ -16,6 +16,7 @@ This driver allows you to:
 - Proximity:
     - Enable/disable the proximity sensor. See: `enable_proximity()`.
     - Enable/disable proximity interrupt generation. See: `enable_proximity_interrupts()`.
+    - Enable/disable proximity saturation interrupt generation. See: `enable_proximity_saturation_interrupts()`.
     - Read the proximity data. See: `read_proximity()`.
     - Check whether the proximity data is valid. See: `is_proximity_data_valid()`.
     - Set the proximity interrupt low/high thresholds. See: `set_proximity_low_threshold()`.

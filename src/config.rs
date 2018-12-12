@@ -1,6 +1,6 @@
 use hal::blocking::i2c;
 use {
-    register::{Enable, GConfig1, GConfig4},
+    register::{Config2, Enable, GConfig1, GConfig4},
     Apds9960, BitFlags, Error, GestureDataThreshold, Register, DEV_ADDR,
 };
 
@@ -24,6 +24,7 @@ where
         Apds9960 {
             i2c,
             enable: Enable::default(),
+            config2: Config2::default(),
             gconfig1: GConfig1::default(),
             gconfig4: GConfig4::default(),
         }
@@ -62,6 +63,16 @@ where
     /// Disable proximity interrupt generation
     pub fn disable_proximity_interrupts(&mut self) -> Result<(), Error<E>> {
         self.set_flag_enable(Enable::PIEN, false)
+    }
+
+    /// Enable proximity saturation interrupt generation
+    pub fn enable_proximity_saturation_interrupts(&mut self) -> Result<(), Error<E>> {
+        self.set_flag_config2(Config2::PSIEN, true)
+    }
+
+    /// Disable proximity saturation interrupt generation
+    pub fn disable_proximity_saturation_interrupts(&mut self) -> Result<(), Error<E>> {
+        self.set_flag_config2(Config2::PSIEN, false)
     }
 
     /// Set the proximity interrupt low threshold.
@@ -210,6 +221,7 @@ where
 
     impl_set_flag_reg!(set_flag_enable, enable);
     impl_set_flag_reg!(set_flag_config4, gconfig4);
+    impl_set_flag_reg!(set_flag_config2, config2);
 
     fn config_register<T: BitFlags>(&mut self, reg: &T) -> Result<(), Error<E>> {
         self.write_register(T::ADDRESS, reg.value())
