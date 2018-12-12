@@ -124,7 +124,7 @@ where
     /// This can be automatically enabled (depending on proximity thresholds)
     /// and disabled (see GMODE on datasheet).
     pub fn enable_gesture_mode(&mut self) -> Result<(), Error<E>> {
-        self.set_flag_config4(GConfig4::GMODE, true)
+        self.set_flag_gconfig4(GConfig4::GMODE, true)
     }
 
     /// Disable gesture mode.
@@ -132,17 +132,17 @@ where
     /// This can be automatically enabled (depending on proximity thresholds)
     /// and disabled (see GMODE on datasheet).
     pub fn disable_gesture_mode(&mut self) -> Result<(), Error<E>> {
-        self.set_flag_config4(GConfig4::GMODE, false)
+        self.set_flag_gconfig4(GConfig4::GMODE, false)
     }
 
     /// Enable gesture interrupt generation
     pub fn enable_gesture_interrupts(&mut self) -> Result<(), Error<E>> {
-        self.set_flag_config4(GConfig4::GIEN, true)
+        self.set_flag_gconfig4(GConfig4::GIEN, true)
     }
 
     /// Disable gesture interrupt generation
     pub fn disable_gesture_interrupts(&mut self) -> Result<(), Error<E>> {
-        self.set_flag_config4(GConfig4::GIEN, false)
+        self.set_flag_gconfig4(GConfig4::GIEN, false)
     }
 
     /// Set the threshold of amount of available data in the gesture FIFO registers.
@@ -220,7 +220,7 @@ where
     }
 
     impl_set_flag_reg!(set_flag_enable, enable);
-    impl_set_flag_reg!(set_flag_config4, gconfig4);
+    impl_set_flag_reg!(set_flag_gconfig4, gconfig4);
     impl_set_flag_reg!(set_flag_config2, config2);
 
     fn config_register<T: BitFlags>(&mut self, reg: &T) -> Result<(), Error<E>> {
