@@ -1,12 +1,12 @@
 use hal::blocking::i2c;
 use {
-    register::{Config2, Enable, GConfig1, GConfig4},
+    register::{Enable, GConfig1, GConfig4},
     Apds9960, BitFlags, Error, GestureDataThreshold, Register, DEV_ADDR,
 };
 
 macro_rules! impl_set_flag_reg {
     ($method:ident, $reg:ident) => {
-        fn $method(&mut self, flag: u8, value: bool) -> Result<(), Error<E>> {
+        pub(crate) fn $method(&mut self, flag: u8, value: bool) -> Result<(), Error<E>> {
             let new = self.$reg.with(flag, value);
             self.config_register(&new)?;
             self.$reg = new;
@@ -27,70 +27,6 @@ where
     /// Deactivate everything and put the device to sleep.
     pub fn disable(&mut self) -> Result<(), Error<E>> {
         self.set_flag_enable(Enable::ALL, false)
-    }
-
-    /// Enable proximity detection
-    pub fn enable_proximity(&mut self) -> Result<(), Error<E>> {
-        self.set_flag_enable(Enable::PEN, true)
-    }
-
-    /// Disable proximity detection
-    pub fn disable_proximity(&mut self) -> Result<(), Error<E>> {
-        self.set_flag_enable(Enable::PEN, false)
-    }
-
-    /// Enable proximity interrupt generation
-    pub fn enable_proximity_interrupts(&mut self) -> Result<(), Error<E>> {
-        self.set_flag_enable(Enable::PIEN, true)
-    }
-
-    /// Disable proximity interrupt generation
-    pub fn disable_proximity_interrupts(&mut self) -> Result<(), Error<E>> {
-        self.set_flag_enable(Enable::PIEN, false)
-    }
-
-    /// Enable proximity saturation interrupt generation
-    pub fn enable_proximity_saturation_interrupts(&mut self) -> Result<(), Error<E>> {
-        self.set_flag_config2(Config2::PSIEN, true)
-    }
-
-    /// Disable proximity saturation interrupt generation
-    pub fn disable_proximity_saturation_interrupts(&mut self) -> Result<(), Error<E>> {
-        self.set_flag_config2(Config2::PSIEN, false)
-    }
-
-    /// Set the proximity interrupt low threshold.
-    pub fn set_proximity_low_threshold(&mut self, threshold: u8) -> Result<(), Error<E>> {
-        self.write_register(Register::PILT, threshold)
-    }
-
-    /// Set the proximity interrupt high threshold.
-    pub fn set_proximity_high_threshold(&mut self, threshold: u8) -> Result<(), Error<E>> {
-        self.write_register(Register::PIHT, threshold)
-    }
-
-    /// Set the proximity up/right photodiode offset.
-    pub fn set_proximity_up_right_offset(&mut self, offset: i8) -> Result<(), Error<E>> {
-        self.write_register(Register::POFFSET_UR, offset as u8)
-    }
-
-    /// Set the proximity down/left photodiode offset.
-    pub fn set_proximity_down_left_offset(&mut self, offset: i8) -> Result<(), Error<E>> {
-        self.write_register(Register::POFFSET_DL, offset as u8)
-    }
-
-    /// Set the proximity up/right and down/left photodiode offset.
-    pub fn set_proximity_offsets(&mut self, offset_up_right: i8, offset_down_left: i8) -> Result<(), Error<E>> {
-        self.i2c
-            .write(
-                DEV_ADDR,
-                &[
-                    Register::POFFSET_UR,
-                    offset_up_right as u8,
-                    offset_down_left as u8,
-                ],
-            )
-            .map_err(Error::I2C)
     }
 
     /// Enable gesture detection
@@ -207,11 +143,11 @@ where
     impl_set_flag_reg!(set_flag_gconfig4, gconfig4);
     impl_set_flag_reg!(set_flag_config2, config2);
 
-    fn config_register<T: BitFlags>(&mut self, reg: &T) -> Result<(), Error<E>> {
+    pub(crate) fn config_register<T: BitFlags>(&mut self, reg: &T) -> Result<(), Error<E>> {
         self.write_register(T::ADDRESS, reg.value())
     }
 
-    fn write_register(&mut self, address: u8, value: u8) -> Result<(), Error<E>> {
+    pub(crate) fn write_register(&mut self, address: u8, value: u8) -> Result<(), Error<E>> {
         self.i2c
             .write(DEV_ADDR, &[address, value])
             .map_err(Error::I2C)

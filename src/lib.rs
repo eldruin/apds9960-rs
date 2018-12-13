@@ -252,4 +252,5 @@ where
 }
 
 mod config;
+mod proximity;
 mod reading;
