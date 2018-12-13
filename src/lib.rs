@@ -62,8 +62,7 @@
 //!
 //! [apds9960-examples]: https://github.com/eldruin/apds9960-examples
 
-#![deny(missing_docs, unsafe_code)]
-//TODO #![deny(warnings)]
+#![deny(missing_docs, unsafe_code, warnings)]
 #![no_std]
 
 extern crate embedded_hal as hal;
