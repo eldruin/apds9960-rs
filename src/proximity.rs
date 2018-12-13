@@ -1,13 +1,13 @@
 use hal::blocking::i2c;
 use {
-    register::{Config2, Enable},
-    Apds9960, Error, Register, DEV_ADDR,
+    register::{Config2, Enable, Status},
+    Apds9960, BitFlags, Error, Register, DEV_ADDR,
 };
 
 
 impl<I2C, E> Apds9960<I2C>
 where
-    I2C: i2c::Write<Error = E>,
+    I2C: i2c::Write<Error = E> + i2c::WriteRead<Error = E>,
 {
     /// Enable proximity detection
     pub fn enable_proximity(&mut self) -> Result<(), Error<E>> {
@@ -71,5 +71,25 @@ where
                 ],
             )
             .map_err(Error::I2C)
+    }
+
+    /// Read the proximity sensor data.
+    ///
+    /// Returns `nb::Error::WouldBlock` as long as the data is not ready.
+    pub fn read_proximity(&mut self) -> nb::Result<u8, Error<E>> {
+        if !self.is_proximity_data_valid().map_err(nb::Error::Other)? {
+            return Err(nb::Error::WouldBlock);
+        }
+        self.read_register(Register::PDATA)
+            .map_err(nb::Error::Other)
+    }
+
+    /// Read whether the proximity sensor data is valid.
+    ///
+    /// This is checked internally in `read_proximity()` as well.
+    #[allow(clippy::wrong_self_convention)]
+    pub fn is_proximity_data_valid(&mut self) -> Result<bool, Error<E>> {
+        let status = self.read_register(Register::STATUS)?;
+        Ok(Status::new(status).is(Status::PVALID, true))
     }
 }
