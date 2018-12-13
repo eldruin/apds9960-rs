@@ -253,4 +253,5 @@ where
 
 mod config;
 mod proximity;
+mod gesture;
 mod reading;
