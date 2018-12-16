@@ -16,6 +16,7 @@
 //! - Color / ambient light:
 //!     - Enable/disable the color / ambient light sensor. See: [`enable_light()`].
 //!     - Check whether the color / ambient light data is valid. See: [`is_light_data_valid()`].
+//!     - Read the color / ambient light clear, red, green, blue channel data. See: [`read_light_red()`].
 //! - Gesture recognition:
 //!     - Enable/disable gesture recognition. See: [`enable_gesture()`].
 //!     - Enable/disable gesture mode. See: [`enable_gesture_mode()`].
@@ -40,6 +41,7 @@
 //!
 //! [`enable_light()`]: struct.Apds9960.html#method.enable_light
 //! [`is_light_data_valid()`]: struct.Apds9960.html#method.is_light_data_valid
+//! [`read_light_red()`]: struct.Apds9960.html#method.read_light_red
 //!
 //! [`enable_gesture()`]: struct.Apds9960.html#method.enable_gesture
 //! [`enable_gesture_mode()`]: struct.Apds9960.html#method.enable_gesture_mode
@@ -118,6 +120,10 @@ impl Register {
     const CONFIG2    : u8 = 0x90;
     const ID         : u8 = 0x92;
     const STATUS     : u8 = 0x93;
+    const CDATAL     : u8 = 0x94;
+    const RDATAL     : u8 = 0x96;
+    const GDATAL     : u8 = 0x98;
+    const BDATAL     : u8 = 0x9A;
     const PDATA      : u8 = 0x9C;
     const POFFSET_UR : u8 = 0x9D;
     const POFFSET_DL : u8 = 0x9E;

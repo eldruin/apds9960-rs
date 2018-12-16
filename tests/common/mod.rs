@@ -12,6 +12,10 @@ impl Register {
     pub const CONFIG2    : u8 = 0x90;
     pub const ID         : u8 = 0x92;
     pub const STATUS     : u8 = 0x93;
+    pub const CDATAL     : u8 = 0x94;
+    pub const RDATAL     : u8 = 0x96;
+    pub const GDATAL     : u8 = 0x98;
+    pub const BDATAL     : u8 = 0x9A;
     pub const PDATA      : u8 = 0x9C;
     pub const POFFSET_UR : u8 = 0x9D;
     pub const POFFSET_DL : u8 = 0x9E;
