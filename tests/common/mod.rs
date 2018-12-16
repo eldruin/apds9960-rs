@@ -6,6 +6,7 @@ use hal::i2c::{Mock as I2cMock, Transaction as I2cTrans};
 pub const DEV_ADDR: u8 = 0x39;
 
 pub struct Register;
+#[allow(unused)]
 impl Register {
     pub const ENABLE     : u8 = 0x80;
     pub const PILT       : u8 = 0x89;
@@ -27,7 +28,9 @@ impl Register {
     pub const GFLVL      : u8 = 0xAE;
     pub const GSTATUS    : u8 = 0xAF;
 }
+
 pub struct BitFlags;
+#[allow(unused)]
 impl BitFlags {
     pub const PON: u8 = 1;
     pub const AEN: u8 = 1 << 1;
@@ -44,6 +47,7 @@ impl BitFlags {
     pub const GFIFOTH0: u8 = 1 << 6;
 }
 
+#[allow(unused)]
 pub const DEFAULT_CONFIG2: u8 = 1;
 
 pub fn new(transactions: &[I2cTrans]) -> Apds9960<I2cMock> {
