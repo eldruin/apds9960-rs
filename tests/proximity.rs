@@ -2,7 +2,7 @@ extern crate apds9960;
 extern crate embedded_hal_mock as hal;
 use hal::i2c::Transaction as I2cTrans;
 mod common;
-use common::{new, destroy, BitFlags, Register, DEFAULT_CONFIG2, DEV_ADDR};
+use common::{destroy, new, BitFlags, Register, DEFAULT_CONFIG2, DEV_ADDR};
 
 write_test!(can_enable, enable_proximity, ENABLE, BitFlags::PEN);
 write_test!(can_disable, disable_proximity, ENABLE, 0);
@@ -37,7 +37,11 @@ read_test!(can_read_prox, read_proximity, 0x12, STATUS, BitFlags::PVALID, PDATA,
 
 #[test]
 fn cannot_read_prox_if_not_valid() {
-    let trans = [I2cTrans::write_read(DEV_ADDR, vec![Register::STATUS], vec![0])];
+    let trans = [I2cTrans::write_read(
+        DEV_ADDR,
+        vec![Register::STATUS],
+        vec![0],
+    )];
     let mut sensor = new(&trans);
     assert_would_block!(sensor.read_proximity());
     destroy(sensor);

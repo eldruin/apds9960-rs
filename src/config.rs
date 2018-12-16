@@ -1,8 +1,5 @@
 use hal::blocking::i2c;
-use {
-    register::Enable,
-    Apds9960, BitFlags, Error, DEV_ADDR,
-};
+use {register::Enable, Apds9960, BitFlags, Error, DEV_ADDR};
 
 macro_rules! impl_set_flag_reg {
     ($method:ident, $reg:ident) => {

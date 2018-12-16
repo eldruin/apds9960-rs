@@ -4,7 +4,6 @@ use {
     Apds9960, BitFlags, Error, Register, DEV_ADDR,
 };
 
-
 impl<I2C, E> Apds9960<I2C>
 where
     I2C: i2c::Write<Error = E> + i2c::WriteRead<Error = E>,
@@ -60,7 +59,11 @@ where
     }
 
     /// Set the proximity up/right and down/left photodiode offset.
-    pub fn set_proximity_offsets(&mut self, offset_up_right: i8, offset_down_left: i8) -> Result<(), Error<E>> {
+    pub fn set_proximity_offsets(
+        &mut self,
+        offset_up_right: i8,
+        offset_down_left: i8,
+    ) -> Result<(), Error<E>> {
         self.i2c
             .write(
                 DEV_ADDR,

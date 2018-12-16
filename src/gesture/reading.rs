@@ -1,8 +1,5 @@
 use hal::blocking::i2c;
-use {
-    register::GStatus,
-    Apds9960, BitFlags, Error, Register,
-};
+use {register::GStatus, Apds9960, BitFlags, Error, Register};
 
 impl<I2C, E> Apds9960<I2C>
 where
@@ -43,8 +40,9 @@ where
             return Err(nb::Error::WouldBlock);
         }
         let level = self.read_gesture_data_level().map_err(nb::Error::Other)?;
-        let byte_count = core::cmp::min(data.len(), 4*level as usize);
-        self.read_data(Register::GFIFO_U, &mut data[..byte_count]).map_err(nb::Error::Other)?;
+        let byte_count = core::cmp::min(data.len(), 4 * level as usize);
+        self.read_data(Register::GFIFO_U, &mut data[..byte_count])
+            .map_err(nb::Error::Other)?;
         Ok(())
     }
 }

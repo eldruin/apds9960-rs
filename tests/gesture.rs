@@ -3,7 +3,7 @@ use apds9960::GestureDataThreshold;
 extern crate embedded_hal_mock as hal;
 use hal::i2c::Transaction as I2cTrans;
 mod common;
-use common::{new, destroy, BitFlags, Register, DEV_ADDR};
+use common::{destroy, new, BitFlags, Register, DEV_ADDR};
 
 write_test!(can_enable_gesture, enable_gesture, ENABLE, BitFlags::GEN);
 write_test!(can_disable_gesture, disable_gesture, ENABLE, 0);
@@ -54,7 +54,11 @@ macro_rules! set_gdata_level_th_test {
 set_gdata_level_th_test!(set_gdata_level_th1, Th1, 0);
 set_gdata_level_th_test!(set_gdata_level_th4, Th4, BitFlags::GFIFOTH0);
 set_gdata_level_th_test!(set_gdata_level_th8, Th8, BitFlags::GFIFOTH1);
-set_gdata_level_th_test!(set_gdata_level_th16, Th16, BitFlags::GFIFOTH1 | BitFlags::GFIFOTH0);
+set_gdata_level_th_test!(
+    set_gdata_level_th16,
+    Th16,
+    BitFlags::GFIFOTH1 | BitFlags::GFIFOTH0
+);
 
 macro_rules! read_data_test {
     ($name:ident, $method:ident, $expected:expr, $data_size:expr, $($reg:ident, [$($value:expr),*]),*) => {
@@ -113,7 +117,6 @@ read_data_test!(
     [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
 );
 
-
 macro_rules! assert_would_block {
     ($result: expr) => {
         match $result {
@@ -125,7 +128,11 @@ macro_rules! assert_would_block {
 
 #[test]
 fn cannot_read_gesture_if_not_valid() {
-    let trans = [I2cTrans::write_read(DEV_ADDR, vec![Register::GSTATUS], vec![0])];
+    let trans = [I2cTrans::write_read(
+        DEV_ADDR,
+        vec![Register::GSTATUS],
+        vec![0],
+    )];
     let mut sensor = new(&trans);
     assert_would_block!(sensor.read_gesture_data(&mut [0; 4]));
     destroy(sensor);

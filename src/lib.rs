@@ -265,7 +265,7 @@ where
 }
 
 mod config;
-mod proximity;
-mod light;
 mod gesture;
+mod light;
+mod proximity;
 mod reading;
