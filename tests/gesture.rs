@@ -1,28 +1,8 @@
 extern crate apds9960;
-use apds9960::Apds9960;
 extern crate embedded_hal_mock as hal;
-use hal::i2c::{Mock as I2cMock, Transaction as I2cTrans};
-
-const DEV_ADDR: u8 = 0x39;
-
-struct Register;
-impl Register {
-    const GFLVL      : u8 = 0xAE;
-    const GSTATUS    : u8 = 0xAF;
-    const GFIFO_U    : u8 = 0xFC;
-}
-pub struct BitFlags;
-impl BitFlags {
-    const GVALID: u8 = 1;
-}
-
-fn new(transactions: &[I2cTrans]) -> Apds9960<I2cMock> {
-    Apds9960::new(I2cMock::new(&transactions))
-}
-
-fn destroy(sensor: Apds9960<I2cMock>) {
-    sensor.destroy().done();
-}
+use hal::i2c::Transaction as I2cTrans;
+mod common;
+use common::{new, destroy, BitFlags, Register, DEV_ADDR};
 
 macro_rules! read_data_test {
     ($name:ident, $method:ident, $expected:expr, $data_size:expr, $($reg:ident, [$($value:expr),*]),*) => {
