@@ -1,75 +1,14 @@
 extern crate apds9960;
-use apds9960::{Apds9960, GestureDataThreshold};
+use apds9960::GestureDataThreshold;
 extern crate embedded_hal_mock as hal;
-use hal::i2c::{Mock as I2cMock, Transaction as I2cTrans};
-
-const DEV_ADDR: u8 = 0x39;
-
-struct Register;
-impl Register {
-    const ENABLE     : u8 = 0x80;
-    const PILT       : u8 = 0x89;
-    const PIHT       : u8 = 0x8B;
-    const CONFIG2    : u8 = 0x90;
-    const ID         : u8 = 0x92;
-    const STATUS     : u8 = 0x93;
-    const PDATA      : u8 = 0x9C;
-    const POFFSET_UR : u8 = 0x9D;
-    const POFFSET_DL : u8 = 0x9E;
-    const GPENTH     : u8 = 0xA0;
-    const GPEXTH     : u8 = 0xA1;
-    const GCONFIG1   : u8 = 0xA2;
-    const GOFFSET_U: u8 = 0xA4;
-    const GOFFSET_D: u8 = 0xA5;
-    const GOFFSET_L: u8 = 0xA6;
-    const GOFFSET_R: u8 = 0xA7;
-    const GCONFIG4   : u8 = 0xAB;
-    const GFLVL      : u8 = 0xAE;
-    const GSTATUS    : u8 = 0xAF;
-}
-pub struct BitFlags;
-impl BitFlags {
-    const PON: u8 = 1;
-    const AEN: u8 = 1 << 1;
-    const PEN: u8 = 1 << 2;
-    const PIEN: u8 = 1 << 5;
-    const PSIEN: u8 = 1 << 7;
-    const GEN: u8 = 1 << 6;
-    const PVALID: u8 = 1 << 1;
-    const GMODE: u8 = 1;
-    const GIEN: u8 = 1 << 1;
-    const GVALID: u8 = 1;
-    const GFOV: u8 = 1 << 1;
-    const GFIFOTH1: u8 = 1 << 7;
-    const GFIFOTH0: u8 = 1 << 6;
-}
-
-const DEFAULT_CONFIG2: u8 = 1;
-
-fn new(transactions: &[I2cTrans]) -> Apds9960<I2cMock> {
-    Apds9960::new(I2cMock::new(&transactions))
-}
-
-fn destroy(sensor: Apds9960<I2cMock>) {
-    sensor.destroy().done();
-}
+use hal::i2c::Transaction as I2cTrans;
+mod common;
+use common::{new, destroy, BitFlags, Register, DEFAULT_CONFIG2, DEV_ADDR};
 
 #[test]
 fn can_create() {
     let sensor = new(&[]);
     destroy(sensor);
-}
-
-macro_rules! write_test {
-    ($name:ident, $method:ident, $reg:ident, $value:expr $(,$arg:expr)*) => {
-        #[test]
-        fn $name() {
-            let trans = [I2cTrans::write(DEV_ADDR, vec![Register::$reg, $value])];
-            let mut sensor = new(&trans);
-            sensor.$method($( $arg ),*).unwrap();
-            destroy(sensor);
-        }
-    };
 }
 
 write_test!(can_enable, enable, ENABLE, BitFlags::PON);
@@ -133,23 +72,6 @@ fn can_set_goffsets() {
     destroy(sensor);
 }
 
-macro_rules! read_test {
-    ($name:ident, $method:ident, $expected:expr, $($reg:ident, $value:expr),*) => {
-        #[test]
-        fn $name() {
-            let trans = [
-                $(
-                    I2cTrans::write_read(DEV_ADDR, vec![Register::$reg], vec![$value]),
-                )*
-            ];
-            let mut sensor = new(&trans);
-            let value = sensor.$method().unwrap();
-            assert_eq!($expected, value);
-            destroy(sensor);
-        }
-    };
-}
-
 read_test!(can_read_id, read_device_id, 0xAB, ID, 0xAB);
 read_test!(can_read_pvalid_true,  is_proximity_data_valid, true, STATUS, BitFlags::PVALID);
 read_test!(can_read_pvalid_false, is_proximity_data_valid, false, STATUS, 0);
@@ -159,17 +81,7 @@ read_test!(can_read_gfifolvl, read_gesture_data_level, 15, GFLVL, 15);
 read_test!(can_read_g_overfl,  has_gesture_data_overflown, true, GSTATUS, BitFlags::GFOV);
 read_test!(can_read_g_not_overfl, has_gesture_data_overflown, false, GSTATUS, 0);
 
-
 read_test!(can_read_prox, read_proximity, 0x12, STATUS, BitFlags::PVALID, PDATA, 0x12);
-
-macro_rules! assert_would_block {
-    ($result: expr) => {
-        match $result {
-            Err(nb::Error::WouldBlock) => (),
-            _ => panic!("Would not block."),
-        }
-    };
-}
 
 #[test]
 fn cannot_read_prox_if_not_valid() {
