@@ -1,6 +1,4 @@
-extern crate apds9960;
 use apds9960::Apds9960;
-extern crate embedded_hal_mock as hal;
 use hal::i2c::{Mock as I2cMock, Transaction as I2cTrans};
 
 pub const DEV_ADDR: u8 = 0x39;
@@ -27,6 +25,7 @@ impl Register {
     pub const GCONFIG4   : u8 = 0xAB;
     pub const GFLVL      : u8 = 0xAE;
     pub const GSTATUS    : u8 = 0xAF;
+    pub const GFIFO_U    : u8 = 0xFC;
 }
 
 pub struct BitFlags;
