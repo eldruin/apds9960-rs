@@ -13,6 +13,8 @@
 //!     - Check whether the proximity data is valid. See: [`is_proximity_data_valid()`].
 //!     - Set the proximity interrupt low/high thresholds. See: [`set_proximity_low_threshold()`].
 //!     - Set the proximity offsets. See [`set_proximity_offsets()`].
+//! - Color / ambient light:
+//!     - Enable/disable the color / ambient light sensor. See: [`enable_light()`].
 //! - Gesture recognition:
 //!     - Enable/disable gesture recognition. See: [`enable_gesture()`].
 //!     - Enable/disable gesture mode. See: [`enable_gesture_mode()`].
@@ -34,6 +36,8 @@
 //! [`is_proximity_data_valid()`]: struct.Apds9960.html#method.is_proximity_data_valid
 //! [`set_proximity_low_threshold()`]: struct.Apds9960.html#method.set_proximity_low_threshold()
 //! [`set_proximity_offsets()`]: struct.Apds9960.html#method.set_proximity_offsets
+//!
+//! [`enable_light()`]: struct.Apds9960.html#method.enable_light
 //!
 //! [`enable_gesture()`]: struct.Apds9960.html#method.enable_gesture
 //! [`enable_gesture_mode()`]: struct.Apds9960.html#method.enable_gesture_mode
@@ -167,6 +171,7 @@ mod register {
     impl Enable {
         pub const ALL: u8 = 0b1111_1111;
         pub const PON: u8 = 0b0000_0001;
+        pub const AEN: u8 = 0b0000_0010;
         pub const PEN: u8 = 0b0000_0100;
         pub const PIEN: u8 = 0b0010_0000;
         pub const GEN: u8 = 0b0100_0000;
@@ -252,5 +257,6 @@ where
 
 mod config;
 mod proximity;
+mod light;
 mod gesture;
 mod reading;

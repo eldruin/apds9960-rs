@@ -21,6 +21,8 @@ This driver allows you to:
     - Check whether the proximity data is valid. See: `is_proximity_data_valid()`.
     - Set the proximity interrupt low/high thresholds. See: `set_proximity_low_threshold()`.
     - Set the proximity offsets. See `set_proximity_offsets()`.
+- Color / ambient light:
+    - Enable/disable the color / ambient light sensor. See: `enable_light()`.
 - Gesture recognition:
     - Enable/disable gesture recognition. See: `enable_gesture()`.
     - Enable/disable gesture mode. See: `enable_gesture_mode()`.
