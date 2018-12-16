@@ -15,6 +15,7 @@
 //!     - Set the proximity offsets. See [`set_proximity_offsets()`].
 //! - Color / ambient light:
 //!     - Enable/disable the color / ambient light sensor. See: [`enable_light()`].
+//!     - Check whether the color / ambient light data is valid. See: [`is_light_data_valid()`].
 //! - Gesture recognition:
 //!     - Enable/disable gesture recognition. See: [`enable_gesture()`].
 //!     - Enable/disable gesture mode. See: [`enable_gesture_mode()`].
@@ -38,6 +39,7 @@
 //! [`set_proximity_offsets()`]: struct.Apds9960.html#method.set_proximity_offsets
 //!
 //! [`enable_light()`]: struct.Apds9960.html#method.enable_light
+//! [`is_light_data_valid()`]: struct.Apds9960.html#method.is_light_data_valid
 //!
 //! [`enable_gesture()`]: struct.Apds9960.html#method.enable_gesture
 //! [`enable_gesture_mode()`]: struct.Apds9960.html#method.enable_gesture_mode
@@ -202,6 +204,7 @@ mod register {
     #[derive(Debug, Default)]
     pub struct Status(u8);
     impl Status {
+        pub const AVALID: u8 = 0b0000_0001;
         pub const PVALID: u8 = 0b0000_0010;
     }
     impl_bitflags!(Status, STATUS);

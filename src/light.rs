@@ -1,7 +1,7 @@
 use hal::blocking::i2c;
 use {
-    register::Enable,
-    Apds9960, Error,
+    register::{Enable, Status},
+    Apds9960, BitFlags, Error, Register,
 };
 
 
@@ -17,5 +17,12 @@ where
     /// Disable color and ambient light detection
     pub fn disable_light(&mut self) -> Result<(), Error<E>> {
         self.set_flag_enable(Enable::AEN, false)
+    }
+
+    /// Read whether the color and ambient light sensor data is valid.
+    #[allow(clippy::wrong_self_convention)]
+    pub fn is_light_data_valid(&mut self) -> Result<bool, Error<E>> {
+        let status = self.read_register(Register::STATUS)?;
+        Ok(Status::new(status).is(Status::AVALID, true))
     }
 }

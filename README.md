@@ -23,6 +23,7 @@ This driver allows you to:
     - Set the proximity offsets. See `set_proximity_offsets()`.
 - Color / ambient light:
     - Enable/disable the color / ambient light sensor. See: `enable_light()`.
+    - Check whether the color / ambient light data is valid. See: `is_light_data_valid()`.
 - Gesture recognition:
     - Enable/disable gesture recognition. See: `enable_gesture()`.
     - Enable/disable gesture mode. See: `enable_gesture_mode()`.
