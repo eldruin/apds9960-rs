@@ -14,3 +14,5 @@ write_test!(can_enable, enable, ENABLE, BitFlags::PON);
 write_test!(can_disable, disable, ENABLE, 0);
 
 read_test!(can_read_id, read_device_id, 0xAB, ID, 0xAB);
+write_test!(can_enable_wait, enable_wait, ENABLE, BitFlags::WEN);
+write_test!(can_disable_wait, disable_wait, ENABLE, 0);

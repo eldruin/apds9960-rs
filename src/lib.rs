@@ -5,6 +5,7 @@
 //!
 //! This driver allows you to:
 //! - Enable/disable the sensor. See: [`enable()`].
+//! - Enable/disable delay between proximity and / or color / ambient light cycles. See: [`enable_wait()`].
 //! - Proximity:
 //!     - Enable/disable the proximity sensor. See: [`enable_proximity()`].
 //!     - Enable/disable proximity interrupt generation. See: [`enable_proximity_interrupts()`].
@@ -32,6 +33,7 @@
 //! - Read the device ID. See: [`read_device_id()`].
 //!
 //! [`enable()`]: struct.Apds9960.html#method.enable
+//! [`enable_wait()`]: struct.Apds9960.html#method.enable_wait
 //! [`enable_proximity()`]: struct.Apds9960.html#method.enable_proximity
 //! [`enable_proximity_interrupts()`]: struct.Apds9960.html#method.enable_proximity_interrupts
 //! [`enable_proximity_saturation_interrupts()`]: struct.Apds9960.html#method.enable_proximity_saturation_interrupts
@@ -183,6 +185,7 @@ mod register {
         pub const PON: u8 = 0b0000_0001;
         pub const AEN: u8 = 0b0000_0010;
         pub const PEN: u8 = 0b0000_0100;
+        pub const WEN: u8 = 0b0000_1000;
         pub const PIEN: u8 = 0b0010_0000;
         pub const GEN: u8 = 0b0100_0000;
     }

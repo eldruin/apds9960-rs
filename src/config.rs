@@ -26,6 +26,18 @@ where
         self.set_flag_enable(Enable::ALL, false)
     }
 
+    /// Enable the wait feature.
+    ///
+    /// Enables delay between proximity and / or color and ambient light cycles.
+    /// The duration of the wait can be configured with `set_wait_time()` and `enable_wait_long()`.
+    pub fn enable_wait(&mut self) -> Result<(), Error<E>> {
+        self.set_flag_enable(Enable::WEN, true)
+    }
+
+    /// Disable the wait feature.
+    pub fn disable_wait(&mut self) -> Result<(), Error<E>> {
+        self.set_flag_enable(Enable::WEN, false)
+    }
     impl_set_flag_reg!(set_flag_enable, enable);
     impl_set_flag_reg!(set_flag_gconfig4, gconfig4);
     impl_set_flag_reg!(set_flag_config2, config2);

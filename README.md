@@ -13,6 +13,7 @@ and gesture sensor, based on the [`embedded-hal`] traits.
 
 This driver allows you to:
 - Enable/disable the sensor. See: `enable()`.
+- Enable/disable delay between proximity and / or color / ambient light cycles. See: `enable_wait()`.
 - Proximity:
     - Enable/disable the proximity sensor. See: `enable_proximity()`.
     - Enable/disable proximity interrupt generation. See: `enable_proximity_interrupts()`.
