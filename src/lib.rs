@@ -6,6 +6,7 @@
 //! This driver allows you to:
 //! - Enable/disable the sensor. See: [`enable()`].
 //! - Enable/disable delay between proximity and / or color / ambient light cycles. See: [`enable_wait()`].
+//! - Enable/disable long delay between proximity and / or color / ambient light cycles. See: [`enable_wait_long()`].
 //! - Proximity:
 //!     - Enable/disable the proximity sensor. See: [`enable_proximity()`].
 //!     - Enable/disable proximity interrupt generation. See: [`enable_proximity_interrupts()`].
@@ -34,6 +35,8 @@
 //!
 //! [`enable()`]: struct.Apds9960.html#method.enable
 //! [`enable_wait()`]: struct.Apds9960.html#method.enable_wait
+//! [`enable_wait_long()`]: struct.Apds9960.html#method.enable_wait_long
+//!
 //! [`enable_proximity()`]: struct.Apds9960.html#method.enable_proximity
 //! [`enable_proximity_interrupts()`]: struct.Apds9960.html#method.enable_proximity_interrupts
 //! [`enable_proximity_saturation_interrupts()`]: struct.Apds9960.html#method.enable_proximity_saturation_interrupts
@@ -118,7 +121,7 @@ impl Register {
     const PILT       : u8 = 0x89;
     const PIHT       : u8 = 0x8B;
     // const PERS       : u8 = 0x8C;
-    // const CONFIG1    : u8 = 0x8D;
+    const CONFIG1    : u8 = 0x8D;
     // const PPULSE     : u8 = 0x8E;
     // const CONTROL    : u8 = 0x8F;
     const CONFIG2    : u8 = 0x90;
@@ -192,6 +195,19 @@ mod register {
     impl_bitflags!(Enable, ENABLE);
 
     #[derive(Debug)]
+    pub struct Config1(u8);
+    impl Config1 {
+        pub const WLONG: u8 = 0b0000_0010;
+    }
+    impl_bitflags!(Config1, CONFIG1);
+
+    impl Default for Config1 {
+        fn default() -> Self {
+            Self { 0: 0x40 }
+        }
+    }
+
+    #[derive(Debug)]
     pub struct Config2(u8);
     impl Config2 {
         pub const PSIEN: u8 = 0b1000_0000;
@@ -243,6 +259,7 @@ pub struct Apds9960<I2C> {
     /// The concrete I²C device implementation.
     i2c: I2C,
     enable: register::Enable,
+    config1: register::Config1,
     config2: register::Config2,
     gconfig1: register::GConfig1,
     gconfig4: register::GConfig4,
@@ -257,6 +274,7 @@ where
         Apds9960 {
             i2c,
             enable: register::Enable::default(),
+            config1: register::Config1::default(),
             config2: register::Config2::default(),
             gconfig1: register::GConfig1::default(),
             gconfig4: register::GConfig4::default(),

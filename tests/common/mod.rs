@@ -10,6 +10,7 @@ impl Register {
     pub const ATIME      : u8 = 0x81;
     pub const PILT       : u8 = 0x89;
     pub const PIHT       : u8 = 0x8B;
+    pub const CONFIG1    : u8 = 0x8D;
     pub const CONFIG2    : u8 = 0x90;
     pub const ID         : u8 = 0x92;
     pub const STATUS     : u8 = 0x93;
@@ -40,6 +41,7 @@ impl BitFlags {
     pub const AEN: u8 = 1 << 1;
     pub const PEN: u8 = 1 << 2;
     pub const WEN: u8 = 1 << 3;
+    pub const WLONG: u8 = 1 << 1;
     pub const PIEN: u8 = 1 << 5;
     pub const PSIEN: u8 = 1 << 7;
     pub const GEN: u8 = 1 << 6;
@@ -52,6 +54,9 @@ impl BitFlags {
     pub const GFIFOTH1: u8 = 1 << 7;
     pub const GFIFOTH0: u8 = 1 << 6;
 }
+
+#[allow(unused)]
+pub const DEFAULT_CONFIG1: u8 = 0x40;
 
 #[allow(unused)]
 pub const DEFAULT_CONFIG2: u8 = 1;

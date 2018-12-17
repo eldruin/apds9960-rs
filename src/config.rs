@@ -1,5 +1,5 @@
 use hal::blocking::i2c;
-use {register::Enable, Apds9960, BitFlags, Error, DEV_ADDR};
+use {register::{Config1, Enable}, Apds9960, BitFlags, Error, Register, DEV_ADDR};
 
 macro_rules! impl_set_flag_reg {
     ($method:ident, $reg:ident) => {
@@ -38,9 +38,26 @@ where
     pub fn disable_wait(&mut self) -> Result<(), Error<E>> {
         self.set_flag_enable(Enable::WEN, false)
     }
+
+    /// Enable long wait.
+    ///
+    /// The wait time will be multiplied by 12 so that each cycle takes 0.03s.
+    /// See also: `set_wait_time()`.
+    ///
+    /// Wait must be enabled with `enable_wait()`.
+    pub fn enable_wait_long(&mut self) -> Result<(), Error<E>> {
+        self.set_flag_config1(Config1::WLONG, true)
+    }
+
+    /// Disable long wait.
+    pub fn disable_wait_long(&mut self) -> Result<(), Error<E>> {
+        self.set_flag_config1(Config1::WLONG, false)
+    }
+
     impl_set_flag_reg!(set_flag_enable, enable);
-    impl_set_flag_reg!(set_flag_gconfig4, gconfig4);
+    impl_set_flag_reg!(set_flag_config1, config1);
     impl_set_flag_reg!(set_flag_config2, config2);
+    impl_set_flag_reg!(set_flag_gconfig4, gconfig4);
 
     pub(crate) fn config_register<T: BitFlags>(&mut self, reg: &T) -> Result<(), Error<E>> {
         self.write_register(T::ADDRESS, reg.value())
