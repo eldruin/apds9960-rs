@@ -8,6 +8,7 @@ pub struct Register;
 impl Register {
     pub const ENABLE     : u8 = 0x80;
     pub const ATIME      : u8 = 0x81;
+    pub const WTIME      : u8 = 0x83;
     pub const PILT       : u8 = 0x89;
     pub const PIHT       : u8 = 0x8B;
     pub const CONFIG1    : u8 = 0x8D;

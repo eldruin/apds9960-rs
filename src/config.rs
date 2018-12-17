@@ -54,6 +54,20 @@ where
         self.set_flag_config1(Config1::WLONG, false)
     }
 
+    /// Set the waiting time between proximity and / or color and ambient light cycles.
+    ///
+    /// The value parameter must be a 2's complement of the number of cycles.
+    ///
+    /// Per default this is set to `0xFF` (1 cycle) and each cycle has a fixed duration of 2.78ms
+    /// except if long wait is enabled, then this time is multiplied by 12.
+    ///
+    /// This must be set before enabling proximity and / or color and ambient light detection.
+    ///
+    /// Waiting must be enabled with `enable_wait()`. Long wait can be enabled with `enable_wait_long()`.
+    pub fn set_wait_time(&mut self, value: u8) -> Result<(), Error<E>> {
+        self.write_register(Register::WTIME, value)
+    }
+
     impl_set_flag_reg!(set_flag_enable, enable);
     impl_set_flag_reg!(set_flag_config1, config1);
     impl_set_flag_reg!(set_flag_config2, config2);

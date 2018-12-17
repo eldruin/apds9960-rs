@@ -7,6 +7,7 @@
 //! - Enable/disable the sensor. See: [`enable()`].
 //! - Enable/disable delay between proximity and / or color / ambient light cycles. See: [`enable_wait()`].
 //! - Enable/disable long delay between proximity and / or color / ambient light cycles. See: [`enable_wait_long()`].
+//! - Set the waiting time between proximity and / or color / ambient light cycles. See: [`set_wait_time()`].
 //! - Proximity:
 //!     - Enable/disable the proximity sensor. See: [`enable_proximity()`].
 //!     - Enable/disable proximity interrupt generation. See: [`enable_proximity_interrupts()`].
@@ -36,6 +37,7 @@
 //! [`enable()`]: struct.Apds9960.html#method.enable
 //! [`enable_wait()`]: struct.Apds9960.html#method.enable_wait
 //! [`enable_wait_long()`]: struct.Apds9960.html#method.enable_wait_long
+//! [`set_wait_time()`]: struct.Apds9960.html#method.set_wait_time
 //!
 //! [`enable_proximity()`]: struct.Apds9960.html#method.enable_proximity
 //! [`enable_proximity_interrupts()`]: struct.Apds9960.html#method.enable_proximity_interrupts
@@ -113,7 +115,7 @@ impl Register {
     // const RAM_START  : u8 = 0x00;
     const ENABLE     : u8 = 0x80;
     const ATIME      : u8 = 0x81;
-    // const WTIME      : u8 = 0x83;
+    const WTIME      : u8 = 0x83;
     // const AILTL      : u8 = 0x84;
     // const AILTH      : u8 = 0x85;
     // const AIHTL      : u8 = 0x86;
