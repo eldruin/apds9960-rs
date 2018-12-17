@@ -8,14 +8,23 @@ impl<I2C, E> Apds9960<I2C>
 where
     I2C: i2c::Write<Error = E> + i2c::WriteRead<Error = E>,
 {
-    /// Enable color and ambient light detection
+    /// Enable color and ambient light detection.
     pub fn enable_light(&mut self) -> Result<(), Error<E>> {
         self.set_flag_enable(Enable::AEN, true)
     }
 
-    /// Disable color and ambient light detection
+    /// Disable color and ambient light detection.
     pub fn disable_light(&mut self) -> Result<(), Error<E>> {
         self.set_flag_enable(Enable::AEN, false)
+    }
+
+    /// Set the color and ambient light integration time.
+    ///
+    /// The value parameter must be a 2's complement of the number of cycles.
+    ///
+    /// Per default this is set to `0xFF` (1 cycle) and each cycle has a fixed duration of 2.78ms.
+    pub fn set_light_integration_time(&mut self, value: u8) -> Result<(), Error<E>> {
+        self.write_register(Register::ATIME, value)
     }
 
     /// Read the color / ambient light sensor clear channel data.

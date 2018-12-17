@@ -17,6 +17,7 @@
 //!     - Enable/disable the color / ambient light sensor. See: [`enable_light()`].
 //!     - Check whether the color / ambient light data is valid. See: [`is_light_data_valid()`].
 //!     - Read the color / ambient light clear, red, green, blue channel data. See: [`read_light_red()`].
+//!     - Set the color / ambient light integration time. See: [`set_light_integration_time()`].
 //! - Gesture recognition:
 //!     - Enable/disable gesture recognition. See: [`enable_gesture()`].
 //!     - Enable/disable gesture mode. See: [`enable_gesture_mode()`].
@@ -42,6 +43,7 @@
 //! [`enable_light()`]: struct.Apds9960.html#method.enable_light
 //! [`is_light_data_valid()`]: struct.Apds9960.html#method.is_light_data_valid
 //! [`read_light_red()`]: struct.Apds9960.html#method.read_light_red
+//! [`set_light_integration_time()`]: struct.Apds9960.html#method.set_light_integration_time
 //!
 //! [`enable_gesture()`]: struct.Apds9960.html#method.enable_gesture
 //! [`enable_gesture_mode()`]: struct.Apds9960.html#method.enable_gesture_mode
@@ -105,7 +107,7 @@ struct Register;
 impl Register {
     // const RAM_START  : u8 = 0x00;
     const ENABLE     : u8 = 0x80;
-    // const ATIME      : u8 = 0x81;
+    const ATIME      : u8 = 0x81;
     // const WTIME      : u8 = 0x83;
     // const AILTL      : u8 = 0x84;
     // const AILTH      : u8 = 0x85;

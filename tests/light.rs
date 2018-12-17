@@ -6,6 +6,7 @@ use common::{destroy, new, BitFlags, Register, DEV_ADDR};
 
 write_test!(enable, enable_light, ENABLE, BitFlags::AEN);
 write_test!(disable, disable_light, ENABLE, 0);
+write_test!(set_atime, set_light_integration_time, ATIME, 0x0F, 0x0F);
 
 read_test!(is_valid,  is_light_data_valid, true, STATUS, BitFlags::AVALID);
 read_test!(is_not_valid, is_light_data_valid, false, STATUS, 0);
