@@ -12,6 +12,7 @@ macro_rules! impl_set_flag_reg {
     };
 }
 
+/// Common configuration.
 impl<I2C, E> Apds9960<I2C>
 where
     I2C: i2c::Write<Error = E>,

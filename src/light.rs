@@ -4,6 +4,7 @@ use {
     Apds9960, BitFlags, Error, Register,
 };
 
+/// Color and ambient light.
 impl<I2C, E> Apds9960<I2C>
 where
     I2C: i2c::Write<Error = E> + i2c::WriteRead<Error = E>,

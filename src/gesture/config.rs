@@ -4,6 +4,7 @@ use {
     Apds9960, BitFlags, Error, GestureDataThreshold, Register, DEV_ADDR,
 };
 
+/// Gesture engine configuration.
 impl<I2C, E> Apds9960<I2C>
 where
     I2C: i2c::Write<Error = E>,

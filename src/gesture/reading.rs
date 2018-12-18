@@ -1,6 +1,7 @@
 use hal::blocking::i2c;
 use {register::GStatus, Apds9960, BitFlags, Error, Register};
 
+/// Gesture data reading.
 impl<I2C, E> Apds9960<I2C>
 where
     I2C: i2c::WriteRead<Error = E>,
