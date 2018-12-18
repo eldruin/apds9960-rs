@@ -1,4 +1,5 @@
 extern crate apds9960;
+use apds9960::LightData;
 extern crate embedded_hal_mock as hal;
 use hal::i2c::Transaction as I2cTrans;
 mod common;
@@ -45,6 +46,16 @@ macro_rules! read_data_test {
         }
     };
 }
+
+read_data_test!(
+    read_rgbc,
+    read_light,
+    LightData{clear: 0x1234, red: 0x3456, green: 0x5678, blue: 0x789A},
+    STATUS,
+    [BitFlags::AVALID],
+    CDATAL,
+    [0x34, 0x12, 0x56, 0x34, 0x78, 0x56, 0x9A, 0x78]
+);
 
 read_data_test!(
     cdata,

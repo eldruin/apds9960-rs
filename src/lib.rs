@@ -20,7 +20,7 @@
 //!     - Enable/disable the color / ambient light sensor. See: [`enable_light()`].
 //!     - Enable/disable ambient light interrupt generation. See: [`enable_light_interrupts()`].
 //!     - Check whether the color / ambient light data is valid. See: [`is_light_data_valid()`].
-//!     - Read the color / ambient light clear, red, green, blue channel data. See: [`read_light_red()`].
+//!     - Read the color / ambient light data. See: [`read_light()`].
 //!     - Set the color / ambient light integration time. See: [`set_light_integration_time()`].
 //!     - Set the clear light channel interrupt low/high thresholds. See: [`set_light_low_threshold()`].
 //! - Gesture recognition:
@@ -52,7 +52,7 @@
 //! [`enable_light()`]: struct.Apds9960.html#method.enable_light
 //! [`enable_light_interrupts()`]: struct.Apds9960.html#method.enable_light_interrupts
 //! [`is_light_data_valid()`]: struct.Apds9960.html#method.is_light_data_valid
-//! [`read_light_red()`]: struct.Apds9960.html#method.read_light_red
+//! [`read_light()`]: struct.Apds9960.html#method.read_light
 //! [`set_light_integration_time()`]: struct.Apds9960.html#method.set_light_integration_time
 //! [`set_light_low_threshold()`]: struct.Apds9960.html#method.set_light_low_threshold
 //!
@@ -110,6 +110,19 @@ pub enum GestureDataThreshold {
     Th8,
     /// Interrupt is generated and gesture data is set valid after 16 datasets is added to FIFO.
     Th16,
+}
+
+/// Color / ambient light data.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct LightData {
+    /// Clear channel value.
+    pub clear: u16,
+    /// Red channel value.
+    pub red: u16,
+    /// Green channel value.
+    pub green: u16,
+    /// Blue channel value.
+    pub blue: u16,
 }
 
 const DEV_ADDR: u8 = 0x39;

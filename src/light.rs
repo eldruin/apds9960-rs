@@ -1,7 +1,7 @@
 use hal::blocking::i2c;
 use {
     register::{Enable, Status},
-    Apds9960, BitFlags, Error, Register,
+    Apds9960, BitFlags, Error, LightData, Register,
 };
 
 /// Color and ambient light.
@@ -54,32 +54,55 @@ where
         self.write_double_register(Register::AIHTL, threshold)
     }
 
+    /// Read the color / ambient light sensor data.
+    ///
+    /// Returns `nb::Error::WouldBlock` as long as the data is not ready.
+    /// This clears the data ready flag.
+    pub fn read_light(&mut self) -> nb::Result<LightData, Error<E>> {
+        if !self.is_light_data_valid().map_err(nb::Error::Other)? {
+            return Err(nb::Error::WouldBlock);
+        }
+        let mut data = [0; 8];
+        self.read_data(Register::CDATAL, &mut data)
+            .map_err(nb::Error::Other)?;
+        Ok(LightData {
+            clear: (u16::from(data[1]) << 8) | u16::from(data[0]),
+            red: (u16::from(data[3]) << 8) | u16::from(data[2]),
+            green: (u16::from(data[5]) << 8) | u16::from(data[4]),
+            blue: (u16::from(data[7]) << 8) | u16::from(data[6]),
+        })
+    }
+
     /// Read the color / ambient light sensor clear channel data.
     ///
     /// Returns `nb::Error::WouldBlock` as long as the data is not ready.
+    /// This clears the data ready flag.
     pub fn read_light_clear(&mut self) -> nb::Result<u16, Error<E>> {
-        self.read_light(Register::CDATAL)
+        self.read_light_channel(Register::CDATAL)
     }
 
     /// Read the color / ambient light sensor red channel data.
     ///
     /// Returns `nb::Error::WouldBlock` as long as the data is not ready.
+    /// This clears the data ready flag.
     pub fn read_light_red(&mut self) -> nb::Result<u16, Error<E>> {
-        self.read_light(Register::RDATAL)
+        self.read_light_channel(Register::RDATAL)
     }
 
     /// Read the color / ambient light sensor green channel data.
     ///
     /// Returns `nb::Error::WouldBlock` as long as the data is not ready.
+    /// This clears the data ready flag.
     pub fn read_light_green(&mut self) -> nb::Result<u16, Error<E>> {
-        self.read_light(Register::GDATAL)
+        self.read_light_channel(Register::GDATAL)
     }
 
     /// Read the color / ambient light sensor blue channel data.
     ///
     /// Returns `nb::Error::WouldBlock` as long as the data is not ready.
+    /// This clears the data ready flag.
     pub fn read_light_blue(&mut self) -> nb::Result<u16, Error<E>> {
-        self.read_light(Register::BDATAL)
+        self.read_light_channel(Register::BDATAL)
     }
 
     /// Read whether the color and ambient light sensor data is valid.
@@ -91,7 +114,7 @@ where
         Ok(Status::new(status).is(Status::AVALID, true))
     }
 
-    fn read_light(&mut self, register: u8) -> nb::Result<u16, Error<E>> {
+    fn read_light_channel(&mut self, register: u8) -> nb::Result<u16, Error<E>> {
         if !self.is_light_data_valid().map_err(nb::Error::Other)? {
             return Err(nb::Error::WouldBlock);
         }
