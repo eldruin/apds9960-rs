@@ -29,7 +29,9 @@ where
     /// Enable the wait feature.
     ///
     /// Enables delay between proximity and / or color and ambient light cycles.
-    /// The duration of the wait can be configured with `set_wait_time()` and `enable_wait_long()`.
+    /// The duration of the wait can be configured with
+    /// [`set_wait_time()`](struct.Apds9960.html#method.set_wait_time) and
+    /// [`enable_wait_long()`](struct.Apds9960.html#method.enable_wait_long).
     pub fn enable_wait(&mut self) -> Result<(), Error<E>> {
         self.set_flag_enable(Enable::WEN, true)
     }
@@ -42,9 +44,9 @@ where
     /// Enable long wait.
     ///
     /// The wait time will be multiplied by 12 so that each cycle takes 0.03s.
-    /// See also: `set_wait_time()`.
+    /// See also: [`set_wait_time()`](struct.Apds9960.html#method.set_wait_time).
     ///
-    /// Wait must be enabled with `enable_wait()`.
+    /// Wait must be enabled with [`enable_wait()`](struct.Apds9960.html#method.enable_wait).
     pub fn enable_wait_long(&mut self) -> Result<(), Error<E>> {
         self.set_flag_config1(Config1::WLONG, true)
     }
@@ -63,7 +65,8 @@ where
     ///
     /// This must be set before enabling proximity and / or color and ambient light detection.
     ///
-    /// Waiting must be enabled with `enable_wait()`. Long wait can be enabled with `enable_wait_long()`.
+    /// Waiting must be enabled with [`enable_wait()`](struct.Apds9960.html#method.enable_wait).
+    /// Long wait can be enabled with [`enable_wait_long()`](struct.Apds9960.html#method.enable_wait_long).
     pub fn set_wait_time(&mut self, value: u8) -> Result<(), Error<E>> {
         self.write_register(Register::WTIME, value)
     }
