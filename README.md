@@ -26,6 +26,7 @@ This driver allows you to:
     - Set the proximity offsets. See `set_proximity_offsets()`.
 - Color / ambient light:
     - Enable/disable the color / ambient light sensor. See: `enable_light()`.
+    - Enable/disable ambient light interrupt generation. See: `enable_light_interrupts()`.
     - Check whether the color / ambient light data is valid. See: `is_light_data_valid()`.
     - Read the color / ambient light clear, red, green, blue channel data. See: `read_light_red()`.
     - Set the color / ambient light integration time. See: `set_light_integration_time()`.

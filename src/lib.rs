@@ -18,6 +18,7 @@
 //!     - Set the proximity offsets. See [`set_proximity_offsets()`].
 //! - Color / ambient light:
 //!     - Enable/disable the color / ambient light sensor. See: [`enable_light()`].
+//!     - Enable/disable ambient light interrupt generation. See: [`enable_light_interrupts()`].
 //!     - Check whether the color / ambient light data is valid. See: [`is_light_data_valid()`].
 //!     - Read the color / ambient light clear, red, green, blue channel data. See: [`read_light_red()`].
 //!     - Set the color / ambient light integration time. See: [`set_light_integration_time()`].
@@ -49,6 +50,7 @@
 //! [`set_proximity_offsets()`]: struct.Apds9960.html#method.set_proximity_offsets
 //!
 //! [`enable_light()`]: struct.Apds9960.html#method.enable_light
+//! [`enable_light_interrupts()`]: struct.Apds9960.html#method.enable_light_interrupts
 //! [`is_light_data_valid()`]: struct.Apds9960.html#method.is_light_data_valid
 //! [`read_light_red()`]: struct.Apds9960.html#method.read_light_red
 //! [`set_light_integration_time()`]: struct.Apds9960.html#method.set_light_integration_time
@@ -191,6 +193,7 @@ mod register {
         pub const AEN: u8 = 0b0000_0010;
         pub const PEN: u8 = 0b0000_0100;
         pub const WEN: u8 = 0b0000_1000;
+        pub const AIEN: u8 = 0b0001_0000;
         pub const PIEN: u8 = 0b0010_0000;
         pub const GEN: u8 = 0b0100_0000;
     }

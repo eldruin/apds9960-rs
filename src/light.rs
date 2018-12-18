@@ -28,6 +28,16 @@ where
         self.write_register(Register::ATIME, value)
     }
 
+    /// Enable ambient light interrupt generation
+    pub fn enable_light_interrupts(&mut self) -> Result<(), Error<E>> {
+        self.set_flag_enable(Enable::AIEN, true)
+    }
+
+    /// Disable ambient light interrupt generation
+    pub fn disable_light_interrupts(&mut self) -> Result<(), Error<E>> {
+        self.set_flag_enable(Enable::AIEN, false)
+    }
+
     /// Set the clear channel ambient light interrupt low threshold.
     ///
     /// An interrupt will be generated if light interrupts are enabled and the clear data is less
