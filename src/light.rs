@@ -28,17 +28,17 @@ where
         self.write_register(Register::ATIME, value)
     }
 
-    /// Set the color and ambient light interrupt low threshold.
+    /// Set the clear channel ambient light interrupt low threshold.
     ///
-    /// An interrupt will be generated if interrupts are enabled and the clear data is less
+    /// An interrupt will be generated if light interrupts are enabled and the clear data is less
     /// than this value.
     pub fn set_light_low_threshold(&mut self, threshold: u16) -> Result<(), Error<E>> {
         self.write_double_register(Register::AILTL, threshold)
     }
 
-    /// Set the color and ambient light interrupt high threshold.
+    /// Set the clear channel ambient light interrupt high threshold.
     ///
-    /// An interrupt will be generated if interrupts are enabled and the clear data is greater
+    /// An interrupt will be generated if light interrupts are enabled and the clear data is greater
     /// than this value.
     pub fn set_light_high_threshold(&mut self, threshold: u16) -> Result<(), Error<E>> {
         self.write_double_register(Register::AIHTL, threshold)
