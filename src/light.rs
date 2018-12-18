@@ -28,6 +28,22 @@ where
         self.write_register(Register::ATIME, value)
     }
 
+    /// Set the color and ambient light interrupt low threshold.
+    ///
+    /// An interrupt will be generated if interrupts are enabled and the clear data is less
+    /// than this value.
+    pub fn set_light_low_threshold(&mut self, threshold: u16) -> Result<(), Error<E>> {
+        self.write_double_register(Register::AILTL, threshold)
+    }
+
+    /// Set the color and ambient light interrupt high threshold.
+    ///
+    /// An interrupt will be generated if interrupts are enabled and the clear data is greater
+    /// than this value.
+    pub fn set_light_high_threshold(&mut self, threshold: u16) -> Result<(), Error<E>> {
+        self.write_double_register(Register::AIHTL, threshold)
+    }
+
     /// Read the color / ambient light sensor clear channel data.
     ///
     /// Returns `nb::Error::WouldBlock` as long as the data is not ready.

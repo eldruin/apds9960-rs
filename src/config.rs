@@ -86,4 +86,10 @@ where
             .write(DEV_ADDR, &[address, value])
             .map_err(Error::I2C)
     }
+
+    pub(crate) fn write_double_register(&mut self, start_register: u8, value: u16) -> Result<(), Error<E>> {
+        self.i2c
+            .write(DEV_ADDR, &[start_register, value as u8, (value >> 8) as u8])
+            .map_err(Error::I2C)
+    }
 }

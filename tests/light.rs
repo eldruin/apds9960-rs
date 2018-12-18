@@ -8,6 +8,22 @@ write_test!(enable, enable_light, ENABLE, BitFlags::AEN);
 write_test!(disable, disable_light, ENABLE, 0);
 write_test!(set_atime, set_light_integration_time, ATIME, 0x0F, 0x0F);
 
+#[test]
+fn set_low_threshold() {
+    let trans = [I2cTrans::write(DEV_ADDR, vec![Register::AILTL, 0xCD, 0xAB])];
+    let mut sensor = new(&trans);
+    sensor.set_light_low_threshold(0xABCD).unwrap();
+    destroy(sensor);
+}
+
+#[test]
+fn set_high_threshold() {
+    let trans = [I2cTrans::write(DEV_ADDR, vec![Register::AIHTL, 0xCD, 0xAB])];
+    let mut sensor = new(&trans);
+    sensor.set_light_high_threshold(0xABCD).unwrap();
+    destroy(sensor);
+}
+
 read_test!(is_valid,  is_light_data_valid, true, STATUS, BitFlags::AVALID);
 read_test!(is_not_valid, is_light_data_valid, false, STATUS, 0);
 
