@@ -76,6 +76,19 @@ pub fn destroy(sensor: Apds9960<I2cMock>) {
 }
 
 #[macro_export]
+macro_rules! empty_write_test {
+    ($name:ident, $method:ident, $reg:ident) => {
+        #[test]
+        fn $name() {
+            let trans = [I2cTrans::write(DEV_ADDR, vec![Register::$reg])];
+            let mut sensor = new(&trans);
+            sensor.$method().unwrap();
+            destroy(sensor);
+        }
+    };
+}
+
+#[macro_export]
 macro_rules! write_test {
     ($name:ident, $method:ident, $reg:ident, $value:expr $(,$arg:expr)*) => {
         #[test]
