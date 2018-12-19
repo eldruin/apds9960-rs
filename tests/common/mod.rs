@@ -34,6 +34,7 @@ impl Register {
     pub const GCONFIG4   : u8 = 0xAB;
     pub const GFLVL      : u8 = 0xAE;
     pub const GSTATUS    : u8 = 0xAF;
+    pub const IFORCE     : u8 = 0xE4;
     pub const GFIFO_U    : u8 = 0xFC;
 }
 

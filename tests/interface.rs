@@ -20,3 +20,11 @@ write_test!(can_disable_wait, disable_wait, ENABLE, 0);
 write_test!(en_wlong, enable_wait_long, CONFIG1, DEFAULT_CONFIG1 | BitFlags::WLONG);
 write_test!(dis_wlong, disable_wait_long, CONFIG1, DEFAULT_CONFIG1);
 write_test!(set_wtime, set_wait_time, WTIME, 0x0F, 0x0F);
+
+#[test]
+fn can_force_interrupt() {
+    let trans = [I2cTrans::write(DEV_ADDR, vec![Register::IFORCE])];
+    let mut sensor = new(&trans);
+    sensor.force_interrupt().unwrap();
+    destroy(sensor);
+}

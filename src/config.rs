@@ -72,6 +72,13 @@ where
         self.write_register(Register::WTIME, value)
     }
 
+    /// Force an interrupt
+    pub fn force_interrupt(&mut self) -> Result<(), Error<E>> {
+        self.i2c
+            .write(DEV_ADDR, &[Register::IFORCE])
+            .map_err(Error::I2C)
+    }
+
     impl_set_flag_reg!(set_flag_enable, enable);
     impl_set_flag_reg!(set_flag_config1, config1);
     impl_set_flag_reg!(set_flag_config2, config2);

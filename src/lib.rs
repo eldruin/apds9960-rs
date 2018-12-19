@@ -163,6 +163,7 @@ impl Register {
     const GCONFIG4   : u8 = 0xAB;
     const GFLVL      : u8 = 0xAE;
     const GSTATUS    : u8 = 0xAF;
+    const IFORCE     : u8 = 0xE4;
     const GFIFO_U    : u8 = 0xFC;
 }
 
