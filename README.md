@@ -36,8 +36,8 @@ This driver allows you to:
     - Set the color / ambient light integration time. See: `set_light_integration_time()`.
     - Set the clear light channel interrupt low/high thresholds. See: `set_light_low_threshold()`.
     - Clear ambient light interrupt. See: `clear_light_interrupt()`.
-- Gesture recognition:
-    - Enable/disable gesture recognition. See: `enable_gesture()`.
+- Gesture detection:
+    - Enable/disable gesture detection. See: `enable_gesture()`.
     - Enable/disable gesture mode. See: `enable_gesture_mode()`.
     - Enable/disable gesture interrupts. See: `enable_gesture_interrupts()`.
     - Read whether there is valid gesture data available. See: `is_gesture_data_valid()`.
