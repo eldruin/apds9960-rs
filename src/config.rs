@@ -72,9 +72,14 @@ where
         self.write_register(Register::WTIME, value)
     }
 
-    /// Force an interrupt
+    /// Force an interrupt.
     pub fn force_interrupt(&mut self) -> Result<(), Error<E>> {
         self.touch_register(Register::IFORCE)
+    }
+
+    /// Clear all *non-gesture* interrupts.
+    pub fn clear_interrupts(&mut self) -> Result<(), Error<E>> {
+        self.touch_register(Register::AICLEAR)
     }
 
     impl_set_flag_reg!(set_flag_enable, enable);

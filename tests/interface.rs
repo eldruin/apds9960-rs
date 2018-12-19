@@ -22,3 +22,4 @@ write_test!(dis_wlong, disable_wait_long, CONFIG1, DEFAULT_CONFIG1);
 write_test!(set_wtime, set_wait_time, WTIME, 0x0F, 0x0F);
 
 empty_write_test!(force_int, force_interrupt, IFORCE);
+empty_write_test!(clear_ints, clear_interrupts, AICLEAR);

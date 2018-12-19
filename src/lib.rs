@@ -166,6 +166,7 @@ impl Register {
     const IFORCE     : u8 = 0xE4;
     const PICLEAR    : u8 = 0xE5;
     const CICLEAR    : u8 = 0xE6;
+    const AICLEAR    : u8 = 0xE7;
     const GFIFO_U    : u8 = 0xFC;
 }
 
