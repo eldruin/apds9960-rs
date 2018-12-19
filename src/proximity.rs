@@ -79,9 +79,7 @@ where
 
     /// Clear proximity interrupt
     pub fn clear_proximity_interrupt(&mut self) -> Result<(), Error<E>> {
-        self.i2c
-            .write(DEV_ADDR, &[Register::PICLEAR])
-            .map_err(Error::I2C)
+        self.touch_register(Register::PICLEAR)
     }
 
     /// Read the proximity sensor data.

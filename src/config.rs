@@ -74,9 +74,7 @@ where
 
     /// Force an interrupt
     pub fn force_interrupt(&mut self) -> Result<(), Error<E>> {
-        self.i2c
-            .write(DEV_ADDR, &[Register::IFORCE])
-            .map_err(Error::I2C)
+        self.touch_register(Register::IFORCE)
     }
 
     impl_set_flag_reg!(set_flag_enable, enable);
@@ -97,6 +95,12 @@ where
     pub(crate) fn write_double_register(&mut self, start_register: u8, value: u16) -> Result<(), Error<E>> {
         self.i2c
             .write(DEV_ADDR, &[start_register, value as u8, (value >> 8) as u8])
+            .map_err(Error::I2C)
+    }
+
+    pub(crate) fn touch_register(&mut self, address: u8) -> Result<(), Error<E>> {
+        self.i2c
+            .write(DEV_ADDR, &[address])
             .map_err(Error::I2C)
     }
 }
