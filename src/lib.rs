@@ -88,10 +88,91 @@
 //! Datasheet:
 //! - [APDS9960](https://docs.broadcom.com/docs/AV02-4191EN)
 //!
-//! ## Usage example
+//! ## Usage examples (see also examples folder)
+//!
+//! To use this driver, import this crate and an `embedded_hal` implementation,
+//! then instantiate the device.
+//!
 //! Please find additional examples in this repository: [apds9960-examples]
 //!
 //! [apds9960-examples]: https://github.com/eldruin/apds9960-examples
+//!
+//! ### Read proximity
+//!
+//! ```no_run
+//! extern crate linux_embedded_hal as hal;
+//! #[macro_use]
+//! extern crate nb;
+//! extern crate apds9960;
+//!
+//! use hal::I2cdev;
+//! use apds9960::Apds9960;
+//!
+//! # fn main() {
+//! let dev = I2cdev::new("/dev/i2c-1").unwrap();
+//! let mut sensor = Apds9960::new(dev);
+//! sensor.enable().unwrap();
+//! sensor.enable_proximity().unwrap();
+//! loop {
+//!     let prox = block!(sensor.read_proximity()).unwrap();
+//!     println!("Proximity: {}", prox);
+//! }
+//! # }
+//! ```
+//!
+//! ### Read color / ambient light data
+//!
+//! ```no_run
+//! extern crate linux_embedded_hal as hal;
+//! #[macro_use]
+//! extern crate nb;
+//! extern crate apds9960;
+//!
+//! use hal::I2cdev;
+//! use apds9960::Apds9960;
+//!
+//! # fn main() {
+//! let dev = I2cdev::new("/dev/i2c-1").unwrap();
+//! let mut sensor = Apds9960::new(dev);
+//! sensor.enable().unwrap();
+//! sensor.enable_light().unwrap();
+//! loop {
+//!     let data = block!(sensor.read_light()).unwrap();
+//!     println!(
+//!         "Clear: {}, Red: {}, Green: {}, Blue: {}",
+//!         data.clear,
+//!         data.red,
+//!         data.green,
+//!         data.blue
+//!     );
+//! }
+//! # }
+//! ```
+//!
+//! ### Read gesture data
+//!
+//! ```no_run
+//! extern crate linux_embedded_hal as hal;
+//! #[macro_use]
+//! extern crate nb;
+//! extern crate apds9960;
+//!
+//! use hal::I2cdev;
+//! use apds9960::Apds9960;
+//!
+//! # fn main() {
+//! let dev = I2cdev::new("/dev/i2c-1").unwrap();
+//! let mut sensor = Apds9960::new(dev);
+//! sensor.enable().unwrap();
+//! sensor.enable_gesture().unwrap();
+//! sensor.enable_gesture_mode().unwrap();
+//! let mut data = [0; 6*4]; // 6 datasets
+//! loop {
+//!     block!(sensor.read_gesture_data(&mut data)).unwrap();
+//!     // interpret gesture data...
+//! }
+//! # }
+//! ```
 
 #![deny(missing_docs, unsafe_code, warnings)]
 #![no_std]
