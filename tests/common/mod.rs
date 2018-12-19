@@ -35,6 +35,7 @@ impl Register {
     pub const GFLVL      : u8 = 0xAE;
     pub const GSTATUS    : u8 = 0xAF;
     pub const IFORCE     : u8 = 0xE4;
+    pub const PICLEAR    : u8 = 0xE5;
     pub const GFIFO_U    : u8 = 0xFC;
 }
 

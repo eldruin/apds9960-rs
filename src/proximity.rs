@@ -77,6 +77,13 @@ where
             .map_err(Error::I2C)
     }
 
+    /// Clear proximity interrupt
+    pub fn clear_proximity_interrupt(&mut self) -> Result<(), Error<E>> {
+        self.i2c
+            .write(DEV_ADDR, &[Register::PICLEAR])
+            .map_err(Error::I2C)
+    }
+
     /// Read the proximity sensor data.
     ///
     /// Returns `nb::Error::WouldBlock` as long as the data is not ready.

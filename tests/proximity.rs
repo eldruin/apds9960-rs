@@ -30,6 +30,8 @@ fn can_set_poffsets() {
     destroy(sensor);
 }
 
+empty_write_test!(clear_int, clear_proximity_interrupt, PICLEAR);
+
 read_test!(is_pvalid_true,  is_proximity_data_valid, true, STATUS, BitFlags::PVALID);
 read_test!(is_pvalid_false, is_proximity_data_valid, false, STATUS, 0);
 
