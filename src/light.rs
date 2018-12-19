@@ -1,6 +1,6 @@
 use hal::blocking::i2c;
 use {
-    register::{Enable, Status},
+    register::{Config2, Enable, Status},
     Apds9960, BitFlags, Error, LightData, Register,
 };
 
@@ -36,6 +36,16 @@ where
     /// Disable ambient light interrupt generation
     pub fn disable_light_interrupts(&mut self) -> Result<(), Error<E>> {
         self.set_flag_enable(Enable::AIEN, false)
+    }
+
+    /// Enable clear channel ambient light saturation interrupt generation
+    pub fn enable_light_saturation_interrupts(&mut self) -> Result<(), Error<E>> {
+        self.set_flag_config2(Config2::CPSIEN, true)
+    }
+
+    /// Disable clear channel ambient light saturation interrupt generation
+    pub fn disable_light_saturation_interrupts(&mut self) -> Result<(), Error<E>> {
+        self.set_flag_config2(Config2::CPSIEN, false)
     }
 
     /// Set the clear channel ambient light interrupt low threshold.

@@ -19,6 +19,7 @@
 //! - Color / ambient light:
 //!     - Enable/disable the color / ambient light sensor. See: [`enable_light()`].
 //!     - Enable/disable ambient light interrupt generation. See: [`enable_light_interrupts()`].
+//!     - Enable/disable ambient light saturation interrupt generation. See: [`enable_light_saturation_interrupts()`].
 //!     - Check whether the color / ambient light data is valid. See: [`is_light_data_valid()`].
 //!     - Read the color / ambient light data. See: [`read_light()`].
 //!     - Set the color / ambient light integration time. See: [`set_light_integration_time()`].
@@ -51,6 +52,7 @@
 //!
 //! [`enable_light()`]: struct.Apds9960.html#method.enable_light
 //! [`enable_light_interrupts()`]: struct.Apds9960.html#method.enable_light_interrupts
+//! [`enable_light_saturation_interrupts()`]: struct.Apds9960.html#method.enable_light_saturation_interrupts
 //! [`is_light_data_valid()`]: struct.Apds9960.html#method.is_light_data_valid
 //! [`read_light()`]: struct.Apds9960.html#method.read_light
 //! [`set_light_integration_time()`]: struct.Apds9960.html#method.set_light_integration_time
@@ -229,6 +231,7 @@ mod register {
     pub struct Config2(u8);
     impl Config2 {
         pub const PSIEN: u8 = 0b1000_0000;
+        pub const CPSIEN: u8 = 0b0100_0000;
     }
     impl_bitflags!(Config2, CONFIG2);
 

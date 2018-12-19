@@ -48,6 +48,7 @@ impl BitFlags {
     pub const PIEN: u8 = 1 << 5;
     pub const GEN: u8 = 1 << 6;
     pub const WLONG: u8 = 1 << 1;
+    pub const CPSIEN: u8 = 1 << 6;
     pub const PSIEN: u8 = 1 << 7;
     pub const AVALID: u8 = 1;
     pub const PVALID: u8 = 1 << 1;

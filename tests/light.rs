@@ -3,12 +3,14 @@ use apds9960::LightData;
 extern crate embedded_hal_mock as hal;
 use hal::i2c::Transaction as I2cTrans;
 mod common;
-use common::{destroy, new, BitFlags, Register, DEV_ADDR};
+use common::{destroy, new, BitFlags, Register, DEFAULT_CONFIG2, DEV_ADDR};
 
 write_test!(enable, enable_light, ENABLE, BitFlags::AEN);
 write_test!(disable, disable_light, ENABLE, 0);
 write_test!(en_int, enable_light_interrupts, ENABLE, BitFlags::AIEN);
 write_test!(dis_int, disable_light_interrupts, ENABLE, 0);
+write_test!(en_sat_int, enable_light_saturation_interrupts, CONFIG2, DEFAULT_CONFIG2 | BitFlags::CPSIEN);
+write_test!(dis_sat_int, disable_light_saturation_interrupts, CONFIG2, DEFAULT_CONFIG2);
 write_test!(set_atime, set_light_integration_time, ATIME, 0x0F, 0x0F);
 
 #[test]
