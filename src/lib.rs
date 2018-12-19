@@ -139,7 +139,6 @@ const DEV_ADDR: u8 = 0x39;
 
 struct Register;
 impl Register {
-    // const RAM_START  : u8 = 0x00;
     const ENABLE     : u8 = 0x80;
     const ATIME      : u8 = 0x81;
     const WTIME      : u8 = 0x83;
@@ -147,10 +146,7 @@ impl Register {
     const AIHTL      : u8 = 0x86;
     const PILT       : u8 = 0x89;
     const PIHT       : u8 = 0x8B;
-    // const PERS       : u8 = 0x8C;
     const CONFIG1    : u8 = 0x8D;
-    // const PPULSE     : u8 = 0x8E;
-    // const CONTROL    : u8 = 0x8F;
     const CONFIG2    : u8 = 0x90;
     const ID         : u8 = 0x92;
     const STATUS     : u8 = 0x93;
