@@ -77,7 +77,7 @@ where
             .map_err(Error::I2C)
     }
 
-    /// Clear proximity interrupt
+    /// Clear proximity interrupt.
     pub fn clear_proximity_interrupt(&mut self) -> Result<(), Error<E>> {
         self.touch_register(Register::PICLEAR)
     }

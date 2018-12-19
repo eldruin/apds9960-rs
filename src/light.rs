@@ -28,22 +28,22 @@ where
         self.write_register(Register::ATIME, value)
     }
 
-    /// Enable ambient light interrupt generation
+    /// Enable ambient light interrupt generation.
     pub fn enable_light_interrupts(&mut self) -> Result<(), Error<E>> {
         self.set_flag_enable(Enable::AIEN, true)
     }
 
-    /// Disable ambient light interrupt generation
+    /// Disable ambient light interrupt generation.
     pub fn disable_light_interrupts(&mut self) -> Result<(), Error<E>> {
         self.set_flag_enable(Enable::AIEN, false)
     }
 
-    /// Enable clear channel ambient light saturation interrupt generation
+    /// Enable clear channel ambient light saturation interrupt generation.
     pub fn enable_light_saturation_interrupts(&mut self) -> Result<(), Error<E>> {
         self.set_flag_config2(Config2::CPSIEN, true)
     }
 
-    /// Disable clear channel ambient light saturation interrupt generation
+    /// Disable clear channel ambient light saturation interrupt generation.
     pub fn disable_light_saturation_interrupts(&mut self) -> Result<(), Error<E>> {
         self.set_flag_config2(Config2::CPSIEN, false)
     }

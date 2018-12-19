@@ -8,6 +8,8 @@
 //! - Enable/disable delay between proximity and / or color / ambient light cycles. See: [`enable_wait()`].
 //! - Enable/disable long delay between proximity and / or color / ambient light cycles. See: [`enable_wait_long()`].
 //! - Set the waiting time between proximity and / or color / ambient light cycles. See: [`set_wait_time()`].
+//! - Force an interrupt. See: [`force_interrupt()`].
+//! - Clear all non-gesture interrupts. See: [`clear_interrupts()`].
 //! - Proximity:
 //!     - Enable/disable the proximity sensor. See: [`enable_proximity()`].
 //!     - Enable/disable proximity interrupt generation. See: [`enable_proximity_interrupts()`].
@@ -15,7 +17,8 @@
 //!     - Read the proximity data. See: [`read_proximity()`].
 //!     - Check whether the proximity data is valid. See: [`is_proximity_data_valid()`].
 //!     - Set the proximity interrupt low/high thresholds. See: [`set_proximity_low_threshold()`].
-//!     - Set the proximity offsets. See [`set_proximity_offsets()`].
+//!     - Set the proximity offsets. See: [`set_proximity_offsets()`].
+//!     - Clear proximity interrupt. See: [`clear_proximity_interrupt()`].
 //! - Color / ambient light:
 //!     - Enable/disable the color / ambient light sensor. See: [`enable_light()`].
 //!     - Enable/disable ambient light interrupt generation. See: [`enable_light_interrupts()`].
@@ -24,6 +27,7 @@
 //!     - Read the color / ambient light data. See: [`read_light()`].
 //!     - Set the color / ambient light integration time. See: [`set_light_integration_time()`].
 //!     - Set the clear light channel interrupt low/high thresholds. See: [`set_light_low_threshold()`].
+//!     - Clear ambient light interrupt. See: [`clear_light_interrupt()`].
 //! - Gesture recognition:
 //!     - Enable/disable gesture recognition. See: [`enable_gesture()`].
 //!     - Enable/disable gesture mode. See: [`enable_gesture_mode()`].
@@ -41,6 +45,8 @@
 //! [`enable_wait()`]: struct.Apds9960.html#method.enable_wait
 //! [`enable_wait_long()`]: struct.Apds9960.html#method.enable_wait_long
 //! [`set_wait_time()`]: struct.Apds9960.html#method.set_wait_time
+//! [`force_interrupt()`]: struct.Apds9960.html#method.force_interrupt
+//! [`clear_interrupts()`]: struct.Apds9960.html#method.clear_interrupts
 //!
 //! [`enable_proximity()`]: struct.Apds9960.html#method.enable_proximity
 //! [`enable_proximity_interrupts()`]: struct.Apds9960.html#method.enable_proximity_interrupts
@@ -49,6 +55,7 @@
 //! [`is_proximity_data_valid()`]: struct.Apds9960.html#method.is_proximity_data_valid
 //! [`set_proximity_low_threshold()`]: struct.Apds9960.html#method.set_proximity_low_threshold()
 //! [`set_proximity_offsets()`]: struct.Apds9960.html#method.set_proximity_offsets
+//! [`clear_proximity_interrupt()`]: struct.Apds9960.html#method.clear_proximity_interrupt
 //!
 //! [`enable_light()`]: struct.Apds9960.html#method.enable_light
 //! [`enable_light_interrupts()`]: struct.Apds9960.html#method.enable_light_interrupts
@@ -57,6 +64,7 @@
 //! [`read_light()`]: struct.Apds9960.html#method.read_light
 //! [`set_light_integration_time()`]: struct.Apds9960.html#method.set_light_integration_time
 //! [`set_light_low_threshold()`]: struct.Apds9960.html#method.set_light_low_threshold
+//! [`clear_light_interrupt()`]: struct.Apds9960.html#method.clear_light_interrupt
 //!
 //! [`enable_gesture()`]: struct.Apds9960.html#method.enable_gesture
 //! [`enable_gesture_mode()`]: struct.Apds9960.html#method.enable_gesture_mode
