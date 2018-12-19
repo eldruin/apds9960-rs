@@ -1,7 +1,7 @@
 use hal::blocking::i2c;
 use {
     register::{Config2, Enable, Status},
-    Apds9960, BitFlags, Error, LightData, Register,
+    Apds9960, BitFlags, Error, LightData, Register, DEV_ADDR,
 };
 
 /// Color and ambient light.
@@ -62,6 +62,13 @@ where
     /// than this value.
     pub fn set_light_high_threshold(&mut self, threshold: u16) -> Result<(), Error<E>> {
         self.write_double_register(Register::AIHTL, threshold)
+    }
+
+    /// Clear ambient light interrupt.
+    pub fn clear_light_interrupt(&mut self) -> Result<(), Error<E>> {
+        self.i2c
+            .write(DEV_ADDR, &[Register::CICLEAR])
+            .map_err(Error::I2C)
     }
 
     /// Read the color / ambient light sensor data.

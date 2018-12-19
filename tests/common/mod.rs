@@ -36,6 +36,7 @@ impl Register {
     pub const GSTATUS    : u8 = 0xAF;
     pub const IFORCE     : u8 = 0xE4;
     pub const PICLEAR    : u8 = 0xE5;
+    pub const CICLEAR    : u8 = 0xE6;
     pub const GFIFO_U    : u8 = 0xFC;
 }
 

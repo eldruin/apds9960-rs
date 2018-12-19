@@ -12,6 +12,7 @@ write_test!(dis_int, disable_light_interrupts, ENABLE, 0);
 write_test!(en_sat_int, enable_light_saturation_interrupts, CONFIG2, DEFAULT_CONFIG2 | BitFlags::CPSIEN);
 write_test!(dis_sat_int, disable_light_saturation_interrupts, CONFIG2, DEFAULT_CONFIG2);
 write_test!(set_atime, set_light_integration_time, ATIME, 0x0F, 0x0F);
+empty_write_test!(clear_int, clear_light_interrupt, CICLEAR);
 
 #[test]
 fn set_low_threshold() {
