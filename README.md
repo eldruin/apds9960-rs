@@ -18,6 +18,7 @@ This driver allows you to:
 - Set the waiting time between proximity and / or color / ambient light cycles. See: `set_wait_time()`.
 - Force an interrupt. See: `force_interrupt()`.
 - Clear all non-gesture interrupts. See: `clear_interrupts()`.
+- Read the device ID. See: `read_device_id()`.
 - Proximity:
     - Enable/disable the proximity sensor. See: `enable_proximity()`.
     - Enable/disable proximity interrupt generation. See: `enable_proximity_interrupts()`.
@@ -47,7 +48,6 @@ This driver allows you to:
     - Read the gesture data. See: `read_gesture_data()`.
     - Set the gesture proximity entry/exit thresholds. See: `set_gesture_proximity_entry_threshold()`.
     - Set the gesture offsets. See: `set_gesture_offsets()`.
-- Read the device ID. See: `read_device_id()`.
 
 ## The device
 
