@@ -103,7 +103,7 @@ read_data_test!(
 );
 
 #[test]
-fn cannot_read_light_if_not_valid() {
+fn cannot_read_light_channel_if_not_valid() {
     let trans = [I2cTrans::write_read(
         DEV_ADDR,
         vec![Register::STATUS],
@@ -111,5 +111,17 @@ fn cannot_read_light_if_not_valid() {
     )];
     let mut sensor = new(&trans);
     assert_would_block!(sensor.read_light_clear());
+    destroy(sensor);
+}
+
+#[test]
+fn cannot_read_light_if_not_valid() {
+    let trans = [I2cTrans::write_read(
+        DEV_ADDR,
+        vec![Register::STATUS],
+        vec![0],
+    )];
+    let mut sensor = new(&trans);
+    assert_would_block!(sensor.read_light());
     destroy(sensor);
 }
