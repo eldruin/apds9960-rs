@@ -19,11 +19,7 @@ write_test!(set_fl_off, set_proximity_down_left_offset, POFFSET_DL, 55, 55);
 
 #[test]
 fn can_set_poffsets() {
-    let data = vec![
-        Register::POFFSET_UR,
-        55,
-        i8::from(-56) as u8,
-    ];
+    let data = vec![Register::POFFSET_UR, 55, i8::from(-56) as u8];
     let trans = [I2cTrans::write(DEV_ADDR, data)];
     let mut sensor = new(&trans);
     sensor.set_proximity_offsets(55, -56).unwrap();
@@ -35,7 +31,15 @@ empty_write_test!(clear_int, clear_proximity_interrupt, PICLEAR);
 read_test!(is_pvalid_true,  is_proximity_data_valid, true, STATUS, BitFlags::PVALID);
 read_test!(is_pvalid_false, is_proximity_data_valid, false, STATUS, 0);
 
-read_test!(can_read_prox, read_proximity, 0x12, STATUS, BitFlags::PVALID, PDATA, 0x12);
+read_test!(
+    can_read_prox,
+    read_proximity,
+    0x12,
+    STATUS,
+    BitFlags::PVALID,
+    PDATA,
+    0x12
+);
 
 #[test]
 fn cannot_read_prox_if_not_valid() {

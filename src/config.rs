@@ -1,5 +1,8 @@
 use hal::blocking::i2c;
-use {register::{Config1, Enable}, Apds9960, BitFlags, Error, Register, DEV_ADDR};
+use {
+    register::{Config1, Enable},
+    Apds9960, BitFlags, Error, Register, DEV_ADDR,
+};
 
 macro_rules! impl_set_flag_reg {
     ($method:ident, $reg:ident) => {
@@ -97,15 +100,17 @@ where
             .map_err(Error::I2C)
     }
 
-    pub(crate) fn write_double_register(&mut self, start_register: u8, value: u16) -> Result<(), Error<E>> {
+    pub(crate) fn write_double_register(
+        &mut self,
+        start_register: u8,
+        value: u16,
+    ) -> Result<(), Error<E>> {
         self.i2c
             .write(DEV_ADDR, &[start_register, value as u8, (value >> 8) as u8])
             .map_err(Error::I2C)
     }
 
     pub(crate) fn touch_register(&mut self, address: u8) -> Result<(), Error<E>> {
-        self.i2c
-            .write(DEV_ADDR, &[address])
-            .map_err(Error::I2C)
+        self.i2c.write(DEV_ADDR, &[address]).map_err(Error::I2C)
     }
 }

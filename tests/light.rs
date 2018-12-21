@@ -53,7 +53,12 @@ macro_rules! read_data_test {
 read_data_test!(
     read_rgbc,
     read_light,
-    LightData{clear: 0x1234, red: 0x3456, green: 0x5678, blue: 0x789A},
+    LightData {
+        clear: 0x1234,
+        red: 0x3456,
+        green: 0x5678,
+        blue: 0x789A
+    },
     STATUS,
     [BitFlags::AVALID],
     CDATAL,
