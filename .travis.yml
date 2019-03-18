@@ -28,7 +28,7 @@ matrix:
       rust: nightly
 
     - env: TARGET=x86_64-unknown-linux-musl
-      rust: nightly
+      rust: beta
 
     # Raspberry Pi 1
     - env: TARGET=arm-unknown-linux-gnueabi DISABLE_EXAMPLES=1 DISABLE_TESTS=1
@@ -38,13 +38,9 @@ matrix:
 
     # Bare metal
     - env: TARGET=thumbv6m-none-eabi
-
     - env: TARGET=thumbv7em-none-eabi
-
     - env: TARGET=thumbv7em-none-eabihf
-
     - env: TARGET=thumbv7m-none-eabi
-
 
 install:
   bash ci/install.sh
