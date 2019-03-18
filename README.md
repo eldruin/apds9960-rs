@@ -7,9 +7,7 @@
 ![Maintenance Intention](https://img.shields.io/badge/maintenance-actively--developed-brightgreen.svg)
 
 This is a platform agnostic Rust driver for the APDS9960 digital proximity, ambient light, RGB
-and gesture sensor, based on the [`embedded-hal`] traits.
-
-[`embedded-hal`]: https://github.com/rust-embedded/embedded-hal
+and gesture sensor using the [`embedded-hal`] traits.
 
 This driver allows you to:
 - Enable/disable the sensor. See: `enable()`.
@@ -61,9 +59,9 @@ Datasheet:
 
 ## Usage example
 
-Please find additional examples in this repository: [apds9960-examples]
+Please find additional examples using hardware in this repository: [driver-examples]
 
-[apds9960-examples]: https://github.com/eldruin/apds9960-examples
+[driver-examples]: https://github.com/eldruin/driver-examples
 
 ```rust
 extern crate embedded_hal;
@@ -87,6 +85,11 @@ fn main() {
 }
 ```
 
+## Support
+
+For questions, issues, feature requests, and other changes, please file an
+[issue in the github project](https://github.com/eldruin/apds9960-rs/issues).
+
 ## License
 
 Licensed under either of
@@ -101,3 +104,5 @@ Licensed under either of
 Unless you explicitly state otherwise, any contribution intentionally submitted
 for inclusion in the work by you, as defined in the Apache-2.0 license, shall
 be dual licensed as above, without any additional terms or conditions.
+
+[`embedded-hal`]: https://github.com/rust-embedded/embedded-hal
