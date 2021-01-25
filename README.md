@@ -2,7 +2,7 @@
 
 [![crates.io](https://img.shields.io/crates/v/apds9960.svg)](https://crates.io/crates/apds9960)
 [![Docs](https://docs.rs/apds9960/badge.svg)](https://docs.rs/apds9960)
-[![Build Status](https://travis-ci.org/eldruin/apds9960-rs.svg?branch=master)](https://travis-ci.org/eldruin/apds9960-rs)
+[![Build Status](https://github.com/eldruin/apds9960-rs/workflows/Build/badge.svg)](https://github.com/eldruin/apds9960-rs/actions?query=workflow%3ABuild)
 [![Coverage Status](https://coveralls.io/repos/github/eldruin/apds9960-rs/badge.svg?branch=master)](https://coveralls.io/github/eldruin/apds9960-rs?branch=master)
 ![Maintenance Intention](https://img.shields.io/badge/maintenance-actively--developed-brightgreen.svg)
 
