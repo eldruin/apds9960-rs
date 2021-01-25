@@ -9,8 +9,18 @@ write_test!(enable, enable_light, ENABLE, BitFlags::AEN);
 write_test!(disable, disable_light, ENABLE, 0);
 write_test!(en_int, enable_light_interrupts, ENABLE, BitFlags::AIEN);
 write_test!(dis_int, disable_light_interrupts, ENABLE, 0);
-write_test!(en_sat_int, enable_light_saturation_interrupts, CONFIG2, DEFAULT_CONFIG2 | BitFlags::CPSIEN);
-write_test!(dis_sat_int, disable_light_saturation_interrupts, CONFIG2, DEFAULT_CONFIG2);
+write_test!(
+    en_sat_int,
+    enable_light_saturation_interrupts,
+    CONFIG2,
+    DEFAULT_CONFIG2 | BitFlags::CPSIEN
+);
+write_test!(
+    dis_sat_int,
+    disable_light_saturation_interrupts,
+    CONFIG2,
+    DEFAULT_CONFIG2
+);
 write_test!(set_atime, set_light_integration_time, ATIME, 0x0F, 0x0F);
 empty_write_test!(clear_int, clear_light_interrupt, CICLEAR);
 
@@ -30,7 +40,13 @@ fn set_high_threshold() {
     destroy(sensor);
 }
 
-read_test!(is_valid,  is_light_data_valid, true, STATUS, BitFlags::AVALID);
+read_test!(
+    is_valid,
+    is_light_data_valid,
+    true,
+    STATUS,
+    BitFlags::AVALID
+);
 read_test!(is_not_valid, is_light_data_valid, false, STATUS, 0);
 
 macro_rules! read_data_test {
