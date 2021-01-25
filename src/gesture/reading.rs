@@ -15,14 +15,14 @@ where
     #[allow(clippy::wrong_self_convention)]
     pub fn is_gesture_data_valid(&mut self) -> Result<bool, Error<E>> {
         let status = self.read_register(Register::GSTATUS)?;
-        Ok(GStatus::new(status).is(GStatus::GVALID, true))
+        Ok(GStatus::create(status).is(GStatus::GVALID, true))
     }
 
     /// Read whether the gesture data has overflown.
     #[allow(clippy::wrong_self_convention)]
     pub fn has_gesture_data_overflown(&mut self) -> Result<bool, Error<E>> {
         let status = self.read_register(Register::GSTATUS)?;
-        Ok(GStatus::new(status).is(GStatus::GFOV, true))
+        Ok(GStatus::create(status).is(GStatus::GFOV, true))
     }
 
     /// Read gesture data.

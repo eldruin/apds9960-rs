@@ -99,6 +99,6 @@ where
     #[allow(clippy::wrong_self_convention)]
     pub fn is_proximity_data_valid(&mut self) -> Result<bool, Error<E>> {
         let status = self.read_register(Register::STATUS)?;
-        Ok(Status::new(status).is(Status::PVALID, true))
+        Ok(Status::create(status).is(Status::PVALID, true))
     }
 }

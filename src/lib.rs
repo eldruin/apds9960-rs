@@ -257,12 +257,12 @@ impl Register {
 
 trait BitFlags<T = Self> {
     const ADDRESS: u8;
-    fn new(value: u8) -> T;
+    fn create(value: u8) -> T;
     fn with(&self, mask: u8, value: bool) -> T {
         if value {
-            Self::new(self.value() | mask)
+            Self::create(self.value() | mask)
         } else {
-            Self::new(self.value() & !mask)
+            Self::create(self.value() & !mask)
         }
     }
 
@@ -279,7 +279,7 @@ mod register {
         ($name:ident, $reg:ident) => {
             impl BitFlags for $name {
                 const ADDRESS: u8 = Register::$reg;
-                fn new(value: u8) -> Self {
+                fn create(value: u8) -> Self {
                     Self { 0: value }
                 }
                 fn value(&self) -> u8 {

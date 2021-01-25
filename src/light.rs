@@ -126,7 +126,7 @@ where
     #[allow(clippy::wrong_self_convention)]
     pub fn is_light_data_valid(&mut self) -> Result<bool, Error<E>> {
         let status = self.read_register(Register::STATUS)?;
-        Ok(Status::new(status).is(Status::AVALID, true))
+        Ok(Status::create(status).is(Status::AVALID, true))
     }
 
     fn read_light_channel(&mut self, register: u8) -> nb::Result<u16, Error<E>> {
