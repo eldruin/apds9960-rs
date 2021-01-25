@@ -71,7 +71,7 @@ pub const DEFAULT_CONFIG1: u8 = 0x40;
 pub const DEFAULT_CONFIG2: u8 = 1;
 
 pub fn new(transactions: &[I2cTrans]) -> Apds9960<I2cMock> {
-    Apds9960::new(I2cMock::new(&transactions))
+    Apds9960::new(I2cMock::new(transactions))
 }
 
 pub fn destroy(sensor: Apds9960<I2cMock>) {
