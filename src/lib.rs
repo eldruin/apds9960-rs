@@ -99,7 +99,8 @@
 //!
 //! ### Read proximity
 //!
-//! ```no_run
+#![cfg_attr(feature = "nb", doc = " ```no_run")]
+#![cfg_attr(not(feature = "nb"), doc = " ```no_run,ignore")]
 //! extern crate linux_embedded_hal as hal;
 //! #[macro_use]
 //! extern crate nb;
@@ -122,7 +123,8 @@
 //!
 //! ### Read color / ambient light data
 //!
-//! ```no_run
+#![cfg_attr(feature = "nb", doc = " ```no_run")]
+#![cfg_attr(not(feature = "nb"), doc = " ```no_run,ignore")]
 //! extern crate linux_embedded_hal as hal;
 //! #[macro_use]
 //! extern crate nb;
@@ -151,7 +153,8 @@
 //!
 //! ### Read gesture data
 //!
-//! ```no_run
+#![cfg_attr(feature = "nb", doc = " ```no_run")]
+#![cfg_attr(not(feature = "nb"), doc = " ```no_run,ignore")]
 //! extern crate linux_embedded_hal as hal;
 //! #[macro_use]
 //! extern crate nb;
@@ -178,8 +181,12 @@
 #![no_std]
 
 extern crate embedded_hal as hal;
+#[cfg(feature = "nb")]
 use crate::hal::blocking::i2c;
+#[cfg(feature = "nb")]
 extern crate nb;
+#[cfg(feature = "async")]
+use embedded_hal_async::i2c as async_i2c;
 
 /// All possible errors in this crate
 #[derive(Debug)]
@@ -375,6 +382,7 @@ pub struct Apds9960<I2C> {
     gconfig4: register::GConfig4,
 }
 
+#[cfg(feature = "nb")]
 impl<I2C, E> Apds9960<I2C>
 where
     I2C: i2c::Write<Error = E>,
@@ -397,8 +405,39 @@ where
     }
 }
 
+#[cfg(feature = "async")]
+impl<I2C, E> Apds9960<I2C>
+where
+    I2C: async_i2c::I2c<Error = E>,
+{
+    /// Create new instance of the APDS9960 device.
+    pub fn new(i2c: I2C) -> Self {
+        Apds9960 {
+            i2c,
+            enable: register::Enable::default(),
+            config1: register::Config1::default(),
+            config2: register::Config2::default(),
+            gconfig1: register::GConfig1::default(),
+            gconfig4: register::GConfig4::default(),
+        }
+    }
+
+    /// Destroy driver instance, return I²C bus instance.
+    pub fn destroy(self) -> I2C {
+        self.i2c
+    }
+}
+
+#[cfg(feature = "async")]
+mod r#async;
+
+#[cfg(feature = "nb")]
 mod config;
+#[cfg(feature = "nb")]
 mod gesture;
+#[cfg(feature = "nb")]
 mod light;
+#[cfg(feature = "nb")]
 mod proximity;
+#[cfg(feature = "nb")]
 mod reading;
