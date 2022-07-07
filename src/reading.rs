@@ -1,5 +1,5 @@
-use hal::blocking::i2c;
-use {Apds9960, Error, Register, DEV_ADDR};
+use crate::hal::blocking::i2c;
+use crate::{Apds9960, Error, Register, DEV_ADDR};
 
 impl<I2C, E> Apds9960<I2C>
 where

@@ -1,5 +1,5 @@
-use hal::blocking::i2c;
-use {
+use crate::hal::blocking::i2c;
+use crate::{
     register::{Enable, GConfig1, GConfig4},
     Apds9960, BitFlags, Error, GestureDataThreshold, Register, DEV_ADDR,
 };
@@ -50,7 +50,7 @@ where
         &mut self,
         threshold: GestureDataThreshold,
     ) -> Result<(), Error<E>> {
-        use GestureDataThreshold as GDTH;
+        use crate::GestureDataThreshold as GDTH;
         let flags;
         match threshold {
             GDTH::Th1 => flags = (false, false),

@@ -1,5 +1,5 @@
-use hal::blocking::i2c;
-use {register::GStatus, Apds9960, BitFlags, Error, Register};
+use crate::hal::blocking::i2c;
+use crate::{register::GStatus, Apds9960, BitFlags, Error, Register};
 
 /// Gesture data reading.
 impl<I2C, E> Apds9960<I2C>

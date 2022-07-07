@@ -1,5 +1,5 @@
-use hal::blocking::i2c;
-use {
+use crate::hal::blocking::i2c;
+use crate::{
     register::{Config1, Enable},
     Apds9960, BitFlags, Error, Register, DEV_ADDR,
 };

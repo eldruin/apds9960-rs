@@ -178,7 +178,7 @@
 #![no_std]
 
 extern crate embedded_hal as hal;
-use hal::blocking::i2c;
+use crate::hal::blocking::i2c;
 extern crate nb;
 
 /// All possible errors in this crate
