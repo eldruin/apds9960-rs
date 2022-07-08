@@ -32,8 +32,10 @@ embedded-hal-async = { version = "0.1.0-alpha.1", optional = true }
 nb = { version = "1", optional = true }
 
 [dev-dependencies]
-linux-embedded-hal = "0.3"
 embedded-hal-mock = "0.7"
+
+[target.'cfg(linux)'.dev-dependencies]
+linux-embedded-hal = "0.3"
 
 [profile.release]
 lto = true
