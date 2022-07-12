@@ -68,12 +68,18 @@ where
     }
 
     /// Set the gesture proximity entry threshold.
-    pub async fn set_gesture_proximity_entry_threshold(&mut self, threshold: u8) -> Result<(), Error<E>> {
+    pub async fn set_gesture_proximity_entry_threshold(
+        &mut self,
+        threshold: u8,
+    ) -> Result<(), Error<E>> {
         self.write_register(Register::GPENTH, threshold).await
     }
 
     /// Set the gesture proximity exit threshold.
-    pub async fn set_gesture_proximity_exit_threshold(&mut self, threshold: u8) -> Result<(), Error<E>> {
+    pub async fn set_gesture_proximity_exit_threshold(
+        &mut self,
+        threshold: u8,
+    ) -> Result<(), Error<E>> {
         self.write_register(Register::GPEXTH, threshold).await
     }
 

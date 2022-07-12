@@ -51,12 +51,14 @@ where
 
     /// Set the proximity up/right photodiode offset.
     pub async fn set_proximity_up_right_offset(&mut self, offset: i8) -> Result<(), Error<E>> {
-        self.write_register(Register::POFFSET_UR, offset as u8).await
+        self.write_register(Register::POFFSET_UR, offset as u8)
+            .await
     }
 
     /// Set the proximity down/left photodiode offset.
     pub async fn set_proximity_down_left_offset(&mut self, offset: i8) -> Result<(), Error<E>> {
-        self.write_register(Register::POFFSET_DL, offset as u8).await
+        self.write_register(Register::POFFSET_DL, offset as u8)
+            .await
     }
 
     /// Set the proximity up/right and down/left photodiode offset.

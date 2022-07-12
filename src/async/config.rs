@@ -113,6 +113,9 @@ where
     }
 
     pub(crate) async fn touch_register(&mut self, address: u8) -> Result<(), Error<E>> {
-        self.i2c.write(DEV_ADDR, &[address]).await.map_err(Error::I2C)
+        self.i2c
+            .write(DEV_ADDR, &[address])
+            .await
+            .map_err(Error::I2C)
     }
 }

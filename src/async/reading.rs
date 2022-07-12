@@ -1,5 +1,5 @@
-use embedded_hal_async::i2c;
 use crate::{Apds9960, Error, Register, DEV_ADDR};
+use embedded_hal_async::i2c;
 
 impl<I2C, E> Apds9960<I2C>
 where
@@ -18,7 +18,11 @@ where
         Ok(data[0])
     }
 
-    pub(crate) async fn read_data(&mut self, register: u8, data: &mut [u8]) -> Result<(), Error<E>> {
+    pub(crate) async fn read_data(
+        &mut self,
+        register: u8,
+        data: &mut [u8],
+    ) -> Result<(), Error<E>> {
         self.i2c
             .write_read(DEV_ADDR, &[register], data)
             .await

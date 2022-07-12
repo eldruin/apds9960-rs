@@ -1,5 +1,5 @@
-use embedded_hal_async::i2c;
 use crate::{register::GStatus, Apds9960, BitFlags, Error, Register};
+use embedded_hal_async::i2c;
 
 /// Gesture data reading.
 impl<I2C, E> Apds9960<I2C>
@@ -40,7 +40,8 @@ where
         while !self.is_gesture_data_valid().await? {}
         let level = self.read_gesture_data_level().await?;
         let byte_count = core::cmp::min(data.len(), 4 * level as usize);
-        self.read_data(Register::GFIFO_U, &mut data[..byte_count]).await?;
+        self.read_data(Register::GFIFO_U, &mut data[..byte_count])
+            .await?;
         Ok(())
     }
 }
