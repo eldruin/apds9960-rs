@@ -99,8 +99,8 @@
 //!
 //! ### Read proximity
 //!
-#![cfg_attr(feature = "nb", doc = " ```no_run")]
-#![cfg_attr(not(feature = "nb"), doc = " ```no_run,ignore")]
+#![cfg_attr(all(feature = "nb",feature = "linux-embedded-hal"), doc = " ```no_run")]
+#![cfg_attr(not(all(feature = "nb",feature = "linux-embedded-hal")), doc = " ```no_run,ignore")]
 //! extern crate linux_embedded_hal as hal;
 //! #[macro_use]
 //! extern crate nb;
@@ -123,8 +123,8 @@
 //!
 //! ### Read color / ambient light data
 //!
-#![cfg_attr(feature = "nb", doc = " ```no_run")]
-#![cfg_attr(not(feature = "nb"), doc = " ```no_run,ignore")]
+#![cfg_attr(all(feature = "nb",feature = "linux-embedded-hal"), doc = " ```no_run")]
+#![cfg_attr(not(all(feature = "nb",feature = "linux-embedded-hal")), doc = " ```no_run,ignore")]
 //! extern crate linux_embedded_hal as hal;
 //! #[macro_use]
 //! extern crate nb;
@@ -153,8 +153,8 @@
 //!
 //! ### Read gesture data
 //!
-#![cfg_attr(feature = "nb", doc = " ```no_run")]
-#![cfg_attr(not(feature = "nb"), doc = " ```no_run,ignore")]
+#![cfg_attr(all(feature = "nb",feature = "linux-embedded-hal"), doc = " ```no_run")]
+#![cfg_attr(not(all(feature = "nb",feature = "linux-embedded-hal")), doc = " ```no_run,ignore")]
 //! extern crate linux_embedded_hal as hal;
 //! #[macro_use]
 //! extern crate nb;
