@@ -216,17 +216,16 @@
 #![deny(missing_docs, unsafe_code)]
 #![no_std]
 
-use trait_set::trait_set;
 #[cfg(feature = "nb")]
 extern crate embedded_hal as hal;
 #[cfg(feature = "nb")]
-use crate::hal::blocking::i2c as i2c;
+use crate::hal::blocking::i2c::{Write, WriteRead};
 #[cfg(feature = "nb")]
 extern crate nb;
 #[cfg(feature = "async")]
 extern crate embedded_hal_async as hal_async;
 #[cfg(feature = "async")]
-use crate::hal_async::i2c as i2c_async;
+use crate::hal_async::i2c::I2c as I2cAsync;
 
 /// All possible errors in this crate
 #[derive(Debug)]
@@ -423,28 +422,10 @@ pub struct Apds9960<I2C> {
     gconfig4: register::GConfig4,
 }
 
-// This can go away when we upgrade to embedded-hal 1.0, which matches
-// embedded-hal-async in renaming the trait to I2c.
-#[cfg(feature = "nb")]
-trait_set! {
-    /// Alias for i2c::Write (from embedded-hal < 1.0).
-    pub trait I2cWrite<E> = i2c::Write<Error = E>;
-    /// Alias for i2c::WriteRead (from embedded-hal < 1.0).
-    pub trait I2cWriteRead<E> = i2c::WriteRead<Error = E>;
-}
-
-#[cfg(feature = "async")]
-trait_set! {
-    /// Alias for i2c::I2c (from embedded-hal-async).
-    pub trait I2cWriteAsync<E> = i2c_async::I2c<Error = E>;
-    /// Alias for i2c::I2c (from embedded-hal-async).
-    pub trait I2cWriteReadAsync<E> = i2c_async::I2c<Error = E>;
-}
-
-#[maybe_async_cfg::maybe(sync(feature="nb", keep_self), async(feature="async", idents(I2cWrite)))]
+#[maybe_async_cfg::maybe(sync(feature="nb", keep_self), async(feature="async", idents(Write(async="I2cAsync"))))]
 impl<I2C, E> Apds9960<I2C>
 where
-    I2C: I2cWrite<E, Error = E>,
+    I2C: Write<Error = E>,
 {
     /// Create new instance of the APDS9960 device.
     pub fn new(i2c: I2C) -> Self {
