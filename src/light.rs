@@ -13,11 +13,11 @@ use nb::Result as NbResult;
 /// Color and ambient light.
 #[maybe_async_cfg::maybe(
     sync(feature = "nb", keep_self),
-    async(feature = "async", idents(Write(async = "I2cAsync")))
+    async(feature = "async", idents(Write(async = "I2cAsync"), WriteRead(async = "I2cAsync"), NbResult(async = "Result")))
 )]
 impl<I2C, E> Apds9960<I2C>
 where
-    I2C: Write<Error = E>,
+    I2C: Write<Error = E> + WriteRead<Error = E>,
 {
     /// Enable color and ambient light detection.
     pub async fn enable_light(&mut self) -> Result<(), Error<E>> {
@@ -78,19 +78,7 @@ where
     pub async fn clear_light_interrupt(&mut self) -> Result<(), Error<E>> {
         self.touch_register(Register::CICLEAR).await
     }
-}
 
-#[maybe_async_cfg::maybe(
-    sync(feature = "nb", keep_self),
-    async(
-        feature = "async",
-        idents(WriteRead(async = "I2cAsync"), NbResult(async = "Result"))
-    )
-)]
-impl<I2C, E> Apds9960<I2C>
-where
-    I2C: WriteRead<Error = E>,
-{
     /// Read the color / ambient light sensor data.
     ///
     /// Blocks as long as the data is not ready.

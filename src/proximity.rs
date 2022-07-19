@@ -10,11 +10,11 @@ use {
 /// Proximity.
 #[maybe_async_cfg::maybe(
     sync(feature = "nb", keep_self),
-    async(feature = "async", idents(Write(async = "I2cAsync")))
+    async(feature = "async", idents(Write(async = "I2cAsync"), WriteRead(async = "I2cAsync")))
 )]
 impl<I2C, E> Apds9960<I2C>
 where
-    I2C: Write<Error = E>,
+    I2C: Write<Error = E> + WriteRead<Error = E>,
 {
     /// Enable proximity detection
     pub async fn enable_proximity(&mut self) -> Result<(), Error<E>> {
@@ -91,15 +91,7 @@ where
     pub async fn clear_proximity_interrupt(&mut self) -> Result<(), Error<E>> {
         self.touch_register(Register::PICLEAR).await
     }
-}
-#[maybe_async_cfg::maybe(
-    sync(feature = "nb", keep_self),
-    async(feature = "async", idents(WriteRead(async = "I2cAsync")))
-)]
-impl<I2C, E> Apds9960<I2C>
-where
-    I2C: WriteRead<Error = E>,
-{
+
     #[maybe_async_cfg::only_if(sync)]
     /// Read the proximity sensor data.
     ///
