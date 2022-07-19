@@ -1,8 +1,8 @@
-#[cfg(feature = "async")]
-use crate::{Apds9960Async, I2cAsync};
+use crate::{register::GStatus, BitFlags, Error, Register};
 #[cfg(feature = "nb")]
 use crate::{Apds9960, WriteRead};
-use crate::{register::GStatus, BitFlags, Error, Register};
+#[cfg(feature = "async")]
+use crate::{Apds9960Async, I2cAsync};
 
 /// Gesture data reading.
 #[maybe_async_cfg::maybe(

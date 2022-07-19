@@ -1,7 +1,7 @@
-#[cfg(feature = "async")]
-use crate::{Apds9960Async, I2cAsync};
 #[cfg(feature = "nb")]
 use crate::{Apds9960, Write};
+#[cfg(feature = "async")]
+use crate::{Apds9960Async, I2cAsync};
 use {
     crate::register::{Config1, Enable},
     crate::{BitFlags, Error, Register, DEV_ADDR},

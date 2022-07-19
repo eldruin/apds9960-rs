@@ -1,7 +1,7 @@
-#[cfg(feature = "async")]
-use crate::{Apds9960Async, I2cAsync};
 #[cfg(feature = "nb")]
 use crate::{Apds9960, Write, WriteRead};
+#[cfg(feature = "async")]
+use crate::{Apds9960Async, I2cAsync};
 use {
     crate::register::{Config2, Enable, Status},
     crate::{BitFlags, Error, Register, DEV_ADDR},
@@ -10,7 +10,10 @@ use {
 /// Proximity.
 #[maybe_async_cfg::maybe(
     sync(feature = "nb", keep_self),
-    async(feature = "async", idents(Write(async = "I2cAsync"), WriteRead(async = "I2cAsync")))
+    async(
+        feature = "async",
+        idents(Write(async = "I2cAsync"), WriteRead(async = "I2cAsync"))
+    )
 )]
 impl<I2C, E> Apds9960<I2C>
 where

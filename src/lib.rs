@@ -99,8 +99,14 @@
 //!
 //! ### Read proximity
 //!
-#![cfg_attr(all(feature = "nb",feature = "linux-embedded-hal"), doc = " ```no_run")]
-#![cfg_attr(not(all(feature = "nb",feature = "linux-embedded-hal")), doc = " ```no_run,ignore")]
+#![cfg_attr(
+    all(feature = "nb", feature = "linux-embedded-hal"),
+    doc = " ```no_run"
+)]
+#![cfg_attr(
+    not(all(feature = "nb", feature = "linux-embedded-hal")),
+    doc = " ```no_run,ignore"
+)]
 //! extern crate linux_embedded_hal as hal;
 //! #[macro_use]
 //! extern crate nb;
@@ -123,8 +129,14 @@
 //!
 //! ### Read color / ambient light data
 //!
-#![cfg_attr(all(feature = "nb",feature = "linux-embedded-hal"), doc = " ```no_run")]
-#![cfg_attr(not(all(feature = "nb",feature = "linux-embedded-hal")), doc = " ```no_run,ignore")]
+#![cfg_attr(
+    all(feature = "nb", feature = "linux-embedded-hal"),
+    doc = " ```no_run"
+)]
+#![cfg_attr(
+    not(all(feature = "nb", feature = "linux-embedded-hal")),
+    doc = " ```no_run,ignore"
+)]
 //! extern crate linux_embedded_hal as hal;
 //! #[macro_use]
 //! extern crate nb;
@@ -153,8 +165,14 @@
 //!
 //! ### Read gesture data
 //!
-#![cfg_attr(all(feature = "nb",feature = "linux-embedded-hal"), doc = " ```no_run")]
-#![cfg_attr(not(all(feature = "nb",feature = "linux-embedded-hal")), doc = " ```no_run,ignore")]
+#![cfg_attr(
+    all(feature = "nb", feature = "linux-embedded-hal"),
+    doc = " ```no_run"
+)]
+#![cfg_attr(
+    not(all(feature = "nb", feature = "linux-embedded-hal")),
+    doc = " ```no_run,ignore"
+)]
 //! extern crate linux_embedded_hal as hal;
 //! #[macro_use]
 //! extern crate nb;
@@ -212,7 +230,6 @@
 //! # }
 //! ```
 
-
 #![deny(missing_docs, unsafe_code)]
 #![no_std]
 
@@ -220,10 +237,10 @@
 extern crate embedded_hal as hal;
 #[cfg(feature = "nb")]
 use crate::hal::blocking::i2c::{Write, WriteRead};
-#[cfg(feature = "nb")]
-extern crate nb;
 #[cfg(feature = "async")]
 extern crate embedded_hal_async as hal_async;
+#[cfg(feature = "nb")]
+extern crate nb;
 #[cfg(feature = "async")]
 use crate::hal_async::i2c::I2c as I2cAsync;
 
@@ -410,7 +427,7 @@ mod register {
 }
 
 /// APDS9960 device driver.
-#[maybe_async_cfg::maybe(sync(feature="nb", keep_self), async(feature="async"))]
+#[maybe_async_cfg::maybe(sync(feature = "nb", keep_self), async(feature = "async"))]
 #[derive(Debug, Default)]
 pub struct Apds9960<I2C> {
     /// The concrete I²C device implementation.
@@ -422,7 +439,10 @@ pub struct Apds9960<I2C> {
     gconfig4: register::GConfig4,
 }
 
-#[maybe_async_cfg::maybe(sync(feature="nb", keep_self), async(feature="async", idents(Write(async="I2cAsync"))))]
+#[maybe_async_cfg::maybe(
+    sync(feature = "nb", keep_self),
+    async(feature = "async", idents(Write(async = "I2cAsync")))
+)]
 impl<I2C, E> Apds9960<I2C>
 where
     I2C: Write<Error = E>,
