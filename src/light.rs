@@ -125,7 +125,7 @@ where
 
     /// Read the color / ambient light sensor clear channel data.
     ///
-    /// Blocks (asynchronously) or returns `nb::Error::WouldBlock` the data is not ready.
+    /// Blocks (asynchronously) or returns `nb::Error::WouldBlock` when the data is not ready.
     /// This clears the data ready flag.
     pub async fn read_light_clear(&mut self) -> NbResult<u16, Error<E>> {
         self.read_light_channel(Register::CDATAL).await
@@ -133,7 +133,7 @@ where
 
     /// Read the color / ambient light sensor red channel data.
     ///
-    /// Blocks (asynchronously) or returns `nb::Error::WouldBlock` the data is not ready.
+    /// Blocks (asynchronously) or returns `nb::Error::WouldBlock` when the data is not ready.
     /// This clears the data ready flag.
     pub async fn read_light_red(&mut self) -> NbResult<u16, Error<E>> {
         self.read_light_channel(Register::RDATAL).await
@@ -141,7 +141,7 @@ where
 
     /// Read the color / ambient light sensor green channel data.
     ///
-    /// Blocks (asynchronously) or returns `nb::Error::WouldBlock` the data is not ready.
+    /// Blocks (asynchronously) or returns `nb::Error::WouldBlock` when the data is not ready.
     /// This clears the data ready flag.
     pub async fn read_light_green(&mut self) -> NbResult<u16, Error<E>> {
         self.read_light_channel(Register::GDATAL).await
@@ -149,7 +149,7 @@ where
 
     /// Read the color / ambient light sensor blue channel data.
     ///
-    /// Blocks (asynchronously) or returns `nb::Error::WouldBlock` the data is not ready.
+    /// Blocks (asynchronously) or returns `nb::Error::WouldBlock` when the data is not ready.
     /// This clears the data ready flag.
     pub async fn read_light_blue(&mut self) -> NbResult<u16, Error<E>> {
         self.read_light_channel(Register::BDATAL).await
