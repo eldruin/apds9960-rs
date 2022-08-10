@@ -22,7 +22,6 @@ include = [
 
 [features]
 default = ["nb", "linux-embedded-hal"]
-nightly = ["async"]
 async = ["embedded-hal-async"]
 
 [dependencies]

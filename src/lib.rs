@@ -204,9 +204,6 @@
 //! [`embedded-hal-async`]: https://github.com/rust-embedded/embedded-hal
 //!
 //! ```no_run,ignore
-//! extern crate embassy_nrf;
-//! extern crate apds9960;
-//!
 //! use embassy_nrf::{interrupt, Peripherals, twim::{self, Twim}};
 //! use apds9960::Apds9960;
 //!
