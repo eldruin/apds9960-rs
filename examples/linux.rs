@@ -1,12 +1,12 @@
-extern crate embedded_hal;
-extern crate linux_embedded_hal;
-#[macro_use]
-extern crate nb;
-extern crate apds9960;
-
 use apds9960::Apds9960;
+#[cfg(target_os = "linux")]
 use linux_embedded_hal::I2cdev;
 
+#[cfg(not(target_os = "linux"))]
+fn main() {
+}
+
+#[cfg(target_os = "linux")]
 fn main() {
     let dev = I2cdev::new("/dev/i2c-1").unwrap();
     let mut sensor = Apds9960::new(dev);

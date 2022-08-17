@@ -99,7 +99,14 @@
 //!
 //! ### Read proximity
 //!
-//! ```no_run
+#![cfg_attr(
+    all(feature = "nb", feature = "linux-embedded-hal"),
+    doc = " ```no_run"
+)]
+#![cfg_attr(
+    not(all(feature = "nb", feature = "linux-embedded-hal")),
+    doc = " ```no_run,ignore"
+)]
 //! extern crate linux_embedded_hal as hal;
 //! #[macro_use]
 //! extern crate nb;
@@ -122,7 +129,14 @@
 //!
 //! ### Read color / ambient light data
 //!
-//! ```no_run
+#![cfg_attr(
+    all(feature = "nb", feature = "linux-embedded-hal"),
+    doc = " ```no_run"
+)]
+#![cfg_attr(
+    not(all(feature = "nb", feature = "linux-embedded-hal")),
+    doc = " ```no_run,ignore"
+)]
 //! extern crate linux_embedded_hal as hal;
 //! #[macro_use]
 //! extern crate nb;
@@ -151,7 +165,14 @@
 //!
 //! ### Read gesture data
 //!
-//! ```no_run
+#![cfg_attr(
+    all(feature = "nb", feature = "linux-embedded-hal"),
+    doc = " ```no_run"
+)]
+#![cfg_attr(
+    not(all(feature = "nb", feature = "linux-embedded-hal")),
+    doc = " ```no_run,ignore"
+)]
 //! extern crate linux_embedded_hal as hal;
 //! #[macro_use]
 //! extern crate nb;
@@ -173,13 +194,52 @@
 //! }
 //! # }
 //! ```
+//!
+//! ### Async Read color / ambient light data
+//!
+//! When compiled with the `async` feature, this crate provides an alternate
+//! implementation using [`embedded-hal-async`]. Aside from the use of `async`
+//! functions, the API is exactly the same as the blocking implementation.
+//!
+//! [`embedded-hal-async`]: https://github.com/rust-embedded/embedded-hal
+//!
+//! ```no_run,ignore
+//! use embassy_nrf::{interrupt, Peripherals, twim::{self, Twim}};
+//! use apds9960::Apds9960;
+//!
+//! # #[embassy::main()]
+//! # async fn main(p: Peripherals) {
+//! let irq = interrupt::take!(SPIM0_SPIS0_TWIM0_TWIS0_SPI0_TWI0);
+//! let i2c = Twim::new(p.TWISPI0, ireq, p.P0_12, p.P0_11, twim::Config::default());
+//! let mut sensor = Apds9960Async::new(dev);
+//! sensor.enable().await.unwrap();
+//! sensor.enable_light().await.unwrap();
+//! loop {
+//!     let data = sensor.read_light().await.unwrap();
+//!     println!(
+//!         "Clear: {}, Red: {}, Green: {}, Blue: {}",
+//!         data.clear,
+//!         data.red,
+//!         data.green,
+//!         data.blue
+//!     );
+//! }
+//! # }
+//! ```
 
 #![deny(missing_docs, unsafe_code)]
 #![no_std]
 
+#[cfg(feature = "nb")]
 extern crate embedded_hal as hal;
-use hal::blocking::i2c;
+#[cfg(feature = "nb")]
+use crate::hal::blocking::i2c::{Write, WriteRead};
+#[cfg(feature = "async")]
+extern crate embedded_hal_async as hal_async;
+#[cfg(feature = "nb")]
 extern crate nb;
+#[cfg(feature = "async")]
+use crate::hal_async::i2c::I2c as I2cAsync;
 
 /// All possible errors in this crate
 #[derive(Debug)]
@@ -364,6 +424,7 @@ mod register {
 }
 
 /// APDS9960 device driver.
+#[maybe_async_cfg::maybe(sync(feature = "nb", keep_self), async(feature = "async"))]
 #[derive(Debug, Default)]
 pub struct Apds9960<I2C> {
     /// The concrete I²C device implementation.
@@ -375,9 +436,13 @@ pub struct Apds9960<I2C> {
     gconfig4: register::GConfig4,
 }
 
+#[maybe_async_cfg::maybe(
+    sync(feature = "nb", keep_self),
+    async(feature = "async", idents(Write(async = "I2cAsync")))
+)]
 impl<I2C, E> Apds9960<I2C>
 where
-    I2C: i2c::Write<Error = E>,
+    I2C: Write<Error = E>,
 {
     /// Create new instance of the APDS9960 device.
     pub fn new(i2c: I2C) -> Self {

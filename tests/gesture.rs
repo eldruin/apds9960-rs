@@ -1,9 +1,9 @@
 extern crate apds9960;
 use apds9960::GestureDataThreshold;
 extern crate embedded_hal_mock as hal;
-use hal::i2c::Transaction as I2cTrans;
+use crate::hal::i2c::Transaction as I2cTrans;
 mod common;
-use common::{destroy, new, BitFlags, Register, DEV_ADDR};
+use crate::common::{destroy, new, BitFlags, Register, DEV_ADDR};
 
 write_test!(can_enable_gesture, enable_gesture, ENABLE, BitFlags::GEN);
 write_test!(can_disable_gesture, disable_gesture, ENABLE, 0);

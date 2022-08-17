@@ -1,6 +1,7 @@
 [package]
 name = "apds9960"
 version = "0.1.0"
+edition = "2018"
 authors = ["Diego Barrios Romero <eldruin@gmail.com>"]
 repository = "https://github.com/eldruin/apds9960-rs"
 license = "MIT OR Apache-2.0"
@@ -19,13 +20,41 @@ include = [
     "/LICENSE-APACHE",
 ]
 
+[features]
+default = ["nb"]
+async = ["embedded-hal-async"]
+
 [dependencies]
 embedded-hal = "0.2.5"
-nb = "1"
+embedded-hal-async = { version = "0.1.0-alpha.1", optional = true }
+maybe-async-cfg = "0.2.1"
+nb = { version = "1", optional = true }
 
 [dev-dependencies]
-linux-embedded-hal = "0.3"
 embedded-hal-mock = "0.7"
+
+[target.'cfg(target_os = "linux")'.dev-dependencies]
+linux-embedded-hal = "0.3"
 
 [profile.release]
 lto = true
+
+[[example]]
+name = "linux"
+required-features = ["nb"]
+
+[[test]]
+name = "gesture"
+required-features = ["nb"]
+
+[[test]]
+name = "interface"
+required-features = ["nb"]
+
+[[test]]
+name = "light"
+required-features = ["nb"]
+
+[[test]]
+name = "proximity"
+required-features = ["nb"]
