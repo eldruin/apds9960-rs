@@ -21,25 +21,27 @@ include = [
 ]
 
 [features]
-default = ["nb", "linux-embedded-hal"]
+default = ["nb"]
 async = ["embedded-hal-async"]
 
 [dependencies]
 embedded-hal = "0.2.5"
 embedded-hal-async = { version = "0.1.0-alpha.1", optional = true }
-linux-embedded-hal = { version = "0.3", optional = true }
 maybe-async-cfg = "0.2.1"
 nb = { version = "1", optional = true }
 
 [dev-dependencies]
 embedded-hal-mock = "0.7"
 
+[target.'cfg(target_os = "linux")'.dev-dependencies]
+linux-embedded-hal = "0.3"
+
 [profile.release]
 lto = true
 
 [[example]]
 name = "linux"
-required-features = ["nb", "linux-embedded-hal"]
+required-features = ["nb"]
 
 [[test]]
 name = "gesture"
